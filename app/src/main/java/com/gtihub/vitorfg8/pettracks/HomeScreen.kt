@@ -1,4 +1,4 @@
-package com.gtihub.vitorfg8.mypets
+package com.gtihub.vitorfg8.pettracks
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -25,7 +25,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.gtihub.vitorfg8.mypets.ui.theme.MyPetsTheme
+import com.gtihub.vitorfg8.pettracks.ui.theme.PetTracksTheme
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -74,7 +74,7 @@ fun PetsList(pets: List<String> = emptyList()) {
 @Preview
 @Composable
 fun HomeScreenPreview() {
-    MyPetsTheme {
+    PetTracksTheme {
         HomeScreen()
     }
 }

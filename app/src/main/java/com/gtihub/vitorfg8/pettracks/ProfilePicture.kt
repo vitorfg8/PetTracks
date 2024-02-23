@@ -1,4 +1,4 @@
-package com.gtihub.vitorfg8.mypets
+package com.gtihub.vitorfg8.pettracks
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Box
@@ -20,7 +20,7 @@ import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.gtihub.vitorfg8.mypets.ui.theme.MyPetsTheme
+import com.gtihub.vitorfg8.pettracks.ui.theme.PetTracksTheme
 
 @Composable
 fun ProfilePicture(
@@ -100,7 +100,7 @@ fun ProfilePictureWithName(
 @Preview
 @Composable
 fun ProfilePicturePreview() {
-    MyPetsTheme {
+    PetTracksTheme {
         ProfilePicture()
     }
 }
@@ -108,7 +108,7 @@ fun ProfilePicturePreview() {
 @Preview
 @Composable
 fun ProfilePictureWithNamePreview() {
-    MyPetsTheme {
+    PetTracksTheme {
         ProfilePictureWithName(name = "Pets")
     }
 }
@@ -116,7 +116,7 @@ fun ProfilePictureWithNamePreview() {
 @Preview
 @Composable
 fun ProfilePictureUpdaterPreview() {
-    MyPetsTheme {
+    PetTracksTheme {
         ProfilePictureUpdater(onUpdate = {})
     }
 }

@@ -1,4 +1,4 @@
-package com.gtihub.vitorfg8.mypets.ui.theme
+package com.gtihub.vitorfg8.pettracks.ui.theme
 
 import androidx.compose.ui.graphics.Color
 

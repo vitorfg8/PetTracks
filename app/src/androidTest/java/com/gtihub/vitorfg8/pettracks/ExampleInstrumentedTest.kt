@@ -1,4 +1,4 @@
-package com.gtihub.vitorfg8.mypets
+package com.gtihub.vitorfg8.pettracks
 
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry

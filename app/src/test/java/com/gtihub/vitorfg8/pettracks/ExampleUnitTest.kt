@@ -1,4 +1,4 @@
-package com.gtihub.vitorfg8.mypets
+package com.gtihub.vitorfg8.pettracks
 
 import org.junit.Assert.assertEquals
 import org.junit.Test
