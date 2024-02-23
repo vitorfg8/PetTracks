@@ -17,6 +17,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.gtihub.vitorfg8.mypets.ui.theme.MyPetsTheme
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -93,5 +94,7 @@ fun ProfileCreationScreen() {
 @Preview
 @Composable
 fun ProfileCreationPreview() {
-    ProfileCreationScreen()
+    MyPetsTheme {
+        ProfileCreationScreen()
+    }
 }

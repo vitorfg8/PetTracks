@@ -20,6 +20,7 @@ import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.gtihub.vitorfg8.mypets.ui.theme.MyPetsTheme
 
 @Composable
 fun ProfilePicture(
@@ -99,18 +100,24 @@ fun ProfilePictureWithName(
 @Preview
 @Composable
 fun ProfilePicturePreview() {
-    ProfilePicture()
+    MyPetsTheme {
+        ProfilePicture()
+    }
 }
 
 @Preview
 @Composable
 fun ProfilePictureWithNamePreview() {
-    ProfilePictureWithName(name = "Pets")
+    MyPetsTheme {
+        ProfilePictureWithName(name = "Pets")
+    }
 }
 
 @Preview
 @Composable
 fun ProfilePictureUpdaterPreview() {
-    ProfilePictureUpdater(onUpdate = {})
+    MyPetsTheme {
+        ProfilePictureUpdater(onUpdate = {})
+    }
 }
 
