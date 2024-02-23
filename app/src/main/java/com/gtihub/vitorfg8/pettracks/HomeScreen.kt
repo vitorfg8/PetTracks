@@ -79,7 +79,7 @@ fun getAppBarFont(): FontFamily {
         Font(
             googleFont = fontName,
             fontProvider = provider,
-            weight = FontWeight.Bold,
+            weight = FontWeight.ExtraBold,
             style = FontStyle.Italic
         )
     )
