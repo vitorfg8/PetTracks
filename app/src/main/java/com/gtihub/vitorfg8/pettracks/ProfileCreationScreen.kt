@@ -7,8 +7,13 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.material3.BottomSheetDefaults
 import androidx.compose.material3.Button
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -82,17 +87,12 @@ fun ProfileCreationScreen(
                 onButtonClick = { showSheet = true },
                 onUpdate = {}
             )
+            TypeSelector()
             TextField(
                 modifier = Modifier.padding(8.dp),
                 value = "",
                 onValueChange = { },
                 label = { Text(stringResource(R.string.name)) }
-            )
-            TextField(
-                modifier = Modifier.padding(8.dp),
-                value = "",
-                onValueChange = { },
-                label = { Text("Type") }
             )
             TextField(
                 modifier = Modifier.padding(8.dp),
@@ -143,6 +143,111 @@ fun PictureBottomSheet(onDismiss: () -> Unit = {}) {
     }
 }
 
+
+@Composable
+fun TypeSelector() {
+
+    val types = listOf(
+        AnimalType("Bird", painterResource(id = R.drawable.bird_solid)),
+        AnimalType("Cat", painterResource(id = R.drawable.cat_solid)),
+        AnimalType("Dog", painterResource(id = R.drawable.dog_solid)),
+        AnimalType("Fish", painterResource(id = R.drawable.fish_solid)),
+        AnimalType("Reptile", painterResource(id = R.drawable.reptile_solid)),
+        AnimalType("Other", painterResource(id = R.drawable.paw_solid)),
+    )
+    var selectedTypeIndex by remember { mutableStateOf(types[0]) }
+
+    LazyVerticalGrid(
+        modifier = Modifier.padding(horizontal = 34.dp),
+        columns = GridCells.Fixed(3)
+    ) {
+        items(types) { item ->
+            TypeItem(
+                name = item.name,
+                painter = item.painter,
+                isSelected = selectedTypeIndex == item,
+                onClick = { selectedTypeIndex = item }
+            )
+        }
+    }
+}
+
+@Composable
+fun TypeItem(name: String, painter: Painter, isSelected: Boolean = false, onClick: () -> Unit) {
+    Card(modifier = Modifier
+        .clickable { onClick() }
+        .padding(8.dp)
+        .size(72.dp),
+        colors = if (isSelected) {
+            CardDefaults.cardColors(
+                containerColor = MaterialTheme.colorScheme.inverseSurface,
+            )
+        } else {
+            CardDefaults.cardColors(
+                containerColor = MaterialTheme.colorScheme.surfaceVariant,
+            )
+        }
+    ) {
+        Column(
+            Modifier.fillMaxSize(),
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            Icon(
+                painter = painter, contentDescription = name,
+                Modifier
+                    .size(40.dp)
+                    .padding(4.dp)
+            )
+            Text(text = name)
+        }
+    }
+}
+
+
+/*@Composable
+fun TypeSelector() {
+    val types = listOf(
+        AnimalType("Bird", painterResource(id = R.drawable.bird_solid),true),
+        AnimalType("Cat", painterResource(id = R.drawable.cat_solid),false),
+        AnimalType("Dog", painterResource(id = R.drawable.dog_solid),false),
+        AnimalType("Fish", painterResource(id = R.drawable.fish_solid),false),
+        AnimalType("Reptile", painterResource(id = R.drawable.reptile_solid),false),
+        AnimalType("Other", painterResource(id = R.drawable.paw_solid),false),
+    )
+    LazyVerticalGrid(
+        columns = GridCells.Fixed(3)
+    ) {
+        items(types) {
+            TypeItem(name = it.name, painter = it.painter,it.isSelected)
+        }
+    }
+}
+
+@Composable
+fun TypeItem(name:String,painter: Painter,isSelected:Boolean = false) {
+        Card(
+            colors = if (isSelected){
+                CardDefaults.cardColors(
+                    containerColor = MaterialTheme.colorScheme.inverseSurface,
+                )
+            }else{
+                CardDefaults.cardColors(
+                    containerColor = MaterialTheme.colorScheme.surfaceVariant,
+                )
+            }
+        ) {
+            Column(modifier = Modifier
+                .padding(8.dp)
+                .size(72.dp),
+                horizontalAlignment = Alignment.CenterHorizontally) {
+                IconButton(onClick = {  }) {
+                    Icon(painter = painter, contentDescription = name,Modifier.padding(4.dp))
+                }
+                Text(text = name)
+            }
+        }
+}*/
+
 @Composable
 fun BottomSheetItem(
     icon: Painter,
@@ -168,14 +273,24 @@ fun BottomSheetItem(
 
 @Preview
 @Composable
-fun PictureBottomSheetPreview() {
-    BottomSheetItem(painterResource(id = R.drawable.camera_solid), "Camera", {})
+fun ProfileCreationPreview() {
+    PetTracksTheme {
+        ProfileCreationScreen()
+    }
 }
 
 @Preview
 @Composable
-fun ProfileCreationPreview() {
+fun PictureBottomSheetPreview() {
     PetTracksTheme {
-        ProfileCreationScreen()
+        BottomSheetItem(painterResource(id = R.drawable.camera_solid), "Camera") {}
+    }
+}
+
+@Preview
+@Composable
+fun TypeItemPreview() {
+    PetTracksTheme {
+        TypeItem("Cat", painterResource(id = R.drawable.cat_solid), false) {}
     }
 }

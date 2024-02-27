@@ -62,7 +62,7 @@ fun ProfilePictureUpdater(
             )
         }
         Button(
-            modifier = Modifier.size(32.dp),
+            modifier = Modifier.size(36.dp),
             shape = RoundedCornerShape(100.dp),
             onClick = { onButtonClick() },
             contentPadding = PaddingValues(8.dp)
