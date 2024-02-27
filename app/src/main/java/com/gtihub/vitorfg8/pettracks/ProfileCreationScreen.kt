@@ -155,7 +155,7 @@ fun TypeSelector() {
         AnimalType("Reptile", painterResource(id = R.drawable.reptile_solid)),
         AnimalType("Other", painterResource(id = R.drawable.paw_solid)),
     )
-    var selectedTypeIndex by remember { mutableStateOf(types[0]) }
+    var selectedType by remember { mutableStateOf(types[0]) }
 
     LazyVerticalGrid(
         modifier = Modifier.padding(horizontal = 34.dp),
@@ -165,8 +165,8 @@ fun TypeSelector() {
             TypeItem(
                 name = item.name,
                 painter = item.painter,
-                isSelected = selectedTypeIndex == item,
-                onClick = { selectedTypeIndex = item }
+                isSelected = selectedType == item,
+                onClick = { selectedType = item }
             )
         }
     }
