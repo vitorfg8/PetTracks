@@ -7,6 +7,9 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
 import com.gtihub.vitorfg8.pettracks.ui.theme.PetTracksTheme
 
 class MainActivity : ComponentActivity() {
@@ -19,7 +22,18 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    HomeScreen()
+                    val navController = rememberNavController()
+                    NavHost(navController = navController, startDestination = "home") {
+                        composable("home") {
+                            HomeScreen { navController.navigate("profileCreation") }
+                        }
+                        composable("profileCreation") {
+                            ProfileCreationScreen(
+                                onBackPressed = { navController.navigateUp() },
+                                onAddPressed = { navController.navigateUp() }
+                            )
+                        }
+                    }
                 }
             }
         }

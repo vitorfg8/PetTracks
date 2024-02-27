@@ -17,10 +17,6 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults.topAppBarColors
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableIntStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontFamily
@@ -34,9 +30,7 @@ import com.gtihub.vitorfg8.pettracks.ui.theme.PetTracksTheme
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun HomeScreen() {
-    var presses by remember { mutableIntStateOf(0) }
-
+fun HomeScreen(onClickAdd: () -> Unit = {}) {
     Scaffold(
         topBar = {
             CenterAlignedTopAppBar(
@@ -49,11 +43,11 @@ fun HomeScreen() {
                         text = stringResource(id = R.string.app_name),
                         fontFamily = getAppBarFont()
                     )
-                }
+                },
             )
         },
         floatingActionButton = {
-            FloatingActionButton(onClick = { presses++ }) {
+            FloatingActionButton(onClick = { onClickAdd() }) {
                 Icon(Icons.Default.Add, contentDescription = "Add")
             }
         }

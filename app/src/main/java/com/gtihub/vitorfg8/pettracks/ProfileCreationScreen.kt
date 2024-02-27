@@ -3,8 +3,11 @@ package com.gtihub.vitorfg8.pettracks
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -14,6 +17,7 @@ import androidx.compose.material3.TopAppBarDefaults.topAppBarColors
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -21,7 +25,10 @@ import com.gtihub.vitorfg8.pettracks.ui.theme.PetTracksTheme
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun ProfileCreationScreen() {
+fun ProfileCreationScreen(
+    onBackPressed: () -> Unit = {},
+    onAddPressed: () -> Unit = {}
+) {
     Scaffold(
         topBar = {
             TopAppBar(
@@ -31,6 +38,17 @@ fun ProfileCreationScreen() {
                 ),
                 title = {
                     Text(text = "Add Pet") // TODO
+                },
+                navigationIcon = {
+                    IconButton(
+                        modifier = Modifier.size(20.dp),
+                        onClick = { onBackPressed() }) {
+                        Icon(
+                            painterResource(id = R.drawable.arrow_left_solid),
+                            contentDescription = "",
+                            tint = MaterialTheme.colorScheme.surfaceTint
+                        )
+                    }
                 }
             )
         },
@@ -41,9 +59,7 @@ fun ProfileCreationScreen() {
                 .fillMaxSize(),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            ProfilePictureUpdater(
-                modifier = Modifier.padding(8.dp)
-            ) {
+            ProfilePictureUpdater {
 
             }
             TextField(
@@ -83,13 +99,12 @@ fun ProfileCreationScreen() {
                 label = { Text(stringResource(R.string.weight)) }
             )
 
-            Button(onClick = { /*TODO*/ }) {
+            Button(onClick = { onAddPressed() }) {
                 Text(text = "Add")
             }
         }
     }
 }
-
 
 @Preview
 @Composable
