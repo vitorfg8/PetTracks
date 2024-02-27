@@ -44,6 +44,7 @@ fun ProfilePicture(
 @Composable
 fun ProfilePictureUpdater(
     modifier: Modifier = Modifier,
+    onButtonClick: () -> Unit = {},
     painter: Painter = painterResource(id = R.drawable.paw_solid),
     onUpdate: () -> Unit
 ) {
@@ -63,7 +64,7 @@ fun ProfilePictureUpdater(
         Button(
             modifier = Modifier.size(32.dp),
             shape = RoundedCornerShape(100.dp),
-            onClick = { /*TODO*/ },
+            onClick = { onButtonClick() },
             contentPadding = PaddingValues(8.dp)
         ) {
             Icon(painter = painterResource(id = R.drawable.camera_solid), contentDescription = "")
