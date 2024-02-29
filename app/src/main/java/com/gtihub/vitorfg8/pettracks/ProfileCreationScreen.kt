@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.BottomSheetDefaults
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
@@ -27,6 +28,7 @@ import androidx.compose.material3.TopAppBarDefaults.topAppBarColors
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -35,6 +37,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.input.KeyboardCapitalization
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.gtihub.vitorfg8.pettracks.ui.theme.PetTracksTheme
@@ -88,35 +92,57 @@ fun ProfileCreationScreen(
                 onUpdate = {}
             )
             TypeSelector()
+
+            var name by remember { mutableStateOf("") }
             TextField(
                 modifier = Modifier.padding(8.dp),
-                value = "",
-                onValueChange = { },
-                label = { Text(stringResource(R.string.name)) }
+                value = name,
+                onValueChange = { name = it },
+                label = { Text(stringResource(R.string.name)) },
+                keyboardOptions = KeyboardOptions(capitalization = KeyboardCapitalization.Words)
             )
+
+            var gender by remember { mutableStateOf("") }
             TextField(
                 modifier = Modifier.padding(8.dp),
-                value = "",
-                onValueChange = { },
+                value = gender,
+                onValueChange = { gender = it },
                 label = { Text(stringResource(R.string.gender)) }
             )
+
+            var breed by remember {
+                mutableStateOf("")
+            }
             TextField(
                 modifier = Modifier.padding(8.dp),
-                value = "",
-                onValueChange = { },
-                label = { Text(stringResource(R.string.breed)) }
+                value = breed,
+                onValueChange = { breed = it },
+                label = { Text(stringResource(R.string.breed)) },
+                keyboardOptions = KeyboardOptions(capitalization = KeyboardCapitalization.Words)
             )
+            var birthDate by remember {
+                mutableStateOf("")
+            }
+
             TextField(
                 modifier = Modifier.padding(8.dp),
-                value = "",
-                onValueChange = { },
-                label = { Text(stringResource(R.string.birth_date)) }
+                value = birthDate,
+                onValueChange = { birthDate = it },
+                label = { Text(stringResource(R.string.birth_date)) },
+                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number)
+
             )
+
+            var weight by remember {
+                mutableFloatStateOf(0.0f)
+            }
+
             TextField(
                 modifier = Modifier.padding(8.dp),
-                value = "",
-                onValueChange = { },
-                label = { Text(stringResource(R.string.weight)) }
+                value = weight.toString(),
+                onValueChange = { weight = it.toFloat() },
+                label = { Text(stringResource(R.string.weight)) },
+                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Decimal)
             )
 
             Button(onClick = { onAddPressed() }) {
@@ -202,51 +228,6 @@ fun TypeItem(name: String, painter: Painter, isSelected: Boolean = false, onClic
         }
     }
 }
-
-
-/*@Composable
-fun TypeSelector() {
-    val types = listOf(
-        AnimalType("Bird", painterResource(id = R.drawable.bird_solid),true),
-        AnimalType("Cat", painterResource(id = R.drawable.cat_solid),false),
-        AnimalType("Dog", painterResource(id = R.drawable.dog_solid),false),
-        AnimalType("Fish", painterResource(id = R.drawable.fish_solid),false),
-        AnimalType("Reptile", painterResource(id = R.drawable.reptile_solid),false),
-        AnimalType("Other", painterResource(id = R.drawable.paw_solid),false),
-    )
-    LazyVerticalGrid(
-        columns = GridCells.Fixed(3)
-    ) {
-        items(types) {
-            TypeItem(name = it.name, painter = it.painter,it.isSelected)
-        }
-    }
-}
-
-@Composable
-fun TypeItem(name:String,painter: Painter,isSelected:Boolean = false) {
-        Card(
-            colors = if (isSelected){
-                CardDefaults.cardColors(
-                    containerColor = MaterialTheme.colorScheme.inverseSurface,
-                )
-            }else{
-                CardDefaults.cardColors(
-                    containerColor = MaterialTheme.colorScheme.surfaceVariant,
-                )
-            }
-        ) {
-            Column(modifier = Modifier
-                .padding(8.dp)
-                .size(72.dp),
-                horizontalAlignment = Alignment.CenterHorizontally) {
-                IconButton(onClick = {  }) {
-                    Icon(painter = painter, contentDescription = name,Modifier.padding(4.dp))
-                }
-                Text(text = name)
-            }
-        }
-}*/
 
 @Composable
 fun BottomSheetItem(
