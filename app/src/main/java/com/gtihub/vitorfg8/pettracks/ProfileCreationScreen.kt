@@ -3,10 +3,13 @@ package com.gtihub.vitorfg8.pettracks
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
@@ -87,12 +90,8 @@ fun ProfileCreationScreen(
                 .fillMaxSize(),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            ProfilePictureUpdater(
-                onButtonClick = { showSheet = true },
-                onUpdate = {}
-            )
+            ProfilePictureUpdater {}
             TypeSelector()
-
             var name by remember { mutableStateOf("") }
             TextField(
                 modifier = Modifier.padding(8.dp),
@@ -163,10 +162,22 @@ fun PictureBottomSheet(onDismiss: () -> Unit = {}) {
         dragHandle = { BottomSheetDefaults.DragHandle() },
     ) {
         Column {
-            BottomSheetItem(icon = painterResource(id = R.drawable.camera_solid), "Camera") {}
-            BottomSheetItem(icon = painterResource(id = R.drawable.file_image_solid), "Gallery") {}
+            BottomSheetItem(icon = painterResource(id = R.drawable.camera_solid), "Camera") {
+                openCamera()
+            }
+            BottomSheetItem(icon = painterResource(id = R.drawable.file_image_solid), "Gallery") {
+                openGallery()
+            }
         }
     }
+}
+
+fun openGallery() {
+
+}
+
+fun openCamera() {
+
 }
 
 
@@ -237,18 +248,21 @@ fun BottomSheetItem(
 ) {
     Row(
         modifier = Modifier
-            .clickable {
-                onClick()
-            }
             .fillMaxWidth()
-            .padding(bottom = 16.dp, start = 16.dp, end = 16.dp),
+            .height(40.dp)
+            .clickable { onClick() }
+            .padding(8.dp),
+        verticalAlignment = Alignment.CenterVertically
     ) {
         Icon(
-            painter = icon, contentDescription = "", modifier = Modifier
-                .padding(end = 8.dp)
-                .size(20.dp)
+            painter = icon,
+            contentDescription = null,
+            modifier = Modifier.size(24.dp)
         )
-        Text(text = text)
+        Spacer(modifier = Modifier.width(16.dp))
+        Text(
+            text = text,
+        )
     }
 }
 
@@ -260,8 +274,8 @@ fun ProfileCreationPreview() {
     }
 }
 
-@Preview
-@Composable
+@Preview(showBackground = true)
+@Composable()
 fun PictureBottomSheetPreview() {
     PetTracksTheme {
         BottomSheetItem(painterResource(id = R.drawable.camera_solid), "Camera") {}
