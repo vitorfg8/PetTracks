@@ -31,6 +31,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardCapitalization
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
@@ -70,21 +71,39 @@ fun ProfileCreationScreen(
             TypeSelector()
             TextField(
                 label = stringResource(R.string.name),
-                keyboardOptions = KeyboardOptions(capitalization = KeyboardCapitalization.Words)
+                keyboardOptions = KeyboardOptions(
+                    capitalization = KeyboardCapitalization.Words,
+                    imeAction = ImeAction.Next
+                )
             )
-            TextField(label = stringResource(R.string.gender))
+            TextField(
+                label = stringResource(R.string.gender),
+                keyboardOptions = KeyboardOptions(imeAction = ImeAction.Next)
+            )
             TextField(
                 label = stringResource(R.string.breed),
-                keyboardOptions = KeyboardOptions(capitalization = KeyboardCapitalization.Words)
+                keyboardOptions = KeyboardOptions(
+                    capitalization = KeyboardCapitalization.Words,
+                    imeAction = ImeAction.Next
+                )
             )
             TextInputDatePicker()
+            var weight by remember { mutableStateOf<String?>(null) }
             TextField(
-                label = stringResource(R.string.weight),
-                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Decimal)
+                modifier = Modifier.padding(8.dp),
+                suffix = { Text(text = "Kg") },
+                value = weight.orEmpty(),
+                onValueChange = { weight = it },
+                label = { Text(stringResource(id = R.string.weight)) },
+                keyboardOptions = KeyboardOptions(
+                    keyboardType = KeyboardType.Decimal,
+                    imeAction = ImeAction.Done
+                ),
+                singleLine = true,
             )
-            Button(onClick = { onAddPressed() }) {
-                Text(text = "Add")
-            }
+        }
+        Button(onClick = { onAddPressed() }) {
+            Text(text = "Add")
         }
     }
 }
@@ -92,15 +111,16 @@ fun ProfileCreationScreen(
 @Composable
 private fun TextField(
     label: String,
-    keyboardOptions: KeyboardOptions = KeyboardOptions.Default
+    keyboardOptions: KeyboardOptions = KeyboardOptions.Default,
 ) {
-    var name by remember { mutableStateOf("") }
+    var text by remember { mutableStateOf("") }
     TextField(
         modifier = Modifier.padding(8.dp),
-        value = name,
-        onValueChange = { name = it },
+        value = text,
+        onValueChange = { text = it },
         label = { Text(label) },
-        keyboardOptions = keyboardOptions
+        keyboardOptions = keyboardOptions,
+        singleLine = true
     )
 }
 
@@ -118,16 +138,13 @@ fun TypeSelector() {
     var selectedType by remember { mutableStateOf(types[0]) }
 
     LazyVerticalGrid(
-        modifier = Modifier.padding(horizontal = 34.dp),
-        columns = GridCells.Fixed(3)
+        modifier = Modifier.padding(horizontal = 34.dp), columns = GridCells.Fixed(3)
     ) {
         items(types) { item ->
-            TypeItem(
-                name = item.name,
+            TypeItem(name = item.name,
                 painter = item.painter,
                 isSelected = selectedType == item,
-                onClick = { selectedType = item }
-            )
+                onClick = { selectedType = item })
         }
     }
 }
@@ -146,11 +163,9 @@ fun TypeItem(name: String, painter: Painter, isSelected: Boolean = false, onClic
             CardDefaults.cardColors(
                 containerColor = MaterialTheme.colorScheme.surfaceVariant,
             )
-        }
-    ) {
+        }) {
         Column(
-            Modifier.fillMaxSize(),
-            horizontalAlignment = Alignment.CenterHorizontally
+            Modifier.fillMaxSize(), horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Icon(
                 painter = painter, contentDescription = name,
