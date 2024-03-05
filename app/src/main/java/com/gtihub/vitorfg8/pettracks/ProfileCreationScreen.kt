@@ -12,7 +12,10 @@ import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.ExposedDropdownMenuBox
+import androidx.compose.material3.ExposedDropdownMenuDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -76,10 +79,7 @@ fun ProfileCreationScreen(
                     imeAction = ImeAction.Next
                 )
             )
-            TextField(
-                label = stringResource(R.string.gender),
-                keyboardOptions = KeyboardOptions(imeAction = ImeAction.Next)
-            )
+            GenderSelector()
             TextField(
                 label = stringResource(R.string.breed),
                 keyboardOptions = KeyboardOptions(
@@ -108,10 +108,53 @@ fun ProfileCreationScreen(
     }
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+private fun GenderSelector() {
+    val options = listOf("Male", "Female")
+    var expanded by remember { mutableStateOf(false) }
+    var selectedOptionText by remember { mutableStateOf<String?>(null) }
+
+    ExposedDropdownMenuBox(
+        expanded = expanded,
+        onExpandedChange = {
+            expanded = !expanded
+        }
+    ) {
+        TextField(
+            modifier = Modifier.menuAnchor(),
+            readOnly = true,
+            value = selectedOptionText.orEmpty(),
+            onValueChange = { },
+            label = { Text(stringResource(R.string.gender)) },
+            trailingIcon = {
+                ExposedDropdownMenuDefaults.TrailingIcon(
+                    expanded = expanded
+                )
+            },
+            colors = ExposedDropdownMenuDefaults.textFieldColors()
+        )
+        ExposedDropdownMenu(
+            expanded = expanded,
+            onDismissRequest = {
+                expanded = false
+            }
+        ) {
+            options.forEach { selectionOption ->
+                DropdownMenuItem(text = { Text(text = selectionOption.orEmpty()) },
+                    onClick = {
+                        selectedOptionText = selectionOption
+                        expanded = false
+                    })
+            }
+        }
+    }
+}
+
 @Composable
 private fun TextField(
     label: String,
-    keyboardOptions: KeyboardOptions = KeyboardOptions.Default,
+    keyboardOptions: KeyboardOptions
 ) {
     var text by remember { mutableStateOf("") }
     TextField(
