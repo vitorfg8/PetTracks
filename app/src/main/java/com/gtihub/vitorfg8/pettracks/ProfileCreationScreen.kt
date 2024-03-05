@@ -141,7 +141,8 @@ private fun GenderSelector() {
             }
         ) {
             options.forEach { selectionOption ->
-                DropdownMenuItem(text = { Text(text = selectionOption.orEmpty()) },
+                DropdownMenuItem(
+                    text = { Text(text = selectionOption) },
                     onClick = {
                         selectedOptionText = selectionOption
                         expanded = false
