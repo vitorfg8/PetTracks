@@ -51,7 +51,7 @@ fun TextInputDatePicker() {
         value = selectedDate,
         onValueChange = { },
         Modifier
-            .padding(8.dp)
+            .padding(vertical = 8.dp, horizontal = 32.dp)
             .fillMaxWidth()
             .onFocusEvent {
                 if (it.isFocused) {

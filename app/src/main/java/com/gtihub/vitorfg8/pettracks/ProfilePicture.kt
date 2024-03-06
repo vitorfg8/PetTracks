@@ -54,7 +54,7 @@ fun ProfilePictureUpdater(
     modifier: Modifier = Modifier,
     onUpdate: (uri: Uri?) -> Unit
 ) {
-    Box(contentAlignment = Alignment.BottomEnd) {
+    Box(modifier = modifier, contentAlignment = Alignment.BottomEnd) {
 
         var selectImageUri by remember {
             mutableStateOf<Uri?>(null)

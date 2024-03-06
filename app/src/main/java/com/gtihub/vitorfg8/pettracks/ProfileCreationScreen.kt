@@ -3,8 +3,10 @@ package com.gtihub.vitorfg8.pettracks
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
@@ -64,46 +66,66 @@ fun ProfileCreationScreen(
             })
         },
     ) { innerPadding ->
-        Column(
+        LazyColumn(
             modifier = Modifier
                 .padding(innerPadding)
                 .fillMaxSize(),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            ProfilePictureUpdater {}
-            TypeSelector()
-            TextField(
-                label = stringResource(R.string.name),
-                keyboardOptions = KeyboardOptions(
-                    capitalization = KeyboardCapitalization.Words,
-                    imeAction = ImeAction.Next
+            item {
+                ProfilePictureUpdater(
+                    modifier = Modifier.padding(vertical = 16.dp, horizontal = 32.dp)
+                ) {}
+            }
+            /*            item {
+                            TypeSelector()
+                        }*/
+            item {
+                TextField(
+                    label = stringResource(R.string.name),
+                    keyboardOptions = KeyboardOptions(
+                        capitalization = KeyboardCapitalization.Words,
+                        imeAction = ImeAction.Next
+                    )
                 )
-            )
-            GenderSelector()
-            TextField(
-                label = stringResource(R.string.breed),
-                keyboardOptions = KeyboardOptions(
-                    capitalization = KeyboardCapitalization.Words,
-                    imeAction = ImeAction.Next
+            }
+            item {
+                GenderSelector()
+            }
+            item {
+                TextField(
+                    label = stringResource(R.string.breed),
+                    keyboardOptions = KeyboardOptions(
+                        capitalization = KeyboardCapitalization.Words,
+                        imeAction = ImeAction.Next
+                    )
                 )
-            )
-            TextInputDatePicker()
-            var weight by remember { mutableStateOf<String?>(null) }
-            TextField(
-                modifier = Modifier.padding(8.dp),
-                suffix = { Text(text = "Kg") },
-                value = weight.orEmpty(),
-                onValueChange = { weight = it },
-                label = { Text(stringResource(id = R.string.weight)) },
-                keyboardOptions = KeyboardOptions(
-                    keyboardType = KeyboardType.Decimal,
-                    imeAction = ImeAction.Done
-                ),
-                singleLine = true,
-            )
-        }
-        Button(onClick = { onAddPressed() }) {
-            Text(text = "Add")
+            }
+            item {
+                TextInputDatePicker()
+            }
+            item {
+                var weight by remember { mutableStateOf<String?>(null) }
+                TextField(
+                    modifier = Modifier
+                        .padding(vertical = 8.dp, horizontal = 32.dp)
+                        .fillMaxWidth(),
+                    suffix = { Text(text = "Kg") },
+                    value = weight.orEmpty(),
+                    onValueChange = { weight = it },
+                    label = { Text(stringResource(id = R.string.weight)) },
+                    keyboardOptions = KeyboardOptions(
+                        keyboardType = KeyboardType.Decimal,
+                        imeAction = ImeAction.Done
+                    ),
+                    singleLine = true,
+                )
+            }
+            item {
+                Button(onClick = { onAddPressed() }) {
+                    Text(text = "Add")
+                }
+            }
         }
     }
 }
@@ -122,7 +144,10 @@ private fun GenderSelector() {
         }
     ) {
         TextField(
-            modifier = Modifier.menuAnchor(),
+            modifier = Modifier
+                .menuAnchor()
+                .padding(vertical = 8.dp, horizontal = 32.dp)
+                .fillMaxWidth(),
             readOnly = true,
             value = selectedOptionText.orEmpty(),
             onValueChange = { },
@@ -159,7 +184,9 @@ private fun TextField(
 ) {
     var text by remember { mutableStateOf("") }
     TextField(
-        modifier = Modifier.padding(8.dp),
+        modifier = Modifier
+            .padding(vertical = 8.dp, horizontal = 32.dp)
+            .fillMaxWidth(),
         value = text,
         onValueChange = { text = it },
         label = { Text(label) },
@@ -197,7 +224,7 @@ fun TypeSelector() {
 fun TypeItem(name: String, painter: Painter, isSelected: Boolean = false, onClick: () -> Unit) {
     Card(modifier = Modifier
         .clickable { onClick() }
-        .padding(8.dp)
+        .padding(vertical = 8.dp, horizontal = 32.dp)
         .size(72.dp),
         colors = if (isSelected) {
             CardDefaults.cardColors(
