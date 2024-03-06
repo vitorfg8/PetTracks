@@ -2,6 +2,7 @@ plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
     id("com.google.devtools.ksp")
+    id("kotlin-kapt")
 }
 
 android {
@@ -63,10 +64,12 @@ dependencies {
     implementation(libs.androidx.navigation.compose)
     implementation(libs.coil.compose)
     implementation(libs.androidx.room.runtime)
+    implementation(libs.dagger)
+
     annotationProcessor(libs.androidx.room.compiler)
 
-    // To use Kotlin Symbol Processing (KSP)
     ksp(libs.androidx.room.compiler)
+    ksp(libs.dagger.compiler)
 
     androidTestImplementation(libs.androidx.junit)
 
