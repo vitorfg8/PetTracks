@@ -37,7 +37,7 @@ fun ProfilePicture(
     painter: Painter = painterResource(id = R.drawable.paw_translucent)
 ) {
     Card(
-        modifier = Modifier.size(100.dp),
+        modifier = modifier.size(100.dp),
         shape = RoundedCornerShape(100.dp)
     ) {
         Image(
@@ -98,7 +98,7 @@ fun ProfilePictureWithName(
     name: String = ""
 ) {
     Column(
-        modifier = Modifier.padding(vertical = 8.dp),
+        modifier = modifier.padding(vertical = 8.dp),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Card(
