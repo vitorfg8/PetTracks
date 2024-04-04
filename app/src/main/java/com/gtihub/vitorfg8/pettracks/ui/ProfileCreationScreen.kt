@@ -1,4 +1,4 @@
-package com.gtihub.vitorfg8.pettracks
+package com.gtihub.vitorfg8.pettracks.ui
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
@@ -6,7 +6,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
@@ -41,6 +40,8 @@ import androidx.compose.ui.text.input.KeyboardCapitalization
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.gtihub.vitorfg8.pettracks.R
+import com.gtihub.vitorfg8.pettracks.ui.model.PetTypeDataUi
 import com.gtihub.vitorfg8.pettracks.ui.theme.PetTracksTheme
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -66,65 +67,49 @@ fun ProfileCreationScreen(
             })
         },
     ) { innerPadding ->
-        LazyColumn(
+        Column(
             modifier = Modifier
                 .padding(innerPadding)
                 .fillMaxSize(),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            item {
-                ProfilePictureUpdater(
-                    modifier = Modifier.padding(vertical = 16.dp, horizontal = 32.dp)
-                ) {}
-            }
-            /*            item {
-                            TypeSelector()
-                        }*/
-            item {
-                TextField(
-                    label = stringResource(R.string.name),
-                    keyboardOptions = KeyboardOptions(
-                        capitalization = KeyboardCapitalization.Words,
-                        imeAction = ImeAction.Next
-                    )
+            ProfilePictureUpdater(
+                modifier = Modifier.padding(vertical = 16.dp, horizontal = 32.dp)
+            ) {}
+            TypeSelector()
+            TextField(
+                label = stringResource(R.string.name),
+                keyboardOptions = KeyboardOptions(
+                    capitalization = KeyboardCapitalization.Words,
+                    imeAction = ImeAction.Next
                 )
-            }
-            item {
-                GenderSelector()
-            }
-            item {
-                TextField(
-                    label = stringResource(R.string.breed),
-                    keyboardOptions = KeyboardOptions(
-                        capitalization = KeyboardCapitalization.Words,
-                        imeAction = ImeAction.Next
-                    )
+            )
+            GenderSelector()
+            TextField(
+                label = stringResource(R.string.breed),
+                keyboardOptions = KeyboardOptions(
+                    capitalization = KeyboardCapitalization.Words,
+                    imeAction = ImeAction.Next
                 )
-            }
-            item {
-                TextInputDatePicker()
-            }
-            item {
-                var weight by remember { mutableStateOf<String?>(null) }
-                TextField(
-                    modifier = Modifier
-                        .padding(vertical = 8.dp, horizontal = 32.dp)
-                        .fillMaxWidth(),
-                    suffix = { Text(text = "Kg") },
-                    value = weight.orEmpty(),
-                    onValueChange = { weight = it },
-                    label = { Text(stringResource(id = R.string.weight)) },
-                    keyboardOptions = KeyboardOptions(
-                        keyboardType = KeyboardType.Decimal,
-                        imeAction = ImeAction.Done
-                    ),
-                    singleLine = true,
-                )
-            }
-            item {
-                Button(onClick = { onAddPressed() }) {
-                    Text(text = "Add")
-                }
+            )
+            TextInputDatePicker()
+            var weight by remember { mutableStateOf<String?>(null) }
+            TextField(
+                modifier = Modifier
+                    .padding(vertical = 8.dp, horizontal = 32.dp)
+                    .fillMaxWidth(),
+                suffix = { Text(text = "Kg") },
+                value = weight.orEmpty(),
+                onValueChange = { weight = it },
+                label = { Text(stringResource(id = R.string.weight)) },
+                keyboardOptions = KeyboardOptions(
+                    keyboardType = KeyboardType.Decimal,
+                    imeAction = ImeAction.Done
+                ),
+                singleLine = true,
+            )
+            Button(onClick = { onAddPressed() }) {
+                Text(text = "Add")
             }
         }
     }
@@ -196,24 +181,17 @@ private fun TextField(
 }
 
 @Composable
-fun TypeSelector() {
-
-    val types = listOf(
-        AnimalType("Bird", painterResource(id = R.drawable.bird_solid)),
-        AnimalType("Cat", painterResource(id = R.drawable.cat_solid)),
-        AnimalType("Dog", painterResource(id = R.drawable.dog_solid)),
-        AnimalType("Fish", painterResource(id = R.drawable.fish_solid)),
-        AnimalType("Reptile", painterResource(id = R.drawable.reptile_solid)),
-        AnimalType("Other", painterResource(id = R.drawable.paw_solid)),
-    )
+fun TypeSelector() { //TODO
+    val types = PetTypeDataUi.entries.toList()
     var selectedType by remember { mutableStateOf(types[0]) }
 
     LazyVerticalGrid(
         modifier = Modifier.padding(horizontal = 34.dp), columns = GridCells.Fixed(3)
     ) {
         items(types) { item ->
-            TypeItem(name = item.name,
-                painter = item.painter,
+            TypeItem(
+                name = stringResource(id = item.localizedName),
+                painter = painterResource(id = item.drawableRes),
                 isSelected = selectedType == item,
                 onClick = { selectedType = item })
         }

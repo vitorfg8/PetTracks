@@ -5,4 +5,10 @@
     <string name="breed">Breed</string>
     <string name="birth_date">Birth date</string>
     <string name="weight">Weight</string>
+    <string name="bird">Bird</string>
+    <string name="cat">Cat</string>
+    <string name="dog">Dog</string>
+    <string name="fish">Fish</string>
+    <string name="reptile">Reptile</string>
+    <string name="other">Other</string>
 </resources>

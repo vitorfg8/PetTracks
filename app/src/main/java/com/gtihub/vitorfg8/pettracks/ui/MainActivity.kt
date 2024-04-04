@@ -1,4 +1,4 @@
-package com.gtihub.vitorfg8.pettracks
+package com.gtihub.vitorfg8.pettracks.ui
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity

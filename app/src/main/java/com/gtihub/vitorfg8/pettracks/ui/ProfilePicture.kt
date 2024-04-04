@@ -1,4 +1,4 @@
-package com.gtihub.vitorfg8.pettracks
+package com.gtihub.vitorfg8.pettracks.ui
 
 import android.net.Uri
 import androidx.activity.compose.rememberLauncherForActivityResult
@@ -29,6 +29,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
+import com.gtihub.vitorfg8.pettracks.R
 import com.gtihub.vitorfg8.pettracks.ui.theme.PetTracksTheme
 
 @Composable
