@@ -3,6 +3,7 @@ plugins {
     id("org.jetbrains.kotlin.android")
     id("com.google.devtools.ksp")
     id("kotlin-kapt")
+    id("com.google.dagger.hilt.android")
 }
 
 android {
@@ -65,15 +66,14 @@ dependencies {
     implementation(libs.coil.compose)
     implementation(libs.androidx.room.runtime)
     implementation(libs.androidx.room.ktx)
-    implementation(libs.dagger)
+    implementation(libs.hilt.android)
 
     annotationProcessor(libs.androidx.room.compiler)
 
     ksp(libs.androidx.room.compiler)
-    ksp(libs.dagger.compiler)
+    ksp(libs.hilt.android.compiler)
 
     androidTestImplementation(libs.androidx.junit)
-
     androidTestImplementation(libs.androidx.espresso.core)
     androidTestImplementation(platform(libs.androidx.compose.bom))
     androidTestImplementation(libs.androidx.ui.test.junit4)
