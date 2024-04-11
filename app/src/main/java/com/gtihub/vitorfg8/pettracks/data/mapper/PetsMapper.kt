@@ -4,6 +4,8 @@ import com.gtihub.vitorfg8.pettracks.data.db.PetEntity
 import com.gtihub.vitorfg8.pettracks.data.db.PetTypeDb
 import com.gtihub.vitorfg8.pettracks.domain.model.Pet
 import com.gtihub.vitorfg8.pettracks.domain.model.PetType
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.map
 
 fun Pet.toDbEntity(): PetEntity {
     return PetEntity(
@@ -27,16 +29,18 @@ fun PetType.toDbEntity(): PetTypeDb {
     }
 }
 
-fun PetEntity.toDomain(): Pet {
-    return Pet(
-        id = id,
-        name = name,
-        type = type.toDomain(),
-        breed = breed,
-        birthDate = birthDate,
-        weight = weight,
-        profilePicture = profilePicture
-    )
+fun Flow<PetEntity>.toDomain(): Flow<Pet> {
+    return this.map {
+        Pet(
+            id = it.id,
+            name = it.name,
+            type = it.type.toDomain(),
+            breed = it.breed,
+            birthDate = it.birthDate,
+            weight = it.weight,
+            profilePicture = it.profilePicture
+        )
+    }
 }
 
 fun PetTypeDb.toDomain(): PetType {
@@ -50,16 +54,18 @@ fun PetTypeDb.toDomain(): PetType {
     }
 }
 
-fun List<PetEntity>.toDomain(): List<Pet> {
-    return this.map {
-        Pet(
-            id = it.id,
-            name = it.name,
-            type = it.type.toDomain(),
-            breed = it.breed,
-            birthDate = it.birthDate,
-            weight = it.weight,
-            profilePicture = it.profilePicture
-        )
+fun Flow<List<PetEntity>>.toDomainList(): Flow<List<Pet>> {
+    return this.map { list ->
+        list.map {
+            Pet(
+                id = it.id,
+                name = it.name,
+                type = it.type.toDomain(),
+                breed = it.breed,
+                birthDate = it.birthDate,
+                weight = it.weight,
+                profilePicture = it.profilePicture
+            )
+        }
     }
 }

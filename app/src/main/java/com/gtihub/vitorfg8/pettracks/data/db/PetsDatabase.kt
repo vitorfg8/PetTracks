@@ -9,19 +9,19 @@ import com.gtihub.vitorfg8.pettracks.utils.Converters
 
 @Database(entities = [PetEntity::class], version = 1)
 @TypeConverters(Converters::class)
-abstract class PetDatabase : RoomDatabase() {
+abstract class PetsDatabase : RoomDatabase() {
 
-    abstract val petDao: PetDao
+    abstract val petsDao: PetsDao
 
     companion object {
         @Volatile
-        private var INSTANCE: PetDatabase? = null
+        private var INSTANCE: PetsDatabase? = null
 
-        fun getDatabase(context: Context): PetDatabase {
+        fun getDatabase(context: Context): PetsDatabase {
             return INSTANCE ?: synchronized(this) {
                 val instance = Room.databaseBuilder(
                     context.applicationContext,
-                    PetDatabase::class.java,
+                    PetsDatabase::class.java,
                     "pet_database"
                 ).build()
                 INSTANCE = instance

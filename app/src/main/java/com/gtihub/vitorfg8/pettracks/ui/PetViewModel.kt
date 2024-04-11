@@ -1,20 +1,37 @@
 package com.gtihub.vitorfg8.pettracks.ui
 
 import androidx.lifecycle.ViewModel
-import com.gtihub.vitorfg8.pettracks.domain.model.Pet
+import androidx.lifecycle.viewModelScope
 import com.gtihub.vitorfg8.pettracks.domain.repository.PetsRepository
+import com.gtihub.vitorfg8.pettracks.ui.mapper.toDataUi
 import com.gtihub.vitorfg8.pettracks.ui.mapper.toDomain
 import com.gtihub.vitorfg8.pettracks.ui.model.PetDataUi
+import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class PetViewModel(
+
+@HiltViewModel
+class PetViewModel @Inject constructor(
     private val petsRepository: PetsRepository
 ) : ViewModel() {
 
+    private val _petsList = MutableStateFlow(listOf<PetDataUi>())
+    val petsList = _petsList.asStateFlow()
+
     fun onSave(pet: PetDataUi) {
-        petsRepository.createPet(pet.toDomain())
+        viewModelScope.launch {
+            petsRepository.createPet(pet.toDomain())
+        }
     }
 
-    fun getAllPets(): List<Pet> {
-        return petsRepository.getAllPets()
+    fun getAllPets() {
+        viewModelScope.launch {
+            petsRepository.getAllPets().collect {
+                _petsList.value = it.toDataUi()
+            }
+        }
     }
 }

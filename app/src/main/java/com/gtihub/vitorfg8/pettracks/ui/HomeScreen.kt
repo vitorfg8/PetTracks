@@ -1,5 +1,6 @@
 package com.gtihub.vitorfg8.pettracks.ui
 
+import android.graphics.BitmapFactory
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
@@ -17,7 +18,14 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults.topAppBarColors
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.ImageBitmap
+import androidx.compose.ui.graphics.asImageBitmap
+import androidx.compose.ui.graphics.painter.BitmapPainter
+import androidx.compose.ui.graphics.painter.Painter
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontStyle
@@ -26,12 +34,21 @@ import androidx.compose.ui.text.googlefonts.Font
 import androidx.compose.ui.text.googlefonts.GoogleFont
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.gtihub.vitorfg8.pettracks.R
+import com.gtihub.vitorfg8.pettracks.ui.model.PetDataUi
 import com.gtihub.vitorfg8.pettracks.ui.theme.PetTracksTheme
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun HomeScreen(onClickAdd: () -> Unit = {}) {
+fun HomeScreen(
+    petViewModel: PetViewModel = viewModel(),
+    onClickAdd: () -> Unit = {}
+) {
+
+    petViewModel.getAllPets()
+    val petState by petViewModel.petsList.collectAsState()
+
     Scaffold(
         topBar = {
             CenterAlignedTopAppBar(
@@ -58,7 +75,7 @@ fun HomeScreen(onClickAdd: () -> Unit = {}) {
                 .padding(innerPadding),
             verticalArrangement = Arrangement.spacedBy(16.dp),
         ) {
-            PetsList()
+            PetsList(petState)
         }
     }
 }
@@ -81,14 +98,32 @@ fun getAppBarFont(): FontFamily {
 }
 
 @Composable
-fun PetsList(pets: List<String> = emptyList()) {
+fun PetsList(pets: List<PetDataUi> = emptyList()) {
     LazyVerticalGrid(
         columns = GridCells.Adaptive(minSize = 100.dp)
     ) {
         items(pets) {
-            ProfilePictureWithName(name = it)
+            ProfilePictureWithName(
+                painter = getPainter(it),
+                name = it.name
+            )
         }
     }
+}
+
+@Composable
+private fun getPainter(pet: PetDataUi): Painter {
+    val byteArray = pet.profilePicture?.toImageBitmap()
+    return if (byteArray != null) {
+        BitmapPainter(byteArray)
+    } else {
+        painterResource(id = R.drawable.paw_translucent)
+    }
+}
+
+private fun ByteArray.toImageBitmap(): ImageBitmap {
+    val bitmap = BitmapFactory.decodeByteArray(this, 0, this.size)
+    return bitmap.asImageBitmap()
 }
 
 @Preview

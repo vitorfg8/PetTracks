@@ -8,7 +8,7 @@ import com.gtihub.vitorfg8.pettracks.ui.model.PetTypeDataUi
 fun PetDataUi.toDomain(): Pet {
     return Pet(
         name = name,
-        type = petTypeDataUi.toDomain(),
+        type = type.toDomain(),
         breed = breed,
         birthDate = birthDate,
         weight = weight,
@@ -24,5 +24,29 @@ fun PetTypeDataUi.toDomain(): PetType {
         PetTypeDataUi.Fish -> PetType.Fish
         PetTypeDataUi.Reptile -> PetType.Reptile
         else -> PetType.Other
+    }
+}
+
+fun List<Pet>.toDataUi(): List<PetDataUi> {
+    return this.map {
+        PetDataUi(
+            name = it.name,
+            type = it.type.toDataUi(),
+            breed = it.breed,
+            birthDate = it.birthDate,
+            weight = it.weight,
+            profilePicture = it.profilePicture
+        )
+    }
+}
+
+fun PetType.toDataUi(): PetTypeDataUi {
+    return when (this) {
+        PetType.Bird -> PetTypeDataUi.Bird
+        PetType.Cat -> PetTypeDataUi.Cat
+        PetType.Dog -> PetTypeDataUi.Fish
+        PetType.Fish -> PetTypeDataUi.Fish
+        PetType.Reptile -> PetTypeDataUi.Reptile
+        else -> PetTypeDataUi.Other
     }
 }

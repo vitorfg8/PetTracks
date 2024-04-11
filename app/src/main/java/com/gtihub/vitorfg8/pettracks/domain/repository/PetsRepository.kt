@@ -1,12 +1,13 @@
 package com.gtihub.vitorfg8.pettracks.domain.repository
 
 import com.gtihub.vitorfg8.pettracks.domain.model.Pet
+import kotlinx.coroutines.flow.Flow
 
 interface PetsRepository {
 
-    fun createPet(pet: Pet)
-    fun updatePet(pet: Pet)
-    fun getPet(id: Long): Pet
-    fun getAllPets(): List<Pet>
-    fun deletePet(pet: Pet)
+    suspend fun createPet(pet: Pet)
+    suspend fun updatePet(pet: Pet)
+    fun getPet(id: Long): Flow<Pet>
+    fun getAllPets(): Flow<List<Pet>>
+    suspend fun deletePet(pet: Pet)
 }

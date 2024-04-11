@@ -6,24 +6,24 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Update
+import kotlinx.coroutines.flow.Flow
 
 @Dao
-interface PetDao {
+interface PetsDao {
 
     @Insert(onConflict = OnConflictStrategy.ABORT)
-    fun createPet(pet: PetEntity)
+    suspend fun createPet(pet: PetEntity)
 
     @Update
-    fun updatePet(pet: PetEntity)
-
-    @Query("SELECT * FROM pets WHERE id = :id")
-    fun getPet(id: Long): PetEntity
-
-    @Query("SELECT * FROM pets ORDER by name ASC")
-    fun getAllPets(): List<PetEntity>
+    suspend fun updatePet(pet: PetEntity)
 
     @Delete
-    fun deletePet(pet: PetEntity)
+    suspend fun deletePet(pet: PetEntity)
 
+    @Query("SELECT * FROM pets WHERE id = :id")
+    fun getPet(id: Long): Flow<PetEntity>
+
+    @Query("SELECT * FROM pets ORDER by name ASC")
+    fun getAllPets(): Flow<List<PetEntity>>
 
 }

@@ -4,7 +4,7 @@ import java.util.Date
 
 data class PetDataUi(
     val name: String,
-    val petTypeDataUi: PetTypeDataUi,
+    val type: PetTypeDataUi,
     val breed: String?,
     val birthDate: Date?,
     val weight: Float?,
