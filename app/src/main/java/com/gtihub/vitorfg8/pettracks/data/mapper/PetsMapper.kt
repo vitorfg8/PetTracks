@@ -14,6 +14,7 @@ fun Pet.toDbEntity(): PetEntity {
         breed = breed,
         birthDate = birthDate,
         weight = weight,
+        gender = gender,
         profilePicture = profilePicture
     )
 }
@@ -38,6 +39,7 @@ fun Flow<PetEntity>.toDomain(): Flow<Pet> {
             breed = it.breed,
             birthDate = it.birthDate,
             weight = it.weight,
+            gender = it.gender,
             profilePicture = it.profilePicture
         )
     }
@@ -64,6 +66,7 @@ fun Flow<List<PetEntity>>.toDomainList(): Flow<List<Pet>> {
                 breed = it.breed,
                 birthDate = it.birthDate,
                 weight = it.weight,
+                gender = it.gender,
                 profilePicture = it.profilePicture
             )
         }

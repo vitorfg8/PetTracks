@@ -12,6 +12,7 @@ fun PetDataUi.toDomain(): Pet {
         breed = breed,
         birthDate = birthDate,
         weight = weight,
+        gender = gender,
         profilePicture = profilePicture
     )
 }
@@ -35,6 +36,7 @@ fun List<Pet>.toDataUi(): List<PetDataUi> {
             breed = it.breed,
             birthDate = it.birthDate,
             weight = it.weight,
+            gender = it.gender,
             profilePicture = it.profilePicture
         )
     }

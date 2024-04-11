@@ -9,5 +9,6 @@ data class Pet(
     val breed: String?,
     val birthDate: Date?,
     val weight: Float?,
+    val gender: String?,
     val profilePicture: ByteArray?, //TODO
 )
