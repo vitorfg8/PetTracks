@@ -3,6 +3,7 @@ package com.gtihub.vitorfg8.pettracks.ui
 import android.content.Context
 import android.net.Uri
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -119,7 +120,7 @@ fun ProfileCreationScreen(
                 singleLine = true,
             )
             Button(onClick = { onAddPressed() }) {
-                Text(text = "Add")
+                Text(text = stringResource(R.string.add))
             }
         }
     }
@@ -226,7 +227,10 @@ fun TypeSelector() { //TODO
     val types = PetTypeDataUi.entries.toList()
     var selectedType by remember { mutableStateOf(types[0]) }
     LazyVerticalGrid(
-        modifier = Modifier.padding(horizontal = 34.dp), columns = GridCells.Fixed(3)
+        modifier = Modifier.padding(horizontal = 34.dp),
+        columns = GridCells.Fixed(3),
+        verticalArrangement = Arrangement.spacedBy(8.dp),
+        horizontalArrangement = Arrangement.spacedBy(8.dp)
     ) {
         items(types) { item ->
             TypeItem(
@@ -241,7 +245,6 @@ fun TypeSelector() { //TODO
 fun TypeItem(item: PetTypeDataUi, isSelected: Boolean = false, onClick: () -> Unit) {
     Card(modifier = Modifier
         .clickable { onClick() }
-        .padding(vertical = 8.dp, horizontal = 32.dp)
         .size(72.dp),
         colors = if (isSelected) {
             CardDefaults.cardColors(
