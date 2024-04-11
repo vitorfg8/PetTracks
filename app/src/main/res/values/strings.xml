@@ -11,4 +11,8 @@
     <string name="fish">Fish</string>
     <string name="reptile">Reptile</string>
     <string name="other">Other</string>
+    <string name="add_pet">Add Pet</string>
+    <string name="kg">Kg</string>
+    <string name="male">Male</string>
+    <string name="female">Female</string>
 </resources>
