@@ -13,6 +13,8 @@ import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
@@ -66,11 +68,10 @@ fun ProfileCreationScreen(
             ), title = {
                 Text(text = stringResource(R.string.add_pet))
             }, navigationIcon = {
-                IconButton(modifier = Modifier.size(20.dp), onClick = { onBackPressed() }) {
+                IconButton(onClick = { onBackPressed() }) {
                     Icon(
-                        painterResource(id = R.drawable.arrow_left_solid),
-                        contentDescription = "", //TODO
-                        tint = MaterialTheme.colorScheme.surfaceTint
+                        imageVector = Icons.AutoMirrored.Filled.ArrowBack,
+                        contentDescription = stringResource(id = R.string.back)
                     )
                 }
             })
