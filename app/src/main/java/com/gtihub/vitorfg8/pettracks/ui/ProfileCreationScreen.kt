@@ -48,7 +48,6 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.gtihub.vitorfg8.pettracks.R
-import com.gtihub.vitorfg8.pettracks.ui.model.PetDataUi
 import com.gtihub.vitorfg8.pettracks.ui.model.PetTypeDataUi
 import com.gtihub.vitorfg8.pettracks.ui.theme.PetTracksTheme
 import java.io.ByteArrayOutputStream
@@ -60,8 +59,6 @@ import java.io.InputStream
 fun ProfileCreationScreen(
     onBackPressed: () -> Unit = {}, onAddPressed: () -> Unit = {}
 ) {
-
-    val pet by remember { mutableStateOf(PetDataUi()) }
 
     Scaffold(
         topBar = {

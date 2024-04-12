@@ -68,7 +68,9 @@ fun ProfilePictureUpdater(
                     onUpdate(it)
                 })
         Card(
-            modifier = Modifier.size(200.dp, 150.dp), shape = RoundedCornerShape(30.dp)
+            modifier = Modifier
+                .size(224.dp, 160.dp)
+                .padding(8.dp), shape = RoundedCornerShape(30.dp)
         ) {
             AsyncImage(
                 modifier = Modifier.fillMaxSize(),
