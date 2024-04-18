@@ -13,8 +13,20 @@
     <string name="other">Other</string>
     <string name="add_pet">Add Pet</string>
     <string name="kg">Kg</string>
+    <string name="placeholder_kg">%s Kg</string>
     <string name="male">Male</string>
     <string name="female">Female</string>
     <string name="add">Add</string>
     <string name="back">Back</string>
+    <string name="choose_date">Escolher data</string>
+    <string name="age">Age</string>
+    <string name="open_gallery">open gallery</string>
+    <plurals name="months_plural">
+        <item quantity="one">month</item>
+        <item quantity="other">months</item>
+    </plurals>
+    <plurals name="years_plural">
+        <item quantity="one">year</item>
+        <item quantity="other">years</item>
+    </plurals>
 </resources>

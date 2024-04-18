@@ -3,6 +3,7 @@ package com.gtihub.vitorfg8.pettracks.ui.model
 import java.util.Date
 
 data class PetDataUi(
+    var id: Int = 0,
     var name: String = "",
     var type: PetTypeDataUi = PetTypeDataUi.entries[0],
     var breed: String? = null,

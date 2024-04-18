@@ -7,6 +7,7 @@ import com.gtihub.vitorfg8.pettracks.ui.model.PetTypeDataUi
 
 fun PetDataUi.toDomain(): Pet {
     return Pet(
+        id = id,
         name = name,
         type = type.toDomain(),
         breed = breed,
@@ -28,9 +29,24 @@ fun PetTypeDataUi.toDomain(): PetType {
     }
 }
 
+
+fun Pet.toDataUi(): PetDataUi {
+    return PetDataUi(
+        id = id,
+        name = name,
+        type = type.toDataUi(),
+        breed = breed,
+        birthDate = birthDate,
+        weight = weight,
+        gender = gender,
+        profilePicture = profilePicture
+    )
+}
+
 fun List<Pet>.toDataUi(): List<PetDataUi> {
     return this.map {
         PetDataUi(
+            id = it.id,
             name = it.name,
             type = it.type.toDataUi(),
             breed = it.breed,

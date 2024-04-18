@@ -17,7 +17,9 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.onFocusEvent
 import androidx.compose.ui.platform.LocalFocusManager
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import com.gtihub.vitorfg8.pettracks.R
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
@@ -41,7 +43,7 @@ fun TextInputDatePicker() {
                     onClick = {
                         showDatePickerDialog = false
                     }) {
-                    Text(text = "Escolher data")
+                    Text(text = stringResource(R.string.choose_date))
                 }
             }) {
             DatePicker(state = datePickerState)

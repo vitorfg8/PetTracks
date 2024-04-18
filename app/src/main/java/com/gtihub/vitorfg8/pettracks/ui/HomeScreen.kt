@@ -1,9 +1,10 @@
 package com.gtihub.vitorfg8.pettracks.ui
 
-import android.graphics.BitmapFactory
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
@@ -20,11 +21,10 @@ import androidx.compose.material3.TopAppBarDefaults.topAppBarColors
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.ImageBitmap
-import androidx.compose.ui.graphics.asImageBitmap
-import androidx.compose.ui.graphics.painter.BitmapPainter
 import androidx.compose.ui.graphics.painter.Painter
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontFamily
@@ -35,14 +35,17 @@ import androidx.compose.ui.text.googlefonts.GoogleFont
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavController
 import com.gtihub.vitorfg8.pettracks.R
 import com.gtihub.vitorfg8.pettracks.ui.model.PetDataUi
 import com.gtihub.vitorfg8.pettracks.ui.theme.PetTracksTheme
+import com.gtihub.vitorfg8.pettracks.utils.toPainter
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HomeScreen(
     petViewModel: PetViewModel = viewModel(),
+    navController: NavController,
     onClickAdd: () -> Unit = {}
 ) {
 
@@ -75,7 +78,7 @@ fun HomeScreen(
                 .padding(innerPadding),
             verticalArrangement = Arrangement.spacedBy(16.dp),
         ) {
-            PetsList(petState)
+            PetsList(petState, navController)
         }
     }
 }
@@ -97,39 +100,62 @@ fun getAppBarFont(): FontFamily {
     )
 }
 
+
 @Composable
-fun PetsList(pets: List<PetDataUi> = emptyList()) {
+fun ProfilePictureWithName(
+    modifier: Modifier = Modifier,
+    painter: Painter,
+    name: String = "",
+    onClick: () -> Unit
+) {
+    Column(
+        modifier = modifier.padding(vertical = 8.dp),
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        ProfilePicture(
+            modifier = Modifier
+                .size(100.dp)
+                .clickable { onClick() },
+            painter = painter
+        )
+        Text(modifier = Modifier.padding(top = 8.dp), text = name)
+    }
+}
+
+
+@Composable
+fun PetsList(pets: List<PetDataUi> = emptyList(), navController: NavController) {
     LazyVerticalGrid(
         columns = GridCells.Adaptive(minSize = 100.dp)
     ) {
         items(pets) {
             ProfilePictureWithName(
-                painter = getPainter(it),
-                name = it.name
-            )
+                painter = it.profilePicture.toPainter(
+                    fallback = painterResource(id = it.type.drawableRes)
+                ), name = it.name
+            ) {
+                navController.navigate("profile/${it.id}")
+            }
         }
     }
-}
-
-@Composable
-private fun getPainter(pet: PetDataUi): Painter {
-    val byteArray = pet.profilePicture?.toImageBitmap()
-    return if (byteArray != null) {
-        BitmapPainter(byteArray)
-    } else {
-        painterResource(id = R.drawable.paw_translucent)
-    }
-}
-
-private fun ByteArray.toImageBitmap(): ImageBitmap {
-    val bitmap = BitmapFactory.decodeByteArray(this, 0, this.size)
-    return bitmap.asImageBitmap()
 }
 
 @Preview
 @Composable
 fun HomeScreenPreview() {
     PetTracksTheme {
-        HomeScreen()
+        HomeScreen(navController = NavController(LocalContext.current))
+    }
+}
+
+@Preview
+@Composable
+fun ProfilePictureWithNamePreview() {
+    PetTracksTheme {
+        ProfilePictureWithName(
+            modifier = Modifier.size(100.dp),
+            painter = painterResource(id = R.drawable.paw_translucent),
+            name = "Pets"
+        ) {}
     }
 }
