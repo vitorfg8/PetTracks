@@ -1,15 +1,18 @@
 package com.gtihub.vitorfg8.pettracks.ui
 
-import android.content.Context
+import androidx.annotation.DrawableRes
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
@@ -22,18 +25,18 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.State
-import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.pluralStringResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.gtihub.vitorfg8.pettracks.R
 import com.gtihub.vitorfg8.pettracks.ui.model.PetDataUi
+import com.gtihub.vitorfg8.pettracks.ui.model.PetTypeDataUi
 import com.gtihub.vitorfg8.pettracks.ui.theme.PetTracksTheme
 import com.gtihub.vitorfg8.pettracks.utils.toPainter
 import java.util.Calendar
@@ -41,10 +44,7 @@ import java.util.Date
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun ProfileScreen(petViewModel: PetViewModel, id: Int, onBackPressed: () -> Unit = {}) {
-    petViewModel.getPet(id)
-    val pet = petViewModel.pet.collectAsState()
-
+fun ProfileScreen(pet: PetDataUi, onBackPressed: () -> Unit = {}) {
     Scaffold(
         topBar = {
             TopAppBar(title = {}, navigationIcon = {
@@ -66,138 +66,126 @@ fun ProfileScreen(petViewModel: PetViewModel, id: Int, onBackPressed: () -> Unit
             ProfilePicture(
                 modifier = Modifier
                     .align(Alignment.CenterHorizontally)
-                    .size(128.dp),
-                painter = pet.value.profilePicture.toPainter(fallback = painterResource(id = pet.value.type.drawableRes))
+                    .size(200.dp),
+                shape = RoundedCornerShape(100.dp),
+                painter = pet.profilePicture.toPainter(fallback = painterResource(id = pet.type.drawableRes))
             )
             Text(
                 modifier = Modifier
                     .padding(top = 8.dp)
                     .align(Alignment.CenterHorizontally),
-                text = pet.value.name,
+                text = pet.name,
                 style = MaterialTheme.typography.titleLarge.copy(fontWeight = FontWeight.SemiBold)
             )
             Text(
-                modifier = Modifier.align(Alignment.CenterHorizontally),
-                text = pet.value.breed.orEmpty().uppercase(),
+                modifier = Modifier
+                    .align(Alignment.CenterHorizontally)
+                    .alpha(0.75f),
+                text = pet.breed.orEmpty().uppercase(),
                 style = MaterialTheme.typography.labelLarge,
             )
             Details(pet)
-            Medicines()
-            Vaccines()
+            Text(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(8.dp),
+                text = stringResource(R.string.health),
+                style = MaterialTheme.typography.titleLarge
+            )
+            Item(R.drawable.tablets_solid, stringResource(R.string.medicines))
+            Item(R.drawable.syringe_solid, stringResource(R.string.vaccines))
+            Item(R.drawable.paw_solid, stringResource(R.string.notes))
         }
     }
 }
 
 @Composable
-private fun Vaccines() {
-    Text(
+fun Item(@DrawableRes drawableRes: Int, title: String) {
+    Card(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(8.dp), text = "Vaccines"
-    )/*    LazyColumn {
-
-    }*/
-}
-
-@Composable
-private fun ListItem(name: String, date: Date) {
-    Row {
-        Text(text = name)
-        Text(text = date.time.toString())
-    }
-}
-
-@Composable
-private fun Medicines() {
-    Text(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(8.dp), text = "Medicines"
-    )
-}
-
-@Composable
-private fun Details(pet: State<PetDataUi>) {
-    LazyRow(
-        modifier = Modifier.fillMaxWidth(),
-        horizontalArrangement = Arrangement.spacedBy(8.dp)
+            .padding(8.dp)
+            .height(80.dp)
     ) {
-        item {
-            DetailsCard(
-                title = calculateAge2(pet.value.birthDate).toString(),
-                subtitle = calculateAge(pet.value.birthDate, LocalContext.current)
+        Row(
+            modifier = Modifier
+                .padding(16.dp)
+                .fillMaxSize(), verticalAlignment = Alignment.CenterVertically
+        ) {
+            Icon(
+                modifier = Modifier.size(32.dp),
+                painter = painterResource(id = drawableRes),
+                contentDescription = null
             )
-        }
-        item {
-            DetailsCard(title = pet.value.gender, subtitle = stringResource(R.string.gender))
-        }
-        item {
-            DetailsCard(
-                title = stringResource(id = R.string.placeholder_kg, pet.value.weight ?: ""),
-                subtitle = stringResource(R.string.weight)
+            Text(
+                modifier = Modifier
+                    .padding(start = 16.dp)
+                    .weight(1f), text = title
+            )
+            Icon(
+                modifier = Modifier
+                    .size(16.dp)
+                    .padding(end = 8.dp),
+                painter = painterResource(id = R.drawable.chevron_right_solid),
+                contentDescription = ""
             )
         }
     }
 }
 
-fun calculateAge(dateOfBirth: Date?, context: Context): String {
-    return if (dateOfBirth != null) {
-        val birthCalendar = Calendar.getInstance().apply { time = dateOfBirth }
-        val today = Calendar.getInstance()
-
-        val years = today.get(Calendar.YEAR) - birthCalendar.get(Calendar.YEAR)
-        val months = today.get(Calendar.MONTH) - birthCalendar.get(Calendar.MONTH)
-        when {
-            years == 0 && months < 12 -> {
-                context.resources.getQuantityString(
-                    R.plurals.months_plural, months, months
+@Composable
+private fun Details(pet: PetDataUi) {
+    LazyRow(
+        modifier = Modifier
+            .padding(top = 16.dp, bottom = 16.dp)
+            .fillMaxWidth(),
+        horizontalArrangement = Arrangement.Center,
+        contentPadding = PaddingValues(horizontal = 8.dp)
+    ) {
+        pet.birthDate?.let {
+            item {
+                val age = calculateAge(it)
+                DetailsCard(
+                    title = age.first.toString(),
+                    subtitle = pluralStringResource(id = age.second, count = age.first)
                 )
-            }
-
-            years >= 1 -> {
-                context.resources.getQuantityString(
-                    R.plurals.years_plural, years, years
-                )
-            }
-
-            else -> {
-                ""
             }
         }
-    } else {
-        ""
+        item {
+            DetailsCard(title = pet.gender, subtitle = stringResource(R.string.gender))
+        }
+        pet.weight?.let {
+            item {
+                DetailsCard(
+                    title = stringResource(id = R.string.placeholder_kg, it),
+                    subtitle = stringResource(R.string.weight)
+                )
+            }
+        }
     }
 }
 
-fun calculateAge2(dateOfBirth: Date?): Int { //TODO RENAME
-    return if (dateOfBirth != null) {
-        val birthCalendar = Calendar.getInstance().apply { time = dateOfBirth }
-        val today = Calendar.getInstance()
+fun calculateAge(dateOfBirth: Date): Pair<Int, Int> {
+    val today = Calendar.getInstance()
+    val birthDate = Calendar.getInstance().apply { time = dateOfBirth }
 
-        val years = today.get(Calendar.YEAR) - birthCalendar.get(Calendar.YEAR)
-        val months = today.get(Calendar.MONTH) - birthCalendar.get(Calendar.MONTH)
-        when {
-            years == 0 && months < 12 -> {
-                months
-            }
-
-            years >= 1 -> {
-                years
-            }
-
-            else -> {
-                0
-            }
-        }
+    val years = today.get(Calendar.YEAR) - birthDate.get(Calendar.YEAR)
+    val months = today.get(Calendar.MONTH) - birthDate.get(Calendar.MONTH)
+    return if (years < 1) {
+        Pair(months, R.plurals.months_plural)
     } else {
-        0
+        Pair(years, R.plurals.years_plural)
     }
 }
 
 @Composable
 private fun DetailsCard(title: String?, subtitle: String) {
     title?.let {
-        Card(modifier = Modifier.size(88.dp, 64.dp)) {
+        Card(
+            modifier = Modifier
+                .padding(4.dp)
+                .size(102.dp, 64.dp)
+        ) {
             Column(
                 modifier = Modifier
                     .padding(8.dp)
@@ -222,8 +210,20 @@ private fun DetailsCardPreview() {
 
 @Preview
 @Composable
+private fun ItemPreview() {
+    PetTracksTheme {
+        Item(R.drawable.tablets_solid, "Medicines")
+    }
+}
+
+@Preview
+@Composable
 private fun ProfileScreenPreview() {
     PetTracksTheme {
-        //ProfileScreen(viewModel(),) //TODO
+        val birthDate = Calendar.getInstance().apply { set(2022, Calendar.FEBRUARY, 21) }.time
+        ProfileScreen(
+            PetDataUi(
+                0, "Name", PetTypeDataUi.Cat, "Breed", birthDate, 5.0f, gender = "Female"
+            ), {})
     }
 }

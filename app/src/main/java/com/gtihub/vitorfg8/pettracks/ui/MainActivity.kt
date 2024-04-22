@@ -51,9 +51,9 @@ class MainActivity : ComponentActivity() {
                         ) { backStackEntry ->
                             val petId = backStackEntry.arguments?.getInt("petId")
                             petId?.let {
+                                petsViewModel.getPet(it)
                                 ProfileScreen(
-                                    petsViewModel,
-                                    it
+                                    petsViewModel.pet.value, //TODO
                                 ) { navController.navigateUp() }
                             }
                         }

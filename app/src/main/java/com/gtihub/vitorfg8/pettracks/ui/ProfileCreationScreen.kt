@@ -89,7 +89,7 @@ fun ProfileCreationScreen(
             ) {
                 //pet.profilePicture = it.toByteArray(LocalContext.current)
             }
-            TypeSelector()
+            TypeSelector {}
             TextField(
                 label = stringResource(R.string.name),
                 keyboardOptions = KeyboardOptions(
@@ -225,7 +225,7 @@ private fun TextField(
 }
 
 @Composable
-fun TypeSelector() { //TODO
+fun TypeSelector(onClick: (type: PetTypeDataUi) -> Unit) { //TODO
     val types = PetTypeDataUi.entries.toList()
     var selectedType by remember { mutableStateOf(types[0]) }
     LazyVerticalGrid(
@@ -240,7 +240,10 @@ fun TypeSelector() { //TODO
             TypeItem(
                 item = item,
                 isSelected = selectedType == item,
-                onClick = { selectedType = item })
+                onClick = {
+                    selectedType = item
+                    onClick(selectedType)
+                })
         }
     }
 }

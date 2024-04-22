@@ -21,6 +21,10 @@
     <string name="choose_date">Escolher data</string>
     <string name="age">Age</string>
     <string name="open_gallery">open gallery</string>
+    <string name="medicines">Medicines</string>
+    <string name="vaccines">Vaccines</string>
+    <string name="notes">Notes</string>
+    <string name="health">Health</string>
     <plurals name="months_plural">
         <item quantity="one">month</item>
         <item quantity="other">months</item>
