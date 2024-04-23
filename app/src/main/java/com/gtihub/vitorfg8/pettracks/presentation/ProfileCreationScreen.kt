@@ -1,7 +1,6 @@
 package com.gtihub.vitorfg8.pettracks.presentation
 
 import android.content.Context
-import android.net.Uri
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -49,9 +48,7 @@ import com.gtihub.vitorfg8.pettracks.R
 import com.gtihub.vitorfg8.pettracks.presentation.model.GenderDataUi
 import com.gtihub.vitorfg8.pettracks.presentation.model.PetTypeDataUi
 import com.gtihub.vitorfg8.pettracks.ui.theme.PetTracksTheme
-import java.io.ByteArrayOutputStream
-import java.io.IOException
-import java.io.InputStream
+import com.gtihub.vitorfg8.pettracks.utils.toByteArray
 
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -144,39 +141,6 @@ fun ProfileCreationScreen(
         }
     }
 }
-
-private fun Uri?.toByteArray(context: Context): ByteArray? {
-    if (this == null) {
-        return null
-    }
-
-    var inputStream: InputStream? = null
-    try {
-        inputStream = context.contentResolver.openInputStream(this)
-        if (inputStream != null) {
-            val byteBuffer = ByteArrayOutputStream()
-            val bufferSize = 1024
-            val buffer = ByteArray(bufferSize)
-            var len: Int
-            while (inputStream.read(buffer).also { len = it } != -1) {
-                byteBuffer.write(buffer, 0, len)
-            }
-            return byteBuffer.toByteArray()
-        }
-    } catch (e: IOException) {
-        e.printStackTrace()
-    } finally {
-        try {
-            inputStream?.close()
-        } catch (e: IOException) {
-            e.printStackTrace()
-        }
-    }
-    return null
-}
-
-
-
 
 @Composable
 private fun TextField(
