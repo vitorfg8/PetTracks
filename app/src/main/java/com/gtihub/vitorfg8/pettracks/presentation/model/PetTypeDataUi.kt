@@ -1,4 +1,4 @@
-package com.gtihub.vitorfg8.pettracks.ui.model
+package com.gtihub.vitorfg8.pettracks.presentation.model
 
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes

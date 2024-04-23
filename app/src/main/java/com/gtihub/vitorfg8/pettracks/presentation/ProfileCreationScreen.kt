@@ -1,4 +1,4 @@
-package com.gtihub.vitorfg8.pettracks.ui
+package com.gtihub.vitorfg8.pettracks.presentation
 
 import android.content.Context
 import android.net.Uri
@@ -21,10 +21,7 @@ import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.ExposedDropdownMenuBox
-import androidx.compose.material3.ExposedDropdownMenuDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -40,6 +37,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
@@ -48,18 +46,19 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.gtihub.vitorfg8.pettracks.R
-import com.gtihub.vitorfg8.pettracks.ui.model.PetTypeDataUi
+import com.gtihub.vitorfg8.pettracks.presentation.model.GenderDataUi
+import com.gtihub.vitorfg8.pettracks.presentation.model.PetTypeDataUi
 import com.gtihub.vitorfg8.pettracks.ui.theme.PetTracksTheme
 import java.io.ByteArrayOutputStream
 import java.io.IOException
 import java.io.InputStream
+
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ProfileCreationScreen(
     onBackPressed: () -> Unit = {}, onAddPressed: () -> Unit = {}
 ) {
-
     Scaffold(
         topBar = {
             TopAppBar(colors = topAppBarColors(
@@ -84,12 +83,23 @@ fun ProfileCreationScreen(
                 .verticalScroll(rememberScrollState()),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
+
+            var profilePicture by remember { mutableStateOf<ByteArray?>(null) }
+            val context: Context = LocalContext.current
+            val types = PetTypeDataUi.entries.toList()
+            var selectedType by remember { mutableStateOf<String?>(null) }
+            var selectedGender by remember { mutableStateOf<GenderDataUi?>(null) }
+
+            
             ProfilePictureUpdater(
-                modifier = Modifier.padding(vertical = 16.dp, horizontal = 32.dp)
+                modifier = Modifier.padding(vertical = 16.dp, horizontal = 32.dp),
+                model = profilePicture
             ) {
-                //pet.profilePicture = it.toByteArray(LocalContext.current)
+                profilePicture = it.toByteArray(context)
             }
-            TypeSelector {}
+            TypeSelector(types = types) {
+
+            }
             TextField(
                 label = stringResource(R.string.name),
                 keyboardOptions = KeyboardOptions(
@@ -97,7 +107,9 @@ fun ProfileCreationScreen(
                     imeAction = ImeAction.Next
                 )
             )
-            GenderSelector()
+            /*            GenderSelector(selectedGender) {
+                            selectedGender = it
+                        }*/
             TextField(
                 label = stringResource(R.string.breed),
                 keyboardOptions = KeyboardOptions(
@@ -121,7 +133,12 @@ fun ProfileCreationScreen(
                 ),
                 singleLine = true,
             )
-            Button(onClick = { onAddPressed() }) {
+            Button(modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 72.dp),
+                onClick = {
+                    onAddPressed()
+                }) {
                 Text(text = stringResource(R.string.add))
             }
         }
@@ -159,52 +176,7 @@ private fun Uri?.toByteArray(context: Context): ByteArray? {
 }
 
 
-@OptIn(ExperimentalMaterial3Api::class)
-@Composable
-private fun GenderSelector() {
-    val options = listOf(stringResource(R.string.male), stringResource(R.string.female))
-    var expanded by remember { mutableStateOf(false) }
-    var selectedOptionText by remember { mutableStateOf<String?>(null) }
 
-    ExposedDropdownMenuBox(
-        expanded = expanded,
-        onExpandedChange = {
-            expanded = !expanded
-        }
-    ) {
-        TextField(
-            modifier = Modifier
-                .menuAnchor()
-                .padding(vertical = 8.dp, horizontal = 32.dp)
-                .fillMaxWidth(),
-            readOnly = true,
-            value = selectedOptionText.orEmpty(),
-            onValueChange = { },
-            label = { Text(stringResource(R.string.gender)) },
-            trailingIcon = {
-                ExposedDropdownMenuDefaults.TrailingIcon(
-                    expanded = expanded
-                )
-            },
-            colors = ExposedDropdownMenuDefaults.textFieldColors()
-        )
-        ExposedDropdownMenu(
-            expanded = expanded,
-            onDismissRequest = {
-                expanded = false
-            }
-        ) {
-            options.forEach { selectionOption ->
-                DropdownMenuItem(
-                    text = { Text(text = selectionOption) },
-                    onClick = {
-                        selectedOptionText = selectionOption
-                        expanded = false
-                    })
-            }
-        }
-    }
-}
 
 @Composable
 private fun TextField(
@@ -225,9 +197,13 @@ private fun TextField(
 }
 
 @Composable
-fun TypeSelector(onClick: (type: PetTypeDataUi) -> Unit) { //TODO
-    val types = PetTypeDataUi.entries.toList()
+fun TypeSelector(
+    types: List<PetTypeDataUi>,
+    onValueChange: (type: PetTypeDataUi) -> Unit
+) {
+
     var selectedType by remember { mutableStateOf(types[0]) }
+
     LazyVerticalGrid(
         modifier = Modifier
             .padding(horizontal = 34.dp)
@@ -242,7 +218,7 @@ fun TypeSelector(onClick: (type: PetTypeDataUi) -> Unit) { //TODO
                 isSelected = selectedType == item,
                 onClick = {
                     selectedType = item
-                    onClick(selectedType)
+                    onValueChange(selectedType)
                 })
         }
     }

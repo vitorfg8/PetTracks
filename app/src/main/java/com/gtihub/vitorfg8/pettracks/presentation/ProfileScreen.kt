@@ -1,4 +1,4 @@
-package com.gtihub.vitorfg8.pettracks.ui
+package com.gtihub.vitorfg8.pettracks.presentation
 
 import androidx.annotation.DrawableRes
 import androidx.compose.foundation.layout.Arrangement
@@ -35,12 +35,14 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.gtihub.vitorfg8.pettracks.R
-import com.gtihub.vitorfg8.pettracks.ui.model.PetDataUi
-import com.gtihub.vitorfg8.pettracks.ui.model.PetTypeDataUi
+import com.gtihub.vitorfg8.pettracks.presentation.model.Age
+import com.gtihub.vitorfg8.pettracks.presentation.model.GenderDataUi
+import com.gtihub.vitorfg8.pettracks.presentation.model.PetDataUi
+import com.gtihub.vitorfg8.pettracks.presentation.model.PetTypeDataUi
+import com.gtihub.vitorfg8.pettracks.presentation.model.UnitOfTime
 import com.gtihub.vitorfg8.pettracks.ui.theme.PetTracksTheme
 import com.gtihub.vitorfg8.pettracks.utils.toPainter
 import java.util.Calendar
-import java.util.Date
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -110,7 +112,8 @@ fun Item(@DrawableRes drawableRes: Int, title: String) {
         Row(
             modifier = Modifier
                 .padding(16.dp)
-                .fillMaxSize(), verticalAlignment = Alignment.CenterVertically
+                .fillMaxSize(),
+            verticalAlignment = Alignment.CenterVertically
         ) {
             Icon(
                 modifier = Modifier.size(32.dp),
@@ -142,17 +145,18 @@ private fun Details(pet: PetDataUi) {
         horizontalArrangement = Arrangement.Center,
         contentPadding = PaddingValues(horizontal = 8.dp)
     ) {
-        pet.birthDate?.let {
+        pet.age?.let {
             item {
-                val age = calculateAge(it)
                 DetailsCard(
-                    title = age.first.toString(),
-                    subtitle = pluralStringResource(id = age.second, count = age.first)
+                    title = it.count.toString(), subtitle = getSubtitle(it)
                 )
             }
         }
         item {
-            DetailsCard(title = pet.gender, subtitle = stringResource(R.string.gender))
+            DetailsCard(
+                title = stringResource(id = pet.gender.localized),
+                subtitle = stringResource(R.string.gender)
+            )
         }
         pet.weight?.let {
             item {
@@ -165,37 +169,30 @@ private fun Details(pet: PetDataUi) {
     }
 }
 
-fun calculateAge(dateOfBirth: Date): Pair<Int, Int> {
-    val today = Calendar.getInstance()
-    val birthDate = Calendar.getInstance().apply { time = dateOfBirth }
-
-    val years = today.get(Calendar.YEAR) - birthDate.get(Calendar.YEAR)
-    val months = today.get(Calendar.MONTH) - birthDate.get(Calendar.MONTH)
-    return if (years < 1) {
-        Pair(months, R.plurals.months_plural)
-    } else {
-        Pair(years, R.plurals.years_plural)
-    }
+@Composable
+private fun getSubtitle(it: Age) = if (it.unitOfTime == UnitOfTime.MONTHS) {
+    pluralStringResource(id = R.plurals.months_plural, count = it.count)
+} else {
+    pluralStringResource(id = R.plurals.years_plural, count = it.count)
 }
 
+
 @Composable
-private fun DetailsCard(title: String?, subtitle: String) {
-    title?.let {
-        Card(
+private fun DetailsCard(title: String, subtitle: String) {
+    Card(
+        modifier = Modifier
+            .padding(4.dp)
+            .size(102.dp, 64.dp)
+    ) {
+        Column(
             modifier = Modifier
-                .padding(4.dp)
-                .size(102.dp, 64.dp)
+                .padding(8.dp)
+                .fillMaxSize(),
+            verticalArrangement = Arrangement.Center,
+            horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Column(
-                modifier = Modifier
-                    .padding(8.dp)
-                    .fillMaxSize(),
-                verticalArrangement = Arrangement.Center,
-                horizontalAlignment = Alignment.CenterHorizontally
-            ) {
-                Text(text = title, fontWeight = FontWeight.Bold)
-                Text(text = subtitle)
-            }
+            Text(text = title, fontWeight = FontWeight.Bold)
+            Text(text = subtitle)
         }
     }
 }
@@ -204,7 +201,10 @@ private fun DetailsCard(title: String?, subtitle: String) {
 @Composable
 private fun DetailsCardPreview() {
     PetTracksTheme {
-        DetailsCard(title = "2", subtitle = "Age")
+        DetailsCard(
+            title = stringResource(id = GenderDataUi.MALE.localized),
+            subtitle = stringResource(id = R.string.gender)
+        )
     }
 }
 
@@ -212,7 +212,7 @@ private fun DetailsCardPreview() {
 @Composable
 private fun ItemPreview() {
     PetTracksTheme {
-        Item(R.drawable.tablets_solid, "Medicines")
+        Item(R.drawable.tablets_solid, stringResource(id = R.string.medicines))
     }
 }
 
@@ -220,10 +220,18 @@ private fun ItemPreview() {
 @Composable
 private fun ProfileScreenPreview() {
     PetTracksTheme {
-        val birthDate = Calendar.getInstance().apply { set(2022, Calendar.FEBRUARY, 21) }.time
+        val birthDate = Calendar.getInstance().apply { set(2022, Calendar.JANUARY, 1) }.time
         ProfileScreen(
             PetDataUi(
-                0, "Name", PetTypeDataUi.Cat, "Breed", birthDate, 5.0f, gender = "Female"
-            ), {})
+                0,
+                "Name",
+                PetTypeDataUi.Cat,
+                "Breed",
+                Age(birthDate, count = 2, unitOfTime = UnitOfTime.YEARS),
+                5.0f,
+                gender = GenderDataUi.FEMALE,
+                null
+            )
+        ) {}
     }
 }

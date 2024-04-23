@@ -1,4 +1,4 @@
-package com.gtihub.vitorfg8.pettracks.ui
+package com.gtihub.vitorfg8.pettracks.presentation
 
 import android.net.Uri
 import androidx.activity.compose.rememberLauncherForActivityResult
@@ -15,10 +15,6 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.Icon
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.painter.Painter
@@ -51,19 +47,15 @@ fun ProfilePicture(
 
 @Composable
 fun ProfilePictureUpdater(
-    modifier: Modifier = Modifier, onUpdate: (uri: Uri?) -> Unit
+    modifier: Modifier = Modifier,
+    model: Any? = null,
+    onValueChange: (uri: Uri?) -> Unit
 ) {
     Box(modifier = modifier, contentAlignment = Alignment.BottomEnd) {
-
-        var selectImageUri by remember {
-            mutableStateOf<Uri?>(null)
-        }
-
         val photoPickerLauncher = rememberLauncherForActivityResult(
             contract = ActivityResultContracts.PickVisualMedia(),
             onResult = {
-                selectImageUri = it
-                onUpdate(it)
+                onValueChange(it)
             })
         Card(
             modifier = Modifier
@@ -74,7 +66,7 @@ fun ProfilePictureUpdater(
             AsyncImage(
                 modifier = Modifier.fillMaxSize(),
                 contentScale = ContentScale.Crop,
-                model = selectImageUri,
+                model = model,
                 contentDescription = null
             )
         }
@@ -110,7 +102,7 @@ fun ProfilePicturePreview() {
 @Composable
 fun ProfilePictureUpdaterPreview() {
     PetTracksTheme {
-        ProfilePictureUpdater(onUpdate = {})
+        ProfilePictureUpdater(onValueChange = {})
     }
 }
 

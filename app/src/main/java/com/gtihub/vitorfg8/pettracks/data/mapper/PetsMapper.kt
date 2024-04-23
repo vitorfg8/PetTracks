@@ -1,7 +1,9 @@
 package com.gtihub.vitorfg8.pettracks.data.mapper
 
+import com.gtihub.vitorfg8.pettracks.data.db.GenderDb
 import com.gtihub.vitorfg8.pettracks.data.db.PetEntity
 import com.gtihub.vitorfg8.pettracks.data.db.PetTypeDb
+import com.gtihub.vitorfg8.pettracks.domain.model.Gender
 import com.gtihub.vitorfg8.pettracks.domain.model.Pet
 import com.gtihub.vitorfg8.pettracks.domain.model.PetType
 import kotlinx.coroutines.flow.Flow
@@ -14,7 +16,7 @@ fun Pet.toDbEntity(): PetEntity {
         breed = breed,
         birthDate = birthDate,
         weight = weight,
-        gender = gender,
+        gender = gender.toDbEntity(),
         profilePicture = profilePicture
     )
 }
@@ -30,6 +32,14 @@ fun PetType.toDbEntity(): PetTypeDb {
     }
 }
 
+
+fun Gender.toDbEntity(): GenderDb {
+    return when (this) {
+        Gender.FEMALE -> GenderDb.FEMALE
+        Gender.MALE -> GenderDb.MALE
+    }
+}
+
 fun Flow<PetEntity>.toDomain(): Flow<Pet> {
     return this.map {
         Pet(
@@ -39,7 +49,7 @@ fun Flow<PetEntity>.toDomain(): Flow<Pet> {
             breed = it.breed,
             birthDate = it.birthDate,
             weight = it.weight,
-            gender = it.gender,
+            gender = it.gender.toDomain(),
             profilePicture = it.profilePicture
         )
     }
@@ -56,6 +66,13 @@ fun PetTypeDb.toDomain(): PetType {
     }
 }
 
+fun GenderDb.toDomain(): Gender {
+    return when (this) {
+        GenderDb.FEMALE -> Gender.FEMALE
+        GenderDb.MALE -> Gender.MALE
+    }
+}
+
 fun Flow<List<PetEntity>>.toDomainList(): Flow<List<Pet>> {
     return this.map { list ->
         list.map {
@@ -66,7 +83,7 @@ fun Flow<List<PetEntity>>.toDomainList(): Flow<List<Pet>> {
                 breed = it.breed,
                 birthDate = it.birthDate,
                 weight = it.weight,
-                gender = it.gender,
+                gender = it.gender.toDomain(),
                 profilePicture = it.profilePicture
             )
         }

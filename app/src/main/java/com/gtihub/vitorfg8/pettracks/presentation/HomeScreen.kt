@@ -1,4 +1,4 @@
-package com.gtihub.vitorfg8.pettracks.ui
+package com.gtihub.vitorfg8.pettracks.presentation
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -37,7 +37,7 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.gtihub.vitorfg8.pettracks.R
-import com.gtihub.vitorfg8.pettracks.ui.model.PetDataUi
+import com.gtihub.vitorfg8.pettracks.presentation.model.PetDataUi
 import com.gtihub.vitorfg8.pettracks.ui.theme.PetTracksTheme
 import com.gtihub.vitorfg8.pettracks.utils.toPainter
 
