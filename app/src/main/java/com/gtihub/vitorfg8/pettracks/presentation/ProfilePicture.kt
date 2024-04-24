@@ -36,8 +36,8 @@ fun ProfilePicture(
     ) {
         Image(
             modifier = Modifier
-                .fillMaxSize()
-                .padding(20.dp),
+                .fillMaxSize(),
+            contentScale = ContentScale.Crop,
             painter = painter,
             contentDescription = null
         )

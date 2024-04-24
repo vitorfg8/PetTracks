@@ -42,7 +42,10 @@ class MainActivity : ComponentActivity() {
                         composable("profileCreation") {
                             ProfileCreationScreen(
                                 onBackPressed = { navController.navigateUp() },
-                                onAddPressed = { navController.navigateUp() }
+                                onAddPressed = {
+                                    petsViewModel.onSave(it)
+                                    navController.navigateUp()
+                                }
                             )
                         }
                         composable(
