@@ -4,7 +4,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.gtihub.vitorfg8.pettracks.domain.repository.PetsRepository
 import com.gtihub.vitorfg8.pettracks.presentation.mapper.toDataUi
-import com.gtihub.vitorfg8.pettracks.presentation.mapper.toDomain
 import com.gtihub.vitorfg8.pettracks.presentation.model.GenderDataUi
 import com.gtihub.vitorfg8.pettracks.presentation.model.PetDataUi
 import com.gtihub.vitorfg8.pettracks.presentation.model.PetTypeDataUi
@@ -36,12 +35,6 @@ class PetViewModel @Inject constructor(
         )
     )
     val pet = _pet.asStateFlow()
-
-    fun onSave(pet: PetDataUi) {
-        viewModelScope.launch {
-            petsRepository.createPet(pet.toDomain())
-        }
-    }
 
     fun getPet(id: Int) {
         viewModelScope.launch {

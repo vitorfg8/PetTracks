@@ -35,6 +35,7 @@ import androidx.compose.ui.text.input.KeyboardCapitalization
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.gtihub.vitorfg8.pettracks.R
 import com.gtihub.vitorfg8.pettracks.presentation.model.Age
 import com.gtihub.vitorfg8.pettracks.presentation.model.GenderDataUi
@@ -49,7 +50,9 @@ import java.util.Date
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ProfileCreationScreen(
-    onBackPressed: () -> Unit = {}, onAddPressed: (pet: PetDataUi) -> Unit = {}
+    profileCreationViewModel: ProfileCreationViewModel = hiltViewModel(),
+    onBackPressed: () -> Unit = {},
+    onAddPressed: (pet: PetDataUi) -> Unit = {}
 ) {
     Scaffold(
         topBar = {

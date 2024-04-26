@@ -24,7 +24,6 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.painter.Painter
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontFamily
@@ -34,8 +33,7 @@ import androidx.compose.ui.text.googlefonts.Font
 import androidx.compose.ui.text.googlefonts.GoogleFont
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.viewmodel.compose.viewModel
-import androidx.navigation.NavController
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.gtihub.vitorfg8.pettracks.R
 import com.gtihub.vitorfg8.pettracks.presentation.model.PetDataUi
 import com.gtihub.vitorfg8.pettracks.ui.theme.PetTracksTheme
@@ -44,9 +42,9 @@ import com.gtihub.vitorfg8.pettracks.utils.toPainter
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HomeScreen(
-    petViewModel: PetViewModel = viewModel(),
-    navController: NavController,
-    onClickAdd: () -> Unit = {}
+    petViewModel: PetViewModel = hiltViewModel(),
+    onAddPet: () -> Unit = {},
+    onPetClick: (petId: Int) -> Unit = {}
 ) {
 
     petViewModel.getAllPets()
@@ -68,7 +66,7 @@ fun HomeScreen(
             )
         },
         floatingActionButton = {
-            FloatingActionButton(onClick = { onClickAdd() }) {
+            FloatingActionButton(onClick = { onAddPet() }) {
                 Icon(Icons.Default.Add, contentDescription = "Add")
             }
         }
@@ -78,7 +76,7 @@ fun HomeScreen(
                 .padding(innerPadding),
             verticalArrangement = Arrangement.spacedBy(16.dp),
         ) {
-            PetsList(petState, navController)
+            PetsList(petState, onPetClick)
         }
     }
 }
@@ -124,7 +122,7 @@ fun ProfilePictureWithName(
 
 
 @Composable
-fun PetsList(pets: List<PetDataUi> = emptyList(), navController: NavController) {
+fun PetsList(pets: List<PetDataUi> = emptyList(), onPetClick: (petId: Int) -> Unit) {
     LazyVerticalGrid(
         columns = GridCells.Adaptive(minSize = 100.dp)
     ) {
@@ -134,7 +132,7 @@ fun PetsList(pets: List<PetDataUi> = emptyList(), navController: NavController) 
                     fallback = painterResource(id = it.type.drawableRes)
                 ), name = it.name
             ) {
-                navController.navigate("profile/${it.id}")
+                onPetClick(it.id)
             }
         }
     }
@@ -144,7 +142,7 @@ fun PetsList(pets: List<PetDataUi> = emptyList(), navController: NavController) 
 @Composable
 fun HomeScreenPreview() {
     PetTracksTheme {
-        HomeScreen(navController = NavController(LocalContext.current))
+        HomeScreen()
     }
 }
 

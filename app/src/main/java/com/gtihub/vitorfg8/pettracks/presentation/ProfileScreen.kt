@@ -25,6 +25,8 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
@@ -34,19 +36,26 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.gtihub.vitorfg8.pettracks.R
 import com.gtihub.vitorfg8.pettracks.presentation.model.Age
 import com.gtihub.vitorfg8.pettracks.presentation.model.GenderDataUi
 import com.gtihub.vitorfg8.pettracks.presentation.model.PetDataUi
-import com.gtihub.vitorfg8.pettracks.presentation.model.PetTypeDataUi
 import com.gtihub.vitorfg8.pettracks.presentation.model.UnitOfTime
 import com.gtihub.vitorfg8.pettracks.ui.theme.PetTracksTheme
 import com.gtihub.vitorfg8.pettracks.utils.toPainter
-import java.util.Calendar
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun ProfileScreen(pet: PetDataUi, onBackPressed: () -> Unit = {}) {
+fun ProfileScreen(
+    petViewModel: PetViewModel = hiltViewModel(),
+    petId: Int,
+    onBackPressed: () -> Unit = {}
+) {
+
+    petViewModel.getPet(petId)
+    val pet by petViewModel.pet.collectAsState()
+
     Scaffold(
         topBar = {
             TopAppBar(title = {}, navigationIcon = {
@@ -213,25 +222,5 @@ private fun DetailsCardPreview() {
 private fun ItemPreview() {
     PetTracksTheme {
         Item(R.drawable.tablets_solid, stringResource(id = R.string.medicines))
-    }
-}
-
-@Preview
-@Composable
-private fun ProfileScreenPreview() {
-    PetTracksTheme {
-        val birthDate = Calendar.getInstance().apply { set(2022, Calendar.JANUARY, 1) }.time
-        ProfileScreen(
-            PetDataUi(
-                0,
-                "Name",
-                PetTypeDataUi.Cat,
-                "Breed",
-                Age(birthDate, count = 2, unitOfTime = UnitOfTime.YEARS),
-                5.0f,
-                gender = GenderDataUi.FEMALE,
-                null
-            )
-        ) {}
     }
 }
