@@ -174,11 +174,3 @@ fun ProfileCreationPreview() {
         ProfileCreationScreen()
     }
 }
-
-@Preview
-@Composable
-fun TypeItemPreview() {
-    PetTracksTheme {
-        TypeItem(PetTypeDataUi.Cat, false) {}
-    }
-}
