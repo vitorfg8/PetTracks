@@ -1,4 +1,4 @@
-package com.gtihub.vitorfg8.pettracks.presentation
+package com.gtihub.vitorfg8.pettracks.presentation.components
 
 import android.net.Uri
 import androidx.activity.compose.rememberLauncherForActivityResult

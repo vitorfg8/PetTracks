@@ -1,4 +1,4 @@
-package com.gtihub.vitorfg8.pettracks.presentation
+package com.gtihub.vitorfg8.pettracks.presentation.components
 
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding

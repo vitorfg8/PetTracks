@@ -1,4 +1,4 @@
-package com.gtihub.vitorfg8.pettracks.presentation
+package com.gtihub.vitorfg8.pettracks.presentation.profilecreation
 
 import android.content.Context
 import androidx.compose.foundation.layout.Column
@@ -20,12 +20,8 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults.topAppBarColors
-import androidx.compose.material3.rememberDatePickerState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -36,23 +32,22 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.gtihub.vitorfg8.pettracks.R
-import com.gtihub.vitorfg8.pettracks.presentation.model.Age
-import com.gtihub.vitorfg8.pettracks.presentation.model.GenderDataUi
-import com.gtihub.vitorfg8.pettracks.presentation.model.PetDataUi
-import com.gtihub.vitorfg8.pettracks.presentation.model.PetTypeDataUi
-import com.gtihub.vitorfg8.pettracks.presentation.model.UnitOfTime
+import com.gtihub.vitorfg8.pettracks.presentation.components.GenderSelector
+import com.gtihub.vitorfg8.pettracks.presentation.components.PetTypeSelector
+import com.gtihub.vitorfg8.pettracks.presentation.components.ProfilePictureUpdater
+import com.gtihub.vitorfg8.pettracks.presentation.components.TextInputDatePicker
 import com.gtihub.vitorfg8.pettracks.ui.theme.PetTracksTheme
 import com.gtihub.vitorfg8.pettracks.utils.toByteArray
-import java.util.Date
 
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ProfileCreationScreen(
-    profileCreationViewModel: ProfileCreationViewModel = hiltViewModel(),
+    viewModel: ProfileCreationViewModel = hiltViewModel(),
     onBackPressed: () -> Unit = {},
-    onAddPressed: (pet: PetDataUi) -> Unit = {}
+    onPetAdded: () -> Unit = {}
 ) {
     Scaffold(
         topBar = {
@@ -79,15 +74,8 @@ fun ProfileCreationScreen(
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
 
+            val uiState by viewModel.uiState.collectAsStateWithLifecycle()
             val context: Context = LocalContext.current
-            var profilePicture by remember { mutableStateOf<ByteArray?>(null) }
-            var selectedGender by remember { mutableStateOf<GenderDataUi?>(null) }
-            val datePickerState = rememberDatePickerState()
-            var petType by remember { mutableStateOf(PetTypeDataUi.Other) }
-            var weight by remember { mutableStateOf<String?>(null) }
-            var name by remember { mutableStateOf("") }
-            var breed by remember { mutableStateOf("") }
-            var selectedDate by remember { mutableStateOf<Date?>(null) }
             val keyboardOptions = KeyboardOptions(
                 capitalization = KeyboardCapitalization.Words,
                 imeAction = ImeAction.Next
@@ -95,39 +83,40 @@ fun ProfileCreationScreen(
             
             ProfilePictureUpdater(
                 modifier = Modifier.padding(vertical = 16.dp, horizontal = 32.dp),
-                model = profilePicture
+                model = uiState.profilePicture
             ) {
-                profilePicture = it.toByteArray(context)
+                viewModel.updateProfilePicture(it.toByteArray(context))
             }
-            PetTypeSelector(petType) {
-                petType = it
+            PetTypeSelector(uiState.type) {
+                viewModel.updateType(it)
             }
             TextField(
                 modifier = Modifier
                     .padding(vertical = 8.dp, horizontal = 32.dp)
                     .fillMaxWidth(),
-                value = name,
-                onValueChange = { name = it },
+                value = uiState.name,
+                isError = uiState.isNameError,
+                onValueChange = { viewModel.updateName(it) },
                 label = { Text(stringResource(R.string.name)) },
                 keyboardOptions = keyboardOptions,
                 singleLine = true
             )
-            GenderSelector(selectedGender) {
-                selectedGender = it
+            GenderSelector(uiState.gender) {
+                viewModel.updateGender(it)
             }
 
             TextField(
                 modifier = Modifier
                     .padding(vertical = 8.dp, horizontal = 32.dp)
                     .fillMaxWidth(),
-                value = breed,
-                onValueChange = { breed = it },
+                value = uiState.breed ?: "",
+                onValueChange = { viewModel.updateBreed(it) },
                 label = { Text(stringResource(R.string.breed)) },
                 keyboardOptions = keyboardOptions,
                 singleLine = true
             )
-            TextInputDatePicker(datePickerState) {
-                selectedDate = it
+            TextInputDatePicker(uiState.birthDate) {
+                viewModel.updateBirthDate(it)
             }
 
             TextField(
@@ -135,11 +124,11 @@ fun ProfileCreationScreen(
                     .padding(vertical = 8.dp, horizontal = 32.dp)
                     .fillMaxWidth(),
                 suffix = { Text(text = stringResource(R.string.kg)) },
-                value = weight.orEmpty(),
-                onValueChange = { weight = it },
+                value = uiState.weight?.toKgs() ?: "",
+                onValueChange = { viewModel.updateWeight(it.toDoubleOrNull()) },
                 label = { Text(stringResource(id = R.string.weight)) },
                 keyboardOptions = KeyboardOptions(
-                    keyboardType = KeyboardType.Decimal,
+                    keyboardType = KeyboardType.Number,
                     imeAction = ImeAction.Done
                 ),
                 singleLine = true,
@@ -148,23 +137,17 @@ fun ProfileCreationScreen(
                 .fillMaxWidth()
                 .padding(horizontal = 72.dp),
                 onClick = {
-                    onAddPressed(
-                        PetDataUi(
-                            name = name,
-                            type = petType,
-                            breed = breed,
-                            age = Age(null, 0, UnitOfTime.MONTHS),
-                            weight = weight?.toFloatOrNull(),
-                            gender = selectedGender!!, //TODO
-                            profilePicture = profilePicture,
-                            id = 0
-                        )
-                    )
+                    //viewModel.onSave()
+                    onPetAdded()
                 }) {
                 Text(text = stringResource(R.string.add))
             }
         }
     }
+}
+
+private fun Double?.toKgs(maximumFractionDigits: Int = 1): String? {
+    return this?.let { String.format("%.${maximumFractionDigits}f", it) }
 }
 
 @Preview

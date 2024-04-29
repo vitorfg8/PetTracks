@@ -1,4 +1,4 @@
-package com.gtihub.vitorfg8.pettracks.presentation
+package com.gtihub.vitorfg8.pettracks.presentation.profile
 
 import androidx.annotation.DrawableRes
 import androidx.compose.foundation.layout.Arrangement
@@ -38,6 +38,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.gtihub.vitorfg8.pettracks.R
+import com.gtihub.vitorfg8.pettracks.presentation.components.ProfilePicture
 import com.gtihub.vitorfg8.pettracks.presentation.model.Age
 import com.gtihub.vitorfg8.pettracks.presentation.model.GenderDataUi
 import com.gtihub.vitorfg8.pettracks.presentation.model.PetDataUi
@@ -48,13 +49,13 @@ import com.gtihub.vitorfg8.pettracks.utils.toPainter
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ProfileScreen(
-    petViewModel: PetViewModel = hiltViewModel(),
+    viewModel: ProfileViewModel = hiltViewModel(),
     petId: Int,
     onBackPressed: () -> Unit = {}
 ) {
 
-    petViewModel.getPet(petId)
-    val pet by petViewModel.pet.collectAsState()
+    viewModel.getPet(petId)
+    val pet by viewModel.pet.collectAsState()
 
     Scaffold(
         topBar = {
