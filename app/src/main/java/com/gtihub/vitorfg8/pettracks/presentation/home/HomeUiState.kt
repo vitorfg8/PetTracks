@@ -9,10 +9,10 @@ data class HomeUiState(
 )
 
 data class PetHomeUiState(
-    val id: Int,
-    val name: String,
-    val petTypeUiState: PetTypeUiState,
-    val profilePicture: ByteArray?,
+    val id: Int = 0,
+    val name: String = "",
+    val petTypeUiState: PetTypeUiState = PetTypeUiState.Other,
+    val profilePicture: ByteArray = ByteArray(0),
 )
 
 

@@ -8,7 +8,7 @@ import androidx.compose.ui.graphics.painter.BitmapPainter
 import androidx.compose.ui.graphics.painter.ColorPainter
 import androidx.compose.ui.graphics.painter.Painter
 
-fun ByteArray?.toPainter(fallback: Painter = ColorPainter(Color.Transparent)): Painter {
+fun ByteArray.toPainter(fallback: Painter = ColorPainter(Color.Transparent)): Painter {
     val imageBitmap = this.toImageBitmap()
     return if (imageBitmap != null) {
         BitmapPainter(imageBitmap)

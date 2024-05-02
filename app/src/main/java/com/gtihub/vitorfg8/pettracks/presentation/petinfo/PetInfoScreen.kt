@@ -46,9 +46,7 @@ import com.gtihub.vitorfg8.pettracks.utils.toPainter
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ProfileScreen(
-    viewModel: PetInfoViewModel = hiltViewModel(),
-    petId: Int,
-    onBackPressed: () -> Unit = {}
+    viewModel: PetInfoViewModel = hiltViewModel(), petId: Int, onBackPressed: () -> Unit = {}
 ) {
 
     viewModel.getPet(petId)
@@ -90,7 +88,7 @@ fun ProfileScreen(
                 modifier = Modifier
                     .align(Alignment.CenterHorizontally)
                     .alpha(0.75f),
-                text = pet.breed.orEmpty().uppercase(),
+                text = pet.breed.uppercase(),
                 style = MaterialTheme.typography.labelLarge,
             )
             Details(pet)
@@ -152,23 +150,23 @@ private fun Details(pet: PetInfoUiState) {
         horizontalArrangement = Arrangement.Center,
         contentPadding = PaddingValues(horizontal = 8.dp)
     ) {
-        pet.age.let {
-            item {
+        item {
+            DetailsCard(
+                title = pet.age.count.toString(), subtitle = getSubtitle(pet.age)
+            )
+        }
+        item {
+            if (pet.gender != GenderUiState.EMPTY) {
                 DetailsCard(
-                    title = it.count.toString(), subtitle = getSubtitle(it)
+                    title = stringResource(id = pet.gender.localized),
+                    subtitle = stringResource(R.string.gender)
                 )
             }
         }
         item {
-            DetailsCard(
-                title = stringResource(id = pet.gender.localized),
-                subtitle = stringResource(R.string.gender)
-            )
-        }
-        pet.weight.let {
-            item {
+            if (pet.weight != 0.0) {
                 DetailsCard(
-                    title = stringResource(id = R.string.placeholder_kg, it),
+                    title = stringResource(id = R.string.placeholder_kg, pet.weight),
                     subtitle = stringResource(R.string.weight)
                 )
             }
