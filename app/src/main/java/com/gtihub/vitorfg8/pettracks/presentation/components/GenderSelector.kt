@@ -18,17 +18,17 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.gtihub.vitorfg8.pettracks.R
-import com.gtihub.vitorfg8.pettracks.presentation.model.GenderDataUi
+import com.gtihub.vitorfg8.pettracks.presentation.GenderUiState
 import com.gtihub.vitorfg8.pettracks.ui.theme.PetTracksTheme
 
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun GenderSelector(
-    value: GenderDataUi? = null,
-    onValueChange: (gender: GenderDataUi) -> Unit,
+    value: GenderUiState = GenderUiState.EMPTY,
+    onValueChange: (gender: GenderUiState) -> Unit,
 ) {
-    val options = GenderDataUi.entries
+    val options = GenderUiState.entries
     var expanded by remember { mutableStateOf(false) }
 
     ExposedDropdownMenuBox(
@@ -43,8 +43,8 @@ fun GenderSelector(
                 .padding(vertical = 8.dp, horizontal = 32.dp)
                 .fillMaxWidth(),
             readOnly = true,
-            value = stringResource(id = value?.localized ?: R.string.empty),
-            onValueChange = { },
+            value = stringResource(id = value.localized),
+            onValueChange = {},
             label = { Text(stringResource(R.string.gender)) },
             trailingIcon = {
                 ExposedDropdownMenuDefaults.TrailingIcon(

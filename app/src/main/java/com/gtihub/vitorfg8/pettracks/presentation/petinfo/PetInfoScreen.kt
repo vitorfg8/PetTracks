@@ -1,4 +1,4 @@
-package com.gtihub.vitorfg8.pettracks.presentation.profile
+package com.gtihub.vitorfg8.pettracks.presentation.petinfo
 
 import androidx.annotation.DrawableRes
 import androidx.compose.foundation.layout.Arrangement
@@ -25,7 +25,6 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -37,25 +36,23 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.gtihub.vitorfg8.pettracks.R
+import com.gtihub.vitorfg8.pettracks.presentation.GenderUiState
 import com.gtihub.vitorfg8.pettracks.presentation.components.ProfilePicture
-import com.gtihub.vitorfg8.pettracks.presentation.model.Age
-import com.gtihub.vitorfg8.pettracks.presentation.model.GenderDataUi
-import com.gtihub.vitorfg8.pettracks.presentation.model.PetDataUi
-import com.gtihub.vitorfg8.pettracks.presentation.model.UnitOfTime
 import com.gtihub.vitorfg8.pettracks.ui.theme.PetTracksTheme
 import com.gtihub.vitorfg8.pettracks.utils.toPainter
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ProfileScreen(
-    viewModel: ProfileViewModel = hiltViewModel(),
+    viewModel: PetInfoViewModel = hiltViewModel(),
     petId: Int,
     onBackPressed: () -> Unit = {}
 ) {
 
     viewModel.getPet(petId)
-    val pet by viewModel.pet.collectAsState()
+    val pet by viewModel.pet.collectAsStateWithLifecycle()
 
     Scaffold(
         topBar = {
@@ -147,7 +144,7 @@ fun Item(@DrawableRes drawableRes: Int, title: String) {
 }
 
 @Composable
-private fun Details(pet: PetDataUi) {
+private fun Details(pet: PetInfoUiState) {
     LazyRow(
         modifier = Modifier
             .padding(top = 16.dp, bottom = 16.dp)
@@ -155,7 +152,7 @@ private fun Details(pet: PetDataUi) {
         horizontalArrangement = Arrangement.Center,
         contentPadding = PaddingValues(horizontal = 8.dp)
     ) {
-        pet.age?.let {
+        pet.age.let {
             item {
                 DetailsCard(
                     title = it.count.toString(), subtitle = getSubtitle(it)
@@ -168,7 +165,7 @@ private fun Details(pet: PetDataUi) {
                 subtitle = stringResource(R.string.gender)
             )
         }
-        pet.weight?.let {
+        pet.weight.let {
             item {
                 DetailsCard(
                     title = stringResource(id = R.string.placeholder_kg, it),
@@ -212,7 +209,7 @@ private fun DetailsCard(title: String, subtitle: String) {
 private fun DetailsCardPreview() {
     PetTracksTheme {
         DetailsCard(
-            title = stringResource(id = GenderDataUi.MALE.localized),
+            title = stringResource(id = GenderUiState.MALE.localized),
             subtitle = stringResource(id = R.string.gender)
         )
     }

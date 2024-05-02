@@ -6,5 +6,5 @@ enum class PetType {
     Dog,
     Fish,
     Reptile,
-    Other
+    Other;
 }

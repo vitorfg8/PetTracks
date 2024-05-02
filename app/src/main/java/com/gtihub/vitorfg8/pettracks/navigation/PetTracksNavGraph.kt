@@ -6,9 +6,9 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
+import com.gtihub.vitorfg8.pettracks.presentation.addpet.ProfileCreationScreen
 import com.gtihub.vitorfg8.pettracks.presentation.home.HomeScreen
-import com.gtihub.vitorfg8.pettracks.presentation.profile.ProfileScreen
-import com.gtihub.vitorfg8.pettracks.presentation.profilecreation.ProfileCreationScreen
+import com.gtihub.vitorfg8.pettracks.presentation.petinfo.ProfileScreen
 
 
 @Composable

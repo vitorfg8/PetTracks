@@ -11,9 +11,9 @@ data class PetEntity(
     val id: Int = 0,
     val name: String,
     val type: PetTypeDb,
-    val breed: String?,
-    val birthDate: Date?,
-    val weight: Float?,
+    val breed: String,
+    val birthDate: Date,
+    val weight: Double,
     val gender: GenderDb,
-    val profilePicture: ByteArray?, //TODO
+    val profilePicture: ByteArray, //TODO
 )

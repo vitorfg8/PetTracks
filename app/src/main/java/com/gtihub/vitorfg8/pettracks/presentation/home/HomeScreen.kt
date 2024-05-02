@@ -19,7 +19,6 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults.topAppBarColors
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -34,22 +33,22 @@ import androidx.compose.ui.text.googlefonts.GoogleFont
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.gtihub.vitorfg8.pettracks.R
 import com.gtihub.vitorfg8.pettracks.presentation.components.ProfilePicture
-import com.gtihub.vitorfg8.pettracks.presentation.model.PetDataUi
 import com.gtihub.vitorfg8.pettracks.ui.theme.PetTracksTheme
 import com.gtihub.vitorfg8.pettracks.utils.toPainter
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HomeScreen(
-    petViewModel: PetViewModel = hiltViewModel(),
+    viewModel: HomeViewModel = hiltViewModel(),
     onAddPet: () -> Unit = {},
     onPetClick: (petId: Int) -> Unit = {}
 ) {
 
-    petViewModel.getAllPets()
-    val petState by petViewModel.petsList.collectAsState()
+    viewModel.getAllPets()
+    val petState by viewModel.uiState.collectAsStateWithLifecycle()
 
     Scaffold(
         topBar = {
@@ -77,7 +76,7 @@ fun HomeScreen(
                 .padding(innerPadding),
             verticalArrangement = Arrangement.spacedBy(16.dp),
         ) {
-            PetsList(petState, onPetClick)
+            PetsList(petState.petList, onPetClick)
         }
     }
 }
@@ -123,14 +122,14 @@ fun ProfilePictureWithName(
 
 
 @Composable
-fun PetsList(pets: List<PetDataUi> = emptyList(), onPetClick: (petId: Int) -> Unit) {
+fun PetsList(pets: List<PetHomeUiState> = emptyList(), onPetClick: (petId: Int) -> Unit) {
     LazyVerticalGrid(
         columns = GridCells.Adaptive(minSize = 100.dp)
     ) {
         items(pets) {
             ProfilePictureWithName(
                 painter = it.profilePicture.toPainter(
-                    fallback = painterResource(id = it.type.drawableRes)
+                    fallback = painterResource(id = it.petTypeUiState.drawableRes)
                 ), name = it.name
             ) {
                 onPetClick(it.id)

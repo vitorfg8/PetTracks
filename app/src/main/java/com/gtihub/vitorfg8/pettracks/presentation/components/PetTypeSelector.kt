@@ -22,16 +22,15 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.gtihub.vitorfg8.pettracks.presentation.model.PetTypeDataUi
+import com.gtihub.vitorfg8.pettracks.presentation.PetTypeUiState
 import com.gtihub.vitorfg8.pettracks.ui.theme.PetTracksTheme
 
 @Composable
 fun PetTypeSelector(
-    value: PetTypeDataUi,
-    onValueChange: (type: PetTypeDataUi) -> Unit
+    value: PetTypeUiState,
+    onValueChange: (type: PetTypeUiState) -> Unit
 ) {
-
-    val types = PetTypeDataUi.entries.toList()
+    val types = PetTypeUiState.entries.toList()
 
     LazyVerticalGrid(
         modifier = Modifier
@@ -53,7 +52,7 @@ fun PetTypeSelector(
 }
 
 @Composable
-fun TypeItem(item: PetTypeDataUi, isSelected: Boolean = false, onClick: () -> Unit) {
+fun TypeItem(item: PetTypeUiState, isSelected: Boolean = false, onClick: () -> Unit) {
     Card(modifier = Modifier
         .clickable { onClick() }
         .size(72.dp),
@@ -85,7 +84,7 @@ fun TypeItem(item: PetTypeDataUi, isSelected: Boolean = false, onClick: () -> Un
 @Composable
 fun TypeItemPreview() {
     PetTracksTheme {
-        TypeItem(PetTypeDataUi.Cat, false) {}
+        TypeItem(PetTypeUiState.Cat, false) {}
     }
 }
 
@@ -93,6 +92,6 @@ fun TypeItemPreview() {
 @Composable
 private fun PetTypeSelectorPreview() {
     PetTracksTheme {
-        PetTypeSelector(PetTypeDataUi.Cat) {}
+        PetTypeSelector(PetTypeUiState.Cat) {}
     }
 }

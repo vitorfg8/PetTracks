@@ -22,15 +22,16 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.gtihub.vitorfg8.pettracks.R
 import java.text.SimpleDateFormat
+import java.util.Calendar
 import java.util.Date
 import java.util.Locale
 import java.util.TimeZone
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun TextInputDatePicker(
-    selectedDate: Date?,
-    onDateSelected: (date: Date?) -> Unit
+fun TextFieldDatePicker(
+    selectedDate: Date,
+    onDateSelected: (date: Date) -> Unit
 ) {
     val datePickerState = rememberDatePickerState()
     val focusManager = LocalFocusManager.current
@@ -38,7 +39,7 @@ fun TextInputDatePicker(
         mutableStateOf(false)
     }
 
-    val selectedDateString = selectedDate?.time?.toLocalDateFormat() ?: ""
+    val selectedDateString = selectedDate.time.toLocalDateFormat()
 
     if (showDatePickerDialog) {
         DatePickerDialog(
@@ -61,7 +62,7 @@ fun TextInputDatePicker(
     }
     TextField(
         value = selectedDateString,
-        onValueChange = { /* Não faz nada, o valor é apenas de leitura */ },
+        onValueChange = {},
         Modifier
             .padding(vertical = 8.dp, horizontal = 32.dp)
             .fillMaxWidth()
@@ -91,5 +92,11 @@ fun Long.toLocalDateFormat(): String {
 @Preview
 @Composable
 private fun TextInputDatePickerPreview() {
-    TextInputDatePicker(selectedDate = null, onDateSelected = {})
+    val year = 2023
+    val month = Calendar.MAY
+    val day = 2
+    val calendar = Calendar.getInstance()
+    calendar.set(year, month, day)
+    val date: Date = calendar.time
+    TextFieldDatePicker(selectedDate = date, onDateSelected = {})
 }
