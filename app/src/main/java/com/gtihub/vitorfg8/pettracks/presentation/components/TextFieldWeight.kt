@@ -26,7 +26,7 @@ fun TextFieldWeight(
             .padding(vertical = 8.dp, horizontal = 32.dp)
             .fillMaxWidth(),
         suffix = { Text(text = stringResource(R.string.kg)) },
-        value = value.toKgs(),
+        value = if (value == 0.0) "" else value.toKgs(),
         onValueChange = { onValueChange(it.toDoubleOrNull() ?: 0.0) },
         label = { Text(stringResource(id = R.string.weight)) },
         keyboardOptions = KeyboardOptions(
@@ -38,7 +38,7 @@ fun TextFieldWeight(
 }
 
 private fun Double.toKgs(maximumFractionDigits: Int = 1): String {
-    return this.let { String.format("%.${maximumFractionDigits}f", it) }
+    return String.format("%.${maximumFractionDigits}f", this)
 }
 
 @Preview
