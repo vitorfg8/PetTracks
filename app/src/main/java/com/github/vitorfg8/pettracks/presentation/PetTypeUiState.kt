@@ -18,7 +18,7 @@ fun PetTypeUiState.toDomain(): PetType {
     return when (this) {
         PetTypeUiState.Bird -> PetType.Bird
         PetTypeUiState.Cat -> PetType.Cat
-        PetTypeUiState.Dog -> PetType.Fish
+        PetTypeUiState.Dog -> PetType.Dog
         PetTypeUiState.Fish -> PetType.Fish
         PetTypeUiState.Reptile -> PetType.Reptile
         else -> PetType.Other
@@ -29,7 +29,7 @@ fun PetType.toUiState(): PetTypeUiState {
     return when (this) {
         PetType.Bird -> PetTypeUiState.Bird
         PetType.Cat -> PetTypeUiState.Cat
-        PetType.Dog -> PetTypeUiState.Fish
+        PetType.Dog -> PetTypeUiState.Dog
         PetType.Fish -> PetTypeUiState.Fish
         PetType.Reptile -> PetTypeUiState.Reptile
         else -> PetTypeUiState.Other

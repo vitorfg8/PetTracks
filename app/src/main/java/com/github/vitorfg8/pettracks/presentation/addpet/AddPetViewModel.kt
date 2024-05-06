@@ -27,8 +27,7 @@ class AddPetViewModel @Inject constructor(
     fun updateName(newName: String) {
         _uiState.update {
             it.copy(
-                name = newName,
-                isNameError = newName.isEmpty()
+                name = newName
             )
         }
     }
@@ -70,8 +69,8 @@ class AddPetViewModel @Inject constructor(
     }
 
     fun onSavePet() {
-        viewModelScope.launch {
-            with(uiState.value) {
+        with(uiState.value) {
+            viewModelScope.launch {
                 petsRepository.createPet(
                     pet = Pet(
                         id = 0,
@@ -81,7 +80,7 @@ class AddPetViewModel @Inject constructor(
                         birthDate = birthDate,
                         weight = weight,
                         gender = gender.toDomain(),
-                        profilePicture = profilePicture
+                        profilePicture = profilePicture,
                     )
                 )
             }

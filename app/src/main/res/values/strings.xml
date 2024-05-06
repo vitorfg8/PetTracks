@@ -26,6 +26,7 @@
     <string name="notes">Notes</string>
     <string name="health">Health</string>
     <string name="empty" />
+    <string name="the_name_is_empty_error">The name is empty</string>
     <plurals name="months_plural">
         <item quantity="one">month</item>
         <item quantity="other">months</item>

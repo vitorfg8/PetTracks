@@ -16,12 +16,16 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SnackbarHost
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults.topAppBarColors
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -40,6 +44,7 @@ import com.github.vitorfg8.pettracks.presentation.components.TextFieldDatePicker
 import com.github.vitorfg8.pettracks.presentation.components.TextFieldWeight
 import com.github.vitorfg8.pettracks.ui.theme.PetTracksTheme
 import com.github.vitorfg8.pettracks.utils.toByteArray
+import kotlinx.coroutines.launch
 
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -49,6 +54,10 @@ fun ProfileCreationScreen(
     onBackPressed: () -> Unit = {},
     onPetAdded: () -> Unit = {}
 ) {
+
+    val scope = rememberCoroutineScope()
+    val snackbarHostState = remember { SnackbarHostState() }
+
     Scaffold(
         topBar = {
             TopAppBar(colors = topAppBarColors(
@@ -64,6 +73,9 @@ fun ProfileCreationScreen(
                     )
                 }
             })
+        },
+        snackbarHost = {
+            SnackbarHost(hostState = snackbarHostState)
         },
     ) { innerPadding ->
         Column(
@@ -95,7 +107,6 @@ fun ProfileCreationScreen(
                     .padding(vertical = 8.dp, horizontal = 32.dp)
                     .fillMaxWidth(),
                 value = uiState.name,
-                isError = uiState.isNameError,
                 onValueChange = { viewModel.updateName(it) },
                 label = { Text(stringResource(R.string.name)) },
                 keyboardOptions = keyboardOptions,
@@ -127,15 +138,19 @@ fun ProfileCreationScreen(
                 .fillMaxWidth()
                 .padding(horizontal = 72.dp),
                 onClick = {
-                    viewModel.onSavePet()
-                    onPetAdded()
-                }) {
+                    if (uiState.name.isBlank()) {
+                        scope.launch { snackbarHostState.showSnackbar(context.getString(R.string.the_name_is_empty_error)) }
+                    } else {
+                        viewModel.onSavePet()
+                        onPetAdded()
+                    }
+                }
+            ) {
                 Text(text = stringResource(R.string.add))
             }
         }
     }
 }
-
 
 @Preview
 @Composable
