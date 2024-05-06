@@ -5,9 +5,9 @@ import com.gtihub.vitorfg8.pettracks.R
 import com.gtihub.vitorfg8.pettracks.domain.model.Gender
 
 enum class GenderUiState(@StringRes val localized: Int) {
-    EMPTY(R.string.empty),
     FEMALE(R.string.female),
     MALE(R.string.male),
+    EMPTY(R.string.empty),
 }
 
 fun GenderUiState.toDomain(): Gender {
