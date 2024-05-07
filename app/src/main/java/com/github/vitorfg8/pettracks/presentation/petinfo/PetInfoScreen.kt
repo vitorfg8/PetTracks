@@ -48,7 +48,6 @@ import com.github.vitorfg8.pettracks.utils.asPainter
 fun ProfileScreen(
     viewModel: PetInfoViewModel = hiltViewModel(), petId: Int, onBackPressed: () -> Unit = {}
 ) {
-
     viewModel.getPet(petId)
     val pet by viewModel.pet.collectAsStateWithLifecycle()
 

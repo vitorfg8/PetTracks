@@ -50,6 +50,7 @@ fun Pet.toPetInfoUiState(): PetInfoUiState {
         breed = breed,
         birthDate = birthDate,
         weight = weight,
-        gender = gender.toUiState()
+        gender = gender.toUiState(),
+        profilePicture = profilePicture
     )
 }
