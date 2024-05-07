@@ -12,7 +12,7 @@ android {
 
     defaultConfig {
         applicationId = "com.github.vitorfg8.pettracks"
-        minSdk = 23
+        minSdk = 24
         targetSdk = 34
         versionCode = 1
         versionName = "1.0"
@@ -69,6 +69,7 @@ dependencies {
     implementation(libs.hilt.android)
     implementation(libs.androidx.hilt.navigation.compose)
     implementation(libs.androidx.lifecycle.runtime.compose)
+    implementation(libs.androidx.exifinterface)
 
     annotationProcessor(libs.androidx.room.compiler)
 

@@ -1,6 +1,7 @@
 package com.github.vitorfg8.pettracks.presentation.addpet
 
 
+import android.graphics.Bitmap
 import com.github.vitorfg8.pettracks.presentation.GenderUiState
 import com.github.vitorfg8.pettracks.presentation.PetTypeUiState
 import java.util.Date
@@ -13,5 +14,5 @@ data class AddPetUiState(
     val birthDate: Date = Date(),
     var weight: Double = 0.0,
     var gender: GenderUiState = GenderUiState.EMPTY,
-    var profilePicture: ByteArray = ByteArray(0)
+    var profilePicture: Bitmap? = null
 )

@@ -37,7 +37,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.github.vitorfg8.pettracks.R
 import com.github.vitorfg8.pettracks.presentation.components.ProfilePicture
 import com.github.vitorfg8.pettracks.ui.theme.PetTracksTheme
-import com.github.vitorfg8.pettracks.utils.toPainter
+import com.github.vitorfg8.pettracks.utils.asPainter
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -128,15 +128,17 @@ fun PetsList(pets: List<PetHomeUiState> = emptyList(), onPetClick: (petId: Int) 
     ) {
         items(pets) {
             ProfilePictureWithName(
-                painter = it.profilePicture.toPainter(
-                    fallback = painterResource(id = it.petTypeUiState.drawableRes)
-                ), name = it.name
+                painter = it.profilePicture.asPainter(
+                    fallback = painterResource(it.petTypeUiState.drawableRes)
+                ),
+                name = it.name
             ) {
                 onPetClick(it.id)
             }
         }
     }
 }
+
 
 @Preview
 @Composable

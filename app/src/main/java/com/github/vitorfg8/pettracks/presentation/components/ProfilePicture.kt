@@ -29,7 +29,10 @@ import com.github.vitorfg8.pettracks.ui.theme.PetTracksTheme
 
 @Composable
 fun ProfilePicture(
-    modifier: Modifier, shape: RoundedCornerShape = RoundedCornerShape(100.dp), painter: Painter
+    modifier: Modifier,
+    shape: RoundedCornerShape = RoundedCornerShape(100.dp),
+    painter: Painter,
+    contentDescription: String? = null
 ) {
     Card(
         modifier = modifier, shape = shape
@@ -39,7 +42,7 @@ fun ProfilePicture(
                 .fillMaxSize(),
             contentScale = ContentScale.Crop,
             painter = painter,
-            contentDescription = null
+            contentDescription = contentDescription
         )
     }
 }

@@ -1,5 +1,6 @@
 package com.github.vitorfg8.pettracks.data.db
 
+import android.graphics.Bitmap
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import java.util.Date
@@ -15,5 +16,5 @@ data class PetEntity(
     val birthDate: Date,
     val weight: Double,
     val gender: GenderDb,
-    val profilePicture: ByteArray, //TODO
+    val profilePicture: Bitmap
 )

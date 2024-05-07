@@ -1,5 +1,6 @@
 package com.github.vitorfg8.pettracks.presentation.addpet
 
+import android.graphics.Bitmap
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.github.vitorfg8.pettracks.domain.model.Pet
@@ -62,7 +63,7 @@ class AddPetViewModel @Inject constructor(
         }
     }
 
-    fun updateProfilePicture(newPicture: ByteArray) {
+    fun updateProfilePicture(newPicture: Bitmap) {
         _uiState.update {
             it.copy(profilePicture = newPicture)
         }
@@ -80,7 +81,7 @@ class AddPetViewModel @Inject constructor(
                         birthDate = birthDate,
                         weight = weight,
                         gender = gender.toDomain(),
-                        profilePicture = profilePicture,
+                        profilePicture = profilePicture!!, //TODO
                     )
                 )
             }

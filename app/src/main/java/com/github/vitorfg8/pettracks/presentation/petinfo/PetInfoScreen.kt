@@ -41,7 +41,7 @@ import com.github.vitorfg8.pettracks.R
 import com.github.vitorfg8.pettracks.presentation.GenderUiState
 import com.github.vitorfg8.pettracks.presentation.components.ProfilePicture
 import com.github.vitorfg8.pettracks.ui.theme.PetTracksTheme
-import com.github.vitorfg8.pettracks.utils.toPainter
+import com.github.vitorfg8.pettracks.utils.asPainter
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -75,7 +75,7 @@ fun ProfileScreen(
                     .align(Alignment.CenterHorizontally)
                     .size(200.dp),
                 shape = RoundedCornerShape(100.dp),
-                painter = pet.profilePicture.toPainter(fallback = painterResource(id = pet.type.drawableRes))
+                painter = pet.profilePicture.asPainter(fallback = painterResource(id = pet.type.drawableRes))
             )
             Text(
                 modifier = Modifier

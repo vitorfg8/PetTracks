@@ -43,7 +43,7 @@ import com.github.vitorfg8.pettracks.presentation.components.ProfilePictureUpdat
 import com.github.vitorfg8.pettracks.presentation.components.TextFieldDatePicker
 import com.github.vitorfg8.pettracks.presentation.components.TextFieldWeight
 import com.github.vitorfg8.pettracks.ui.theme.PetTracksTheme
-import com.github.vitorfg8.pettracks.utils.toByteArray
+import com.github.vitorfg8.pettracks.utils.toBitmap
 import kotlinx.coroutines.launch
 
 
@@ -97,7 +97,9 @@ fun ProfileCreationScreen(
                 modifier = Modifier.padding(vertical = 16.dp, horizontal = 32.dp),
                 model = uiState.profilePicture
             ) {
-                it.toByteArray(context)?.let { it1 -> viewModel.updateProfilePicture(it1) }
+                it?.toBitmap(context.contentResolver)?.let { picture ->
+                    viewModel.updateProfilePicture(picture)
+                }
             }
             PetTypeSelector(uiState.type) {
                 viewModel.updateType(it)

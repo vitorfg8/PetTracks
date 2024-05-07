@@ -1,5 +1,6 @@
 package com.github.vitorfg8.pettracks.presentation.petinfo
 
+import android.graphics.Bitmap
 import com.github.vitorfg8.pettracks.domain.model.Pet
 import com.github.vitorfg8.pettracks.presentation.GenderUiState
 import com.github.vitorfg8.pettracks.presentation.PetTypeUiState
@@ -15,7 +16,8 @@ data class PetInfoUiState(
     val age: Age = birthDate.toAge(),
     val weight: Double = 0.0,
     val gender: GenderUiState = GenderUiState.EMPTY,
-    val profilePicture: ByteArray = ByteArray(0),
+    val profilePicture: Bitmap? = null
+
 )
 
 data class Age(

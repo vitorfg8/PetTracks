@@ -1,5 +1,6 @@
 package com.github.vitorfg8.pettracks.domain.model
 
+import android.graphics.Bitmap
 import java.util.Date
 
 data class Pet(
@@ -10,5 +11,5 @@ data class Pet(
     val birthDate: Date,
     val weight: Double,
     val gender: Gender,
-    val profilePicture: ByteArray, //TODO
+    val profilePicture: Bitmap
 )
