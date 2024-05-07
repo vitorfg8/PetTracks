@@ -95,7 +95,7 @@ fun ProfileCreationScreen(
             
             ProfilePictureUpdater(
                 modifier = Modifier.padding(vertical = 16.dp, horizontal = 32.dp),
-                model = uiState.profilePicture
+                model = uiState.profilePicture ?: uiState.type.drawableRes
             ) {
                 it?.toBitmap(context.contentResolver)?.let { picture ->
                     viewModel.updateProfilePicture(picture)
