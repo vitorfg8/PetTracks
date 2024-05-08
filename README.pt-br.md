@@ -1,4 +1,4 @@
-# 🚧 Pet Tracks - *Em Desenvolvimento* 🚧
+# 🚧 Pet Tracks🐾 - *Em Desenvolvimento* 🚧
 
 Pet Tracks é um aplicativo Android desenvolvido com Room, Hilt, Jetpack Compose, Flow e Coroutines
 para ajudar os tutores de animais a rastrearem informações importantes sobre seus pets, como datas
@@ -30,4 +30,4 @@ O aplicativo está disponível em [Inglês](README.md) e [Português do Brasil](
 ## Licença
 
 Este projeto está licenciado sob a [Licença MIT](https://opensource.org/licenses/MIT) - veja o
-arquivo [LICENSE.md](LICENSE.md) para detalhes.
+arquivo [LICENSE.md](LICENSE) para detalhes.

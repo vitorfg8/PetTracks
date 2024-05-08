@@ -30,4 +30,4 @@ The app is available in both [English](README.md) and [Brazilian Portuguese](REA
 ## License
 
 This project is licensed under the [MIT License](https://opensource.org/licenses/MIT) - see
-the [LICENSE.md](LICENSE.md) file for details.
+the [LICENSE.md](LICENSE) file for details.
