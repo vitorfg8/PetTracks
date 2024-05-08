@@ -1,4 +1,4 @@
-# 🚧 Pet Tracks - *Work In Progress* 🚧
+# 🚧 Pet Tracks🐾 - *Work In Progress* 🚧
 
 Pet Tracks is an Android application developed with Room, Hilt, Jetpack Compose, Flow, and
 Coroutines to help pet owners track important information about their pets, such as medication
