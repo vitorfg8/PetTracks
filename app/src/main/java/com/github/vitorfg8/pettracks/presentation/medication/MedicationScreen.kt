@@ -1,0 +1,167 @@
+package com.github.vitorfg8.pettracks.presentation.medication
+
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material.icons.filled.Add
+import androidx.compose.material3.Card
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.FloatingActionButton
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBar
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
+import com.github.vitorfg8.pettracks.R
+import com.github.vitorfg8.pettracks.presentation.components.MedicineDialog
+import com.github.vitorfg8.pettracks.ui.theme.PetTracksTheme
+import java.text.SimpleDateFormat
+import java.util.Date
+import java.util.Locale
+import java.util.TimeZone
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun MedicationScreen(
+    viewModel: MedicationViewModel = hiltViewModel(), petId: Int, onBackPressed: () -> Unit = {}
+) {
+
+    var showMedicineDialog by remember {
+        mutableStateOf(false)
+    }
+
+    viewModel.getMedicationList(petId)
+    val medication by viewModel.medication.collectAsState()
+    val medicine by remember { mutableStateOf(MedicineUiState()) }
+
+    Scaffold(topBar = {
+        TopAppBar(title = {
+            Text(text = stringResource(id = R.string.medication))
+        }, navigationIcon = {
+            IconButton(onClick = { onBackPressed() }) {
+                Icon(
+                    imageVector = Icons.AutoMirrored.Filled.ArrowBack,
+                    contentDescription = stringResource(id = R.string.back)
+                )
+            }
+        })
+    }, floatingActionButton = {
+        FloatingActionButton(onClick = {
+            showMedicineDialog = true
+        }) {
+            Icon(Icons.Default.Add, contentDescription = stringResource(id = R.string.add))
+        }
+    }) { innerPadding ->
+        Column(modifier = Modifier.padding(innerPadding)) {
+            LazyColumn(
+                modifier = Modifier.fillMaxSize(), contentPadding = PaddingValues(8.dp)
+            ) {
+                items(medication.list) {
+                    MedicinesItem { showMedicineDialog = true }
+                }
+            }
+
+            if (showMedicineDialog) {
+                MedicineDialog(medicine = medicine, onDismissRequest = {
+                    showMedicineDialog = false
+                }, onAdd = {
+                    showMedicineDialog = false
+                })
+            }
+        }
+    }
+}
+
+@Composable
+fun MedicinesItem(medicineUiState: MedicineUiState = MedicineUiState(), onClick: () -> Unit) {
+    Card(
+        modifier = Modifier
+            .fillMaxWidth()
+            .height(64.dp),
+    ) {
+
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(8.dp)
+        ) {
+            Row {
+                Text(
+                    modifier = Modifier.weight(1f),
+                    text = medicineUiState.name,
+                    style = MaterialTheme.typography.titleMedium
+                )
+                Text(
+                    text = medicineUiState.date.toLocalDateFormat(), //TODO
+                    style = MaterialTheme.typography.labelSmall
+                )
+            }
+            Row {
+                Text(
+                    modifier = Modifier.weight(1f),
+                    text = medicineUiState.dose,
+                    style = MaterialTheme.typography.bodyMedium
+                )
+                IconButton(onClick = { onClick() }) {
+                    Icon(
+                        modifier = Modifier.size(16.dp),
+                        painter = painterResource(id = R.drawable.pen_solid),
+                        contentDescription = stringResource(R.string.delete)
+                    )
+                }
+            }
+        }
+    }
+}
+
+
+private fun Date.toLocalDateFormat(): String {
+    val dateFormat = SimpleDateFormat.getDateInstance(SimpleDateFormat.SHORT, Locale.getDefault())
+    val pattern = (dateFormat as SimpleDateFormat).toPattern() + " HH:mm"
+    val formatter = SimpleDateFormat(pattern, Locale.getDefault()).apply {
+        timeZone = TimeZone.getTimeZone("GMT")
+    }
+    return formatter.format(this)
+}
+
+@Preview
+@Composable
+private fun MedicinesItemPrev() {
+    PetTracksTheme {
+        MedicinesItem(
+            medicineUiState = MedicineUiState(
+                name = "Name", dose = "1 tablet", date = Date()
+            )
+        ) {}
+    }
+}
+
+@Preview
+@Composable
+private fun MedicinesScreenPreview() {
+    PetTracksTheme {
+        MedicationScreen(petId = 1)
+    }
+}

@@ -67,7 +67,7 @@ fun HomeScreen(
         },
         floatingActionButton = {
             FloatingActionButton(onClick = { onAddPet() }) {
-                Icon(Icons.Default.Add, contentDescription = "Add")
+                Icon(Icons.Default.Add, contentDescription = stringResource(id = R.string.add))
             }
         }
     ) { innerPadding ->

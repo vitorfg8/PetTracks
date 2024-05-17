@@ -8,6 +8,7 @@ import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.github.vitorfg8.pettracks.presentation.addpet.ProfileCreationScreen
 import com.github.vitorfg8.pettracks.presentation.home.HomeScreen
+import com.github.vitorfg8.pettracks.presentation.medication.MedicationScreen
 import com.github.vitorfg8.pettracks.presentation.petinfo.ProfileScreen
 
 
@@ -16,25 +17,32 @@ fun PetTracksNavGraph() {
     val navController = rememberNavController()
     NavHost(navController = navController, startDestination = "home") {
         composable("home") {
-            HomeScreen(
-                onPetClick = { id -> navController.navigate("profile/${id}") },
-                onAddPet = { navController.navigate("profileCreation") }
-            )
+            HomeScreen(onPetClick = { id -> navController.navigate("profile/${id}") },
+                onAddPet = { navController.navigate("profileCreation") })
         }
         composable("profileCreation") {
-            ProfileCreationScreen(
-                onBackPressed = { navController.navigateUp() },
-                onPetAdded = {
-                    navController.navigateUp()
-                }
-            )
+            ProfileCreationScreen(onBackPressed = { navController.navigateUp() }, onPetAdded = {
+                navController.navigateUp()
+            })
         }
         composable(
             route = "profile/{petId}",
             arguments = listOf(navArgument("petId") { type = NavType.IntType })
         ) { backStackEntry ->
             backStackEntry.arguments?.getInt("petId")?.let { petId ->
-                ProfileScreen(petId = petId) { navController.navigateUp() }
+                ProfileScreen(petId = petId,
+                    onNavigateToMedications = { navController.navigate("medication/${id}") },
+                    onNavigateToVaccines = {},
+                    onNavigateToNotes = {},
+                    onBackPressed = { navController.navigateUp() })
+            }
+        }
+        composable(
+            route = "medication/{petId}",
+            arguments = listOf(navArgument("petId") { type = NavType.IntType })
+        ) { backStackEntry ->
+            backStackEntry.arguments?.getInt("petId")?.let { petId ->
+                MedicationScreen(petId = petId) { navController.navigateUp() }
             }
         }
     }

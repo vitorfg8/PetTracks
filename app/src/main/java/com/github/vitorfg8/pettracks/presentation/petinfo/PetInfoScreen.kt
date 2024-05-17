@@ -1,6 +1,7 @@
 package com.github.vitorfg8.pettracks.presentation.petinfo
 
 import androidx.annotation.DrawableRes
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -46,7 +47,12 @@ import com.github.vitorfg8.pettracks.utils.asPainter
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ProfileScreen(
-    viewModel: PetInfoViewModel = hiltViewModel(), petId: Int, onBackPressed: () -> Unit = {}
+    viewModel: PetInfoViewModel = hiltViewModel(),
+    petId: Int,
+    onNavigateToMedications: (petId: Int) -> Unit,
+    onNavigateToVaccines: (petId: Int) -> Unit,
+    onNavigateToNotes: (petId: Int) -> Unit,
+    onBackPressed: () -> Unit = {}
 ) {
     viewModel.getPet(petId)
     val pet by viewModel.pet.collectAsStateWithLifecycle()
@@ -98,20 +104,27 @@ fun ProfileScreen(
                 text = stringResource(R.string.health),
                 style = MaterialTheme.typography.titleLarge
             )
-            Item(R.drawable.tablets_solid, stringResource(R.string.medicines))
-            Item(R.drawable.syringe_solid, stringResource(R.string.vaccines))
-            Item(R.drawable.paw_solid, stringResource(R.string.notes))
+            Item(
+                R.drawable.tablets_solid,
+                stringResource(R.string.medication)
+            ) { onNavigateToMedications(petId) }
+            Item(
+                R.drawable.syringe_solid,
+                stringResource(R.string.vaccines)
+            ) { (onNavigateToVaccines(petId)) }
+            Item(R.drawable.paw_solid, stringResource(R.string.notes)) { onNavigateToNotes(petId) }
         }
     }
 }
 
 @Composable
-fun Item(@DrawableRes drawableRes: Int, title: String) {
+fun Item(@DrawableRes drawableRes: Int, title: String, onClick: () -> Unit) {
     Card(
         modifier = Modifier
             .fillMaxWidth()
             .padding(8.dp)
             .height(80.dp)
+            .clickable { onClick() }
     ) {
         Row(
             modifier = Modifier
@@ -216,6 +229,6 @@ private fun DetailsCardPreview() {
 @Composable
 private fun ItemPreview() {
     PetTracksTheme {
-        Item(R.drawable.tablets_solid, stringResource(id = R.string.medicines))
+        Item(R.drawable.tablets_solid, stringResource(id = R.string.medication)) {}
     }
 }
