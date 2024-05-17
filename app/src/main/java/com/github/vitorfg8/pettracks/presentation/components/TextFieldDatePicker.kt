@@ -73,13 +73,13 @@ fun TextFieldDatePicker(
                 }
             },
         label = {
-            Text("Date")
+            Text(stringResource(R.string.date))
         },
         readOnly = true
     )
 }
 
-fun Long.toLocalDateFormat(): String {
+private fun Long.toLocalDateFormat(): String {
     val date = Date(this)
     val dateFormat = SimpleDateFormat.getDateInstance(SimpleDateFormat.SHORT, Locale.getDefault())
     val pattern = (dateFormat as SimpleDateFormat).toPattern()
