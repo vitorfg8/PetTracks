@@ -35,7 +35,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.github.vitorfg8.pettracks.R
-import com.github.vitorfg8.pettracks.presentation.components.CenteredAppbar
+import com.github.vitorfg8.pettracks.presentation.components.Appbar
 import com.github.vitorfg8.pettracks.presentation.components.GenderSelector
 import com.github.vitorfg8.pettracks.presentation.components.PetTypeSelector
 import com.github.vitorfg8.pettracks.presentation.components.ProfilePictureUpdater
@@ -59,7 +59,8 @@ fun ProfileCreationScreen(
 
     Scaffold(
         topBar = {
-            CenteredAppbar(title = stringResource(R.string.add_pet),
+            Appbar(
+                title = stringResource(R.string.add_pet),
                 navigationIcon = {
                     IconButton(onClick = { onBackPressed() }) {
                         Icon(

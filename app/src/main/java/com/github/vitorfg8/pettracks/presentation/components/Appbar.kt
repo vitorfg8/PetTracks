@@ -16,7 +16,7 @@ import com.github.vitorfg8.pettracks.ui.theme.PetTracksTheme
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun CenteredAppbar(title: String = "", navigationIcon: @Composable () -> Unit = {}) {
+fun Appbar(title: String = "", navigationIcon: @Composable () -> Unit = {}) {
     CenterAlignedTopAppBar(
         colors = TopAppBarDefaults.topAppBarColors(
             titleContentColor = MaterialTheme.colorScheme.primary,
@@ -54,6 +54,6 @@ private fun getAppBarFont(): FontFamily {
 @Composable
 private fun CenteredAppBarPreview() {
     PetTracksTheme {
-        CenteredAppbar(title = "Title")
+        Appbar(title = "Title")
     }
 }
