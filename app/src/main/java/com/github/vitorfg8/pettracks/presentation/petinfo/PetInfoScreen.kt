@@ -81,7 +81,7 @@ fun ProfileScreen(
             ProfilePicture(
                 modifier = Modifier
                     .align(Alignment.CenterHorizontally)
-                    .size(200.dp),
+                    .size(172.dp),
                 shape = RoundedCornerShape(100.dp),
                 painter = pet.profilePicture.asPainter(fallback = painterResource(id = pet.type.drawableRes))
             )
@@ -115,7 +115,11 @@ fun ProfileScreen(
                 R.drawable.syringe_solid,
                 stringResource(R.string.vaccines)
             ) { (onNavigateToVaccines(petId)) }
-            Item(R.drawable.paw_solid, stringResource(R.string.notes)) { onNavigateToNotes(petId) }
+            Item(R.drawable.note_sticky_solid, stringResource(R.string.notes)) {
+                onNavigateToNotes(
+                    petId
+                )
+            }
         }
     }
 }

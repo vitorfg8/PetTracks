@@ -1,6 +1,5 @@
 package com.github.vitorfg8.pettracks.ui.theme
 
-import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.darkColorScheme
 import androidx.compose.material3.lightColorScheme
@@ -73,7 +72,7 @@ private val DarkColors = darkColorScheme(
 
 @Composable
 fun PetTracksTheme(
-    useDarkTheme: Boolean = isSystemInDarkTheme(),
+    useDarkTheme: Boolean = false,
     content: @Composable() () -> Unit
 ) {
     val colors = if (!useDarkTheme) {

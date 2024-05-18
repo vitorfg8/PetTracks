@@ -72,8 +72,8 @@ fun TypeItem(item: PetTypeUiState, isSelected: Boolean = false, onClick: () -> U
                 painter = painterResource(id = item.drawableRes),
                 contentDescription = stringResource(id = item.localizedName),
                 Modifier
-                    .size(40.dp)
-                    .padding(4.dp)
+                    .size(48.dp)
+
             )
             Text(text = stringResource(id = item.localizedName))
         }
