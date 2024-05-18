@@ -22,7 +22,6 @@ import androidx.compose.ui.unit.dp
 import com.github.vitorfg8.pettracks.R
 import com.github.vitorfg8.pettracks.presentation.GenderUiState
 import com.github.vitorfg8.pettracks.ui.theme.PetTracksTheme
-import com.github.vitorfg8.pettracks.ui.theme.lightGrey
 
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -56,8 +55,6 @@ fun GenderSelector(
             },
             shape = RoundedCornerShape(8.dp),
             colors = ExposedDropdownMenuDefaults.textFieldColors(
-                focusedContainerColor = lightGrey,
-                unfocusedContainerColor = lightGrey,
                 focusedIndicatorColor = Color.Transparent,
                 unfocusedIndicatorColor = Color.Transparent,
                 disabledIndicatorColor = Color.Transparent,

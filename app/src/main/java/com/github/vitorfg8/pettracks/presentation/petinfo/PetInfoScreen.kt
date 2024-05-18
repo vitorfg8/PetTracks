@@ -19,16 +19,19 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material3.Card
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
+import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.pluralStringResource
 import androidx.compose.ui.res.stringResource
@@ -62,17 +65,47 @@ fun ProfileScreen(
 
     Scaffold(
         topBar = {
-            BaseAppbar(
-                title = "",
-                shadow = 0.dp,
-                navigationIcon = {
-                    IconButton(onClick = { onBackPressed() }) {
-                        Icon(
-                            imageVector = Icons.AutoMirrored.Filled.ArrowBack,
-                            contentDescription = stringResource(id = R.string.back)
+            Surface(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .shadow(2.dp)
+            ) {
+
+                Column {
+                    BaseAppbar(title = "", shadow = 0.dp, navigationIcon = {
+                        IconButton(onClick = { onBackPressed() }) {
+                            Icon(
+                                imageVector = Icons.AutoMirrored.Filled.ArrowBack,
+                                contentDescription = stringResource(id = R.string.back)
+                            )
+                        }
+                    })
+                    ProfilePicture(
+                        modifier = Modifier
+                            .align(Alignment.CenterHorizontally)
+                            .size(172.dp),
+                        shape = RoundedCornerShape(100.dp),
+                        painter = pet.profilePicture.asPainter(fallback = painterResource(id = pet.type.drawableRes))
+                    )
+                    Text(
+                        modifier = Modifier
+                            .padding(top = 8.dp)
+                            .align(Alignment.CenterHorizontally),
+                        text = pet.name,
+                        style = MaterialTheme.typography.titleLarge.copy(fontFamily = getFontFamily())
+                    )
+                    if (pet.breed.isNotBlank()) {
+                        Text(
+                            modifier = Modifier
+                                .align(Alignment.CenterHorizontally)
+                                .alpha(0.75f),
+                            text = pet.breed.uppercase(),
+                            style = MaterialTheme.typography.labelLarge,
                         )
                     }
-                })
+                    Details(pet)
+                }
+            }
         },
     ) { innerPadding ->
         Column(
@@ -81,42 +114,20 @@ fun ProfileScreen(
                 .fillMaxSize()
                 .verticalScroll(rememberScrollState()),
         ) {
-            ProfilePicture(
-                modifier = Modifier
-                    .align(Alignment.CenterHorizontally)
-                    .size(172.dp),
-                shape = RoundedCornerShape(100.dp),
-                painter = pet.profilePicture.asPainter(fallback = painterResource(id = pet.type.drawableRes))
-            )
-            Text(
-                modifier = Modifier
-                    .padding(top = 8.dp)
-                    .align(Alignment.CenterHorizontally),
-                text = pet.name,
-                style = MaterialTheme.typography.titleLarge.copy(fontFamily = getFontFamily())
-            )
-            Text(
-                modifier = Modifier
-                    .align(Alignment.CenterHorizontally)
-                    .alpha(0.75f),
-                text = pet.breed.uppercase(),
-                style = MaterialTheme.typography.labelLarge,
-            )
-            Details(pet)
+
+            HorizontalDivider(thickness = 0.dp, modifier = Modifier.shadow(4.dp))
             Text(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(8.dp),
+                    .padding(16.dp),
                 text = stringResource(R.string.health),
                 style = MaterialTheme.typography.titleLarge
             )
             Item(
-                R.drawable.tablets_solid,
-                stringResource(R.string.medication)
+                R.drawable.tablets_solid, stringResource(R.string.medication)
             ) { onNavigateToMedications(petId) }
             Item(
-                R.drawable.syringe_solid,
-                stringResource(R.string.vaccines)
+                R.drawable.syringe_solid, stringResource(R.string.vaccines)
             ) { (onNavigateToVaccines(petId)) }
             Item(R.drawable.note_sticky_solid, stringResource(R.string.notes)) {
                 onNavigateToNotes(
@@ -145,13 +156,11 @@ private fun getFontFamily(): FontFamily {
 
 @Composable
 fun Item(@DrawableRes drawableRes: Int, title: String, onClick: () -> Unit) {
-    Card(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(8.dp)
-            .height(80.dp)
-            .clickable { onClick() }
-    ) {
+    Card(modifier = Modifier
+        .fillMaxWidth()
+        .padding(horizontal = 16.dp, vertical = 4.dp)
+        .height(80.dp)
+        .clickable { onClick() }) {
         Row(
             modifier = Modifier
                 .padding(16.dp)

@@ -5,7 +5,6 @@ import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
@@ -27,7 +26,6 @@ import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import com.github.vitorfg8.pettracks.R
 import com.github.vitorfg8.pettracks.ui.theme.PetTracksTheme
-import com.github.vitorfg8.pettracks.ui.theme.lightGrey
 
 @Composable
 fun ProfilePicture(
@@ -42,8 +40,7 @@ fun ProfilePicture(
     ) {
         Image(
             modifier = Modifier
-                .fillMaxSize()
-                .background(lightGrey),
+                .fillMaxSize(),
             contentScale = ContentScale.Crop,
             painter = painter,
             contentDescription = contentDescription
@@ -74,8 +71,7 @@ fun ProfilePictureUpdater(
         ) {
             AsyncImage(
                 modifier = Modifier
-                    .fillMaxSize()
-                    .background(lightGrey),
+                    .fillMaxSize(),
                 contentScale = ContentScale.Crop,
                 model = model,
                 contentDescription = null

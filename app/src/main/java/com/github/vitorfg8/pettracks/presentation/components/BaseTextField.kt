@@ -12,7 +12,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.github.vitorfg8.pettracks.ui.theme.PetTracksTheme
-import com.github.vitorfg8.pettracks.ui.theme.lightGrey
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -47,8 +46,6 @@ fun BaseTextField(
         maxLines = maxLines,
         shape = RoundedCornerShape(8.dp),
         colors = TextFieldDefaults.colors(
-            focusedContainerColor = lightGrey,
-            unfocusedContainerColor = lightGrey,
             focusedIndicatorColor = Color.Transparent,
             unfocusedIndicatorColor = Color.Transparent,
             disabledIndicatorColor = Color.Transparent
