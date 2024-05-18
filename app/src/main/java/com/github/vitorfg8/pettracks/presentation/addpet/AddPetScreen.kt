@@ -12,16 +12,14 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
-import androidx.compose.material3.TopAppBar
-import androidx.compose.material3.TopAppBarDefaults.topAppBarColors
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
@@ -37,6 +35,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.github.vitorfg8.pettracks.R
+import com.github.vitorfg8.pettracks.presentation.components.CenteredAppbar
 import com.github.vitorfg8.pettracks.presentation.components.GenderSelector
 import com.github.vitorfg8.pettracks.presentation.components.PetTypeSelector
 import com.github.vitorfg8.pettracks.presentation.components.ProfilePictureUpdater
@@ -60,19 +59,15 @@ fun ProfileCreationScreen(
 
     Scaffold(
         topBar = {
-            TopAppBar(colors = topAppBarColors(
-                containerColor = MaterialTheme.colorScheme.primaryContainer,
-                titleContentColor = MaterialTheme.colorScheme.primary,
-            ), title = {
-                Text(text = stringResource(R.string.add_pet))
-            }, navigationIcon = {
-                IconButton(onClick = { onBackPressed() }) {
-                    Icon(
-                        imageVector = Icons.AutoMirrored.Filled.ArrowBack,
-                        contentDescription = stringResource(id = R.string.back)
-                    )
-                }
-            })
+            CenteredAppbar(title = stringResource(R.string.add_pet),
+                navigationIcon = {
+                    IconButton(onClick = { onBackPressed() }) {
+                        Icon(
+                            imageVector = Icons.AutoMirrored.Filled.ArrowBack,
+                            contentDescription = stringResource(id = R.string.back)
+                        )
+                    }
+                })
         },
         snackbarHost = {
             SnackbarHost(hostState = snackbarHostState)
@@ -85,7 +80,7 @@ fun ProfileCreationScreen(
                 .verticalScroll(rememberScrollState()),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-
+            HorizontalDivider()
             val uiState by viewModel.uiState.collectAsStateWithLifecycle()
             val context: Context = LocalContext.current
             val keyboardOptions = KeyboardOptions(

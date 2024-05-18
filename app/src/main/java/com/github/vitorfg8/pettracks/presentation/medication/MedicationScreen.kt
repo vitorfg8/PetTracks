@@ -16,12 +16,12 @@ import androidx.compose.material.icons.filled.Add
 import androidx.compose.material3.Card
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FloatingActionButton
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -35,6 +35,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.github.vitorfg8.pettracks.R
+import com.github.vitorfg8.pettracks.presentation.components.CenteredAppbar
 import com.github.vitorfg8.pettracks.presentation.components.MedicineDialog
 import com.github.vitorfg8.pettracks.ui.theme.PetTracksTheme
 import java.text.SimpleDateFormat
@@ -57,16 +58,16 @@ fun MedicationScreen(
     val medicine by remember { mutableStateOf(MedicineUiState()) }
 
     Scaffold(topBar = {
-        TopAppBar(title = {
-            Text(text = stringResource(id = R.string.medication))
-        }, navigationIcon = {
-            IconButton(onClick = { onBackPressed() }) {
-                Icon(
-                    imageVector = Icons.AutoMirrored.Filled.ArrowBack,
-                    contentDescription = stringResource(id = R.string.back)
-                )
-            }
-        })
+
+        CenteredAppbar(title = stringResource(id = R.string.medication),
+            navigationIcon = {
+                IconButton(onClick = { onBackPressed() }) {
+                    Icon(
+                        imageVector = Icons.AutoMirrored.Filled.ArrowBack,
+                        contentDescription = stringResource(id = R.string.back)
+                    )
+                }
+            })
     }, floatingActionButton = {
         FloatingActionButton(onClick = {
             showMedicineDialog = true
@@ -75,6 +76,7 @@ fun MedicationScreen(
         }
     }) { innerPadding ->
         Column(modifier = Modifier.padding(innerPadding)) {
+            HorizontalDivider()
             LazyColumn(
                 modifier = Modifier.fillMaxSize(), contentPadding = PaddingValues(8.dp)
             ) {

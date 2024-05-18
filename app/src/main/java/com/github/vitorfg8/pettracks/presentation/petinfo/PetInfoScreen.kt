@@ -33,7 +33,10 @@ import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.pluralStringResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.googlefonts.Font
+import androidx.compose.ui.text.googlefonts.GoogleFont
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -87,7 +90,7 @@ fun ProfileScreen(
                     .padding(top = 8.dp)
                     .align(Alignment.CenterHorizontally),
                 text = pet.name,
-                style = MaterialTheme.typography.titleLarge.copy(fontWeight = FontWeight.SemiBold)
+                style = MaterialTheme.typography.titleLarge.copy(fontFamily = getFontFamily())
             )
             Text(
                 modifier = Modifier
@@ -115,6 +118,22 @@ fun ProfileScreen(
             Item(R.drawable.paw_solid, stringResource(R.string.notes)) { onNavigateToNotes(petId) }
         }
     }
+}
+
+private fun getFontFamily(): FontFamily {
+    val provider = GoogleFont.Provider(
+        providerAuthority = "com.google.android.gms.fonts",
+        providerPackage = "com.google.android.gms",
+        certificates = R.array.com_google_android_gms_fonts_certs
+    )
+    val fontName = GoogleFont("Archivo")
+    return FontFamily(
+        Font(
+            googleFont = fontName,
+            fontProvider = provider,
+            weight = FontWeight.Bold,
+        )
+    )
 }
 
 @Composable
