@@ -2,6 +2,7 @@ package com.github.vitorfg8.pettracks.presentation.components
 
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ExposedDropdownMenuBox
@@ -21,6 +22,7 @@ import androidx.compose.ui.unit.dp
 import com.github.vitorfg8.pettracks.R
 import com.github.vitorfg8.pettracks.presentation.GenderUiState
 import com.github.vitorfg8.pettracks.ui.theme.PetTracksTheme
+import com.github.vitorfg8.pettracks.ui.theme.lightGrey
 
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -52,9 +54,10 @@ fun GenderSelector(
                     expanded = expanded
                 )
             },
+            shape = RoundedCornerShape(8.dp),
             colors = ExposedDropdownMenuDefaults.textFieldColors(
-                focusedContainerColor = Color(0xFFF2F2F2),
-                unfocusedContainerColor = Color(0xFFF2F2F2),
+                focusedContainerColor = lightGrey,
+                unfocusedContainerColor = lightGrey,
                 focusedIndicatorColor = Color.Transparent,
                 unfocusedIndicatorColor = Color.Transparent,
                 disabledIndicatorColor = Color.Transparent,

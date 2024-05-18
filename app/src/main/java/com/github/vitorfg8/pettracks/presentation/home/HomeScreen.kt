@@ -155,7 +155,7 @@ fun ProfilePictureWithNamePreview() {
     PetTracksTheme {
         ProfilePictureWithName(
             modifier = Modifier.size(100.dp),
-            painter = painterResource(id = R.drawable.paw_translucent),
+            painter = painterResource(id = R.drawable.paw_solid),
             name = "Pets"
         ) {}
     }

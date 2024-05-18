@@ -5,6 +5,7 @@ import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
@@ -26,6 +27,7 @@ import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import com.github.vitorfg8.pettracks.R
 import com.github.vitorfg8.pettracks.ui.theme.PetTracksTheme
+import com.github.vitorfg8.pettracks.ui.theme.lightGrey
 
 @Composable
 fun ProfilePicture(
@@ -35,11 +37,13 @@ fun ProfilePicture(
     contentDescription: String? = null
 ) {
     Card(
-        modifier = modifier, shape = shape
+        modifier = modifier,
+        shape = shape,
     ) {
         Image(
             modifier = Modifier
-                .fillMaxSize(),
+                .fillMaxSize()
+                .background(lightGrey),
             contentScale = ContentScale.Crop,
             painter = painter,
             contentDescription = contentDescription
@@ -54,7 +58,10 @@ fun ProfilePictureUpdater(
     model: Any? = null,
     onValueChange: (uri: Uri?) -> Unit
 ) {
-    Box(modifier = modifier, contentAlignment = Alignment.BottomEnd) {
+    Box(
+        modifier = modifier.padding(horizontal = 2.dp, vertical = 4.dp),
+        contentAlignment = Alignment.BottomEnd
+    ) {
         val photoPickerLauncher = rememberLauncherForActivityResult(
             contract = ActivityResultContracts.PickVisualMedia(),
             onResult = {
@@ -62,12 +69,13 @@ fun ProfilePictureUpdater(
             })
         Card(
             modifier = Modifier
-                .size(160.dp, 160.dp)
-                .padding(8.dp),
+                .size(160.dp, 160.dp),
             shape = RoundedCornerShape(100.dp)
         ) {
             AsyncImage(
-                modifier = Modifier.fillMaxSize(),
+                modifier = Modifier
+                    .fillMaxSize()
+                    .background(lightGrey),
                 contentScale = ContentScale.Crop,
                 model = model,
                 contentDescription = null
@@ -78,7 +86,7 @@ fun ProfilePictureUpdater(
                 photoPickerLauncher.launch(
                     PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly)
                 )
-            }, contentPadding = PaddingValues(8.dp)
+            }, contentPadding = PaddingValues(4.dp)
         ) {
             Icon(
                 painter = painterResource(id = R.drawable.file_image_solid),
@@ -96,7 +104,7 @@ fun ProfilePicturePreview() {
     PetTracksTheme {
         ProfilePicture(
             modifier = Modifier.size(100.dp),
-            painter = painterResource(id = R.drawable.paw_translucent)
+            painter = painterResource(id = R.drawable.paw_solid)
         )
     }
 }
