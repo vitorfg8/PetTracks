@@ -6,11 +6,14 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.googlefonts.Font
 import androidx.compose.ui.text.googlefonts.GoogleFont
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.github.vitorfg8.pettracks.R
 import com.github.vitorfg8.pettracks.ui.theme.PetTracksTheme
@@ -19,6 +22,7 @@ import com.github.vitorfg8.pettracks.ui.theme.PetTracksTheme
 @Composable
 fun BaseAppbar(title: String = "", navigationIcon: @Composable () -> Unit = {}) {
     CenterAlignedTopAppBar(
+        modifier = Modifier.shadow(4.dp),
         colors = TopAppBarDefaults.topAppBarColors(
             titleContentColor = MaterialTheme.colorScheme.primary,
         ),
@@ -31,7 +35,7 @@ fun BaseAppbar(title: String = "", navigationIcon: @Composable () -> Unit = {}) 
         },
         navigationIcon = {
             navigationIcon()
-        }
+        },
     )
 }
 
