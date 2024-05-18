@@ -62,9 +62,9 @@ fun ProfileScreen(
 
     Scaffold(
         topBar = {
-
             BaseAppbar(
                 title = "",
+                shadow = 0.dp,
                 navigationIcon = {
                     IconButton(onClick = { onBackPressed() }) {
                         Icon(

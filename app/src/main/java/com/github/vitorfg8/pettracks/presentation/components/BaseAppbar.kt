@@ -13,6 +13,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.googlefonts.Font
 import androidx.compose.ui.text.googlefonts.GoogleFont
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.github.vitorfg8.pettracks.R
@@ -20,9 +21,13 @@ import com.github.vitorfg8.pettracks.ui.theme.PetTracksTheme
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun BaseAppbar(title: String = "", navigationIcon: @Composable () -> Unit = {}) {
+fun BaseAppbar(
+    title: String = "",
+    shadow: Dp = 4.dp,
+    navigationIcon: @Composable () -> Unit = {}
+) {
     CenterAlignedTopAppBar(
-        modifier = Modifier.shadow(4.dp),
+        modifier = Modifier.shadow(shadow),
         colors = TopAppBarDefaults.topAppBarColors(
             titleContentColor = MaterialTheme.colorScheme.primary,
         ),
