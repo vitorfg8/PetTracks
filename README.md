@@ -35,4 +35,4 @@ the [LICENSE.md](LICENSE) file for details.
 **Icons**
 
 - [Font Awesome](https://fontawesome.com/)
-- [Domestic animals](https://thenounproject.com/browse/collection-icon/domestic-animals-156132/?p=1)
+- [Domestic animals](https://thenounproject.com/browse/collection-icon/domestic-animals-156132/)
