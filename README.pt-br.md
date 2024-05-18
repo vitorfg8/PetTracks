@@ -31,3 +31,8 @@ O aplicativo está disponível em [Inglês](README.md) e [Português do Brasil](
 
 Este projeto está licenciado sob a [Licença MIT](https://opensource.org/licenses/MIT) - veja o
 arquivo [LICENSE.md](LICENSE) para detalhes.
+
+#### Icones
+
+- [Font Awesome](https://fontawesome.com/)
+- [Domestic animals](https://thenounproject.com/browse/collection-icon/domestic-animals-156132/?p=1)
