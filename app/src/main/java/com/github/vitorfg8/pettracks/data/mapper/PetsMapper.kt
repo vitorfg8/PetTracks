@@ -25,7 +25,7 @@ fun PetType.toDbEntity(): PetTypeDb {
     return when (this) {
         PetType.Bird -> PetTypeDb.Bird
         PetType.Cat -> PetTypeDb.Cat
-        PetType.Dog -> PetTypeDb.Fish
+        PetType.Dog -> PetTypeDb.Dog
         PetType.Fish -> PetTypeDb.Fish
         PetType.Reptile -> PetTypeDb.Reptile
         else -> PetTypeDb.Other
@@ -60,7 +60,7 @@ fun PetTypeDb.toDomain(): PetType {
     return when (this) {
         PetTypeDb.Bird -> PetType.Bird
         PetTypeDb.Cat -> PetType.Cat
-        PetTypeDb.Dog -> PetType.Fish
+        PetTypeDb.Dog -> PetType.Dog
         PetTypeDb.Fish -> PetType.Fish
         PetTypeDb.Reptile -> PetType.Reptile
         else -> PetType.Other
