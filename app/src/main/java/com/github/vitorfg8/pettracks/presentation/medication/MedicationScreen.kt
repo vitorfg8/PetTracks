@@ -35,7 +35,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.github.vitorfg8.pettracks.R
-import com.github.vitorfg8.pettracks.presentation.components.Appbar
+import com.github.vitorfg8.pettracks.presentation.components.BaseAppbar
 import com.github.vitorfg8.pettracks.presentation.components.MedicineDialog
 import com.github.vitorfg8.pettracks.ui.theme.PetTracksTheme
 import java.text.SimpleDateFormat
@@ -59,7 +59,7 @@ fun MedicationScreen(
 
     Scaffold(topBar = {
 
-        Appbar(
+        BaseAppbar(
             title = stringResource(id = R.string.medication),
             navigationIcon = {
                 IconButton(onClick = { onBackPressed() }) {

@@ -4,7 +4,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
@@ -21,7 +20,7 @@ fun TextFieldWeight(
     value: Double = 0.0,
     onValueChange: (weight: Double) -> Unit
 ) {
-    TextField(
+    BaseTextField(
         modifier = Modifier
             .padding(vertical = 8.dp, horizontal = 32.dp)
             .fillMaxWidth(),

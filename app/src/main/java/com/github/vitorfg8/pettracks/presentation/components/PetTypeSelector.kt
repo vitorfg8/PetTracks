@@ -18,6 +18,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
@@ -59,10 +60,13 @@ fun TypeItem(item: PetTypeUiState, isSelected: Boolean = false, onClick: () -> U
         colors = if (isSelected) {
             CardDefaults.cardColors(
                 containerColor = MaterialTheme.colorScheme.inverseSurface,
+                contentColor = Color(0xFFF2F2F2)
             )
         } else {
             CardDefaults.cardColors(
-                containerColor = MaterialTheme.colorScheme.surfaceVariant,
+                containerColor = Color(0xFFF2F2F2),
+                contentColor = MaterialTheme.colorScheme.inverseSurface
+
             )
         }) {
         Column(

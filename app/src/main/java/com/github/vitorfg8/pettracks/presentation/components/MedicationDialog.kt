@@ -10,7 +10,6 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
-import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableLongStateOf
@@ -61,7 +60,7 @@ fun MedicineDialog(
             modifier = Modifier.fillMaxSize(),
         ) {
 
-            TextField(
+            BaseTextField(
                 modifier = Modifier
                     .padding(vertical = 8.dp, horizontal = 32.dp)
                     .fillMaxWidth(),
@@ -69,7 +68,7 @@ fun MedicineDialog(
                 label = { Text(text = stringResource(R.string.medicine)) },
                 onValueChange = { name = it }
             )
-            TextField(
+            BaseTextField(
                 modifier = Modifier
                     .padding(vertical = 8.dp, horizontal = 32.dp)
                     .fillMaxWidth(),

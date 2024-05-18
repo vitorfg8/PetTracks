@@ -42,7 +42,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.github.vitorfg8.pettracks.R
 import com.github.vitorfg8.pettracks.presentation.GenderUiState
-import com.github.vitorfg8.pettracks.presentation.components.Appbar
+import com.github.vitorfg8.pettracks.presentation.components.BaseAppbar
 import com.github.vitorfg8.pettracks.presentation.components.ProfilePicture
 import com.github.vitorfg8.pettracks.ui.theme.PetTracksTheme
 import com.github.vitorfg8.pettracks.utils.asPainter
@@ -63,7 +63,8 @@ fun ProfileScreen(
     Scaffold(
         topBar = {
 
-            Appbar(title = "",
+            BaseAppbar(
+                title = "",
                 navigationIcon = {
                     IconButton(onClick = { onBackPressed() }) {
                         Icon(

@@ -6,20 +6,19 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
@@ -35,7 +34,8 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.github.vitorfg8.pettracks.R
-import com.github.vitorfg8.pettracks.presentation.components.Appbar
+import com.github.vitorfg8.pettracks.presentation.components.BaseAppbar
+import com.github.vitorfg8.pettracks.presentation.components.BaseTextField
 import com.github.vitorfg8.pettracks.presentation.components.GenderSelector
 import com.github.vitorfg8.pettracks.presentation.components.PetTypeSelector
 import com.github.vitorfg8.pettracks.presentation.components.ProfilePictureUpdater
@@ -59,7 +59,7 @@ fun ProfileCreationScreen(
 
     Scaffold(
         topBar = {
-            Appbar(
+            BaseAppbar(
                 title = stringResource(R.string.add_pet),
                 navigationIcon = {
                     IconButton(onClick = { onBackPressed() }) {
@@ -81,7 +81,6 @@ fun ProfileCreationScreen(
                 .verticalScroll(rememberScrollState()),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            HorizontalDivider()
             val uiState by viewModel.uiState.collectAsStateWithLifecycle()
             val context: Context = LocalContext.current
             val keyboardOptions = KeyboardOptions(
@@ -100,7 +99,7 @@ fun ProfileCreationScreen(
             PetTypeSelector(uiState.type) {
                 viewModel.updateType(it)
             }
-            TextField(
+            BaseTextField(
                 modifier = Modifier
                     .padding(vertical = 8.dp, horizontal = 32.dp)
                     .fillMaxWidth(),
@@ -114,7 +113,7 @@ fun ProfileCreationScreen(
                 viewModel.updateGender(it)
             }
 
-            TextField(
+            BaseTextField(
                 modifier = Modifier
                     .padding(vertical = 8.dp, horizontal = 32.dp)
                     .fillMaxWidth(),
@@ -134,7 +133,8 @@ fun ProfileCreationScreen(
 
             Button(modifier = Modifier
                 .fillMaxWidth()
-                .padding(horizontal = 72.dp),
+                .padding(vertical = 8.dp, horizontal = 32.dp),
+                shape = RoundedCornerShape(8.dp),
                 onClick = {
                     if (uiState.name.isBlank()) {
                         scope.launch { snackbarHostState.showSnackbar(context.getString(R.string.the_name_is_empty_error)) }

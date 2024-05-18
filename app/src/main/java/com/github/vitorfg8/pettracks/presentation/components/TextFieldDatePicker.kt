@@ -7,7 +7,6 @@ import androidx.compose.material3.DatePicker
 import androidx.compose.material3.DatePickerDialog
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextField
 import androidx.compose.material3.rememberDatePickerState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -60,7 +59,7 @@ fun TextFieldDatePicker(
             DatePicker(state = datePickerState)
         }
     }
-    TextField(
+    BaseTextField(
         value = selectedDateString,
         onValueChange = {},
         Modifier

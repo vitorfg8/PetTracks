@@ -5,7 +5,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextField
 import androidx.compose.material3.TimePicker
 import androidx.compose.material3.rememberTimePickerState
 import androidx.compose.runtime.Composable
@@ -58,7 +57,7 @@ fun TextFieldTimePicker(
             TimePicker(state = timePickerState)
         }
     }
-    TextField(
+    BaseTextField(
         value = selectedTimeString,
         onValueChange = {},
         Modifier
