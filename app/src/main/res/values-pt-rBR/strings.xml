@@ -1,5 +1,4 @@
 <resources>
-    <string name="app_name">Rastros de Animais</string>
     <string name="name">Nome</string>
     <string name="gender">Gênero</string>
     <string name="breed">Raça</string>
