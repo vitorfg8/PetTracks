@@ -1,0 +1,47 @@
+<resources>
+    <string name="app_name">Rastros de Animais</string>
+    <string name="name">Nome</string>
+    <string name="gender">Gênero</string>
+    <string name="breed">Raça</string>
+    <string name="birth_date">Data de nascimento</string>
+    <string name="weight">Peso</string>
+    <string name="bird">Pássaro</string>
+    <string name="cat">Gato</string>
+    <string name="dog">Cachorro</string>
+    <string name="fish">Peixe</string>
+    <string name="reptile">Réptil</string>
+    <string name="other">Outro</string>
+    <string name="add_pet">Adicionar Pet</string>
+    <string name="kg">Kg</string>
+    <string name="placeholder_kg">%s Kg</string>
+    <string name="male">Masculino</string>
+    <string name="female">Feminino</string>
+    <string name="add">Adicionar</string>
+    <string name="back">Voltar</string>
+    <string name="choose_date">Escolher data</string>
+    <string name="age">Idade</string>
+    <string name="open_gallery">Abrir galeria</string>
+    <string name="medication">Medicação</string>
+    <string name="vaccines">Vacinas</string>
+    <string name="notes">Notas</string>
+    <string name="health">Saúde</string>
+    <string name="empty" />
+    <string name="the_name_is_empty_error">O nome está vazio</string>
+    <string name="delete">Excluir</string>
+    <string name="close">Fechar</string>
+    <string name="add_medicine">Adicionar Remédio</string>
+    <string name="medicine">Remédio</string>
+    <string name="dosage">Dosagem</string>
+    <string name="select_time">Selecionar Hora</string>
+    <string name="date">Data</string>
+    <string name="add_medication">Adicionar medicação</string>
+    <string name="time">Hora</string>
+    <plurals name="months_plural">
+        <item quantity="one">mês</item>
+        <item quantity="many">meses</item>
+    </plurals>
+    <plurals name="years_plural">
+        <item quantity="one">ano</item>
+        <item quantity="many">anos</item>
+    </plurals>
+</resources>
