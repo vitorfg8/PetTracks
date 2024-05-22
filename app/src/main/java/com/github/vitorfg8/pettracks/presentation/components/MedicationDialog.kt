@@ -21,7 +21,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.github.vitorfg8.pettracks.R
-import com.github.vitorfg8.pettracks.presentation.medication.MedicineUiState
+import com.github.vitorfg8.pettracks.presentation.medication.MedicationUiState
 import com.github.vitorfg8.pettracks.ui.theme.PetTracksTheme
 import java.util.Calendar
 import java.util.Date
@@ -29,9 +29,9 @@ import java.util.TimeZone
 
 @Composable
 fun MedicineDialog(
-    medicine: MedicineUiState,
+    medicine: MedicationUiState,
     onDismissRequest: () -> Unit,
-    onAdd: (medicine: MedicineUiState) -> Unit
+    onAdd: (medicine: MedicationUiState) -> Unit
 ) {
     FullscreenDialog(
         onDismissRequest = { },
@@ -46,7 +46,7 @@ fun MedicineDialog(
         },
         actions = {
             TextButton(onClick = {
-                onAdd(MedicineUiState())
+                onAdd(MedicationUiState())
             }) {
                 Text(stringResource(id = R.string.add))
             }
@@ -92,7 +92,7 @@ fun MedicineDialog(
 private fun MedicineDialogPreview() {
     PetTracksTheme {
         MedicineDialog(
-            medicine = MedicineUiState(
+            medicine = MedicationUiState(
                 name = "Vet",
                 dose = "1 tablet every 12 hours",
                 date = Date()

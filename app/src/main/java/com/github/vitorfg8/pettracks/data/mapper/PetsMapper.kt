@@ -41,19 +41,17 @@ fun Gender.toDbEntity(): GenderDb {
     }
 }
 
-fun Flow<PetEntity>.toDomain(): Flow<Pet> {
-    return this.map {
-        Pet(
-            id = it.id,
-            name = it.name,
-            type = it.type.toDomain(),
-            breed = it.breed,
-            birthDate = it.birthDate,
-            weight = it.weight,
-            gender = it.gender.toDomain(),
-            profilePicture = it.profilePicture
+fun PetEntity.toDomain(): Pet {
+    return Pet(
+        id = this.id,
+        name = this.name,
+        type = this.type.toDomain(),
+        breed = this.breed,
+        birthDate = this.birthDate,
+        weight = this.weight,
+        gender = this.gender.toDomain(),
+        profilePicture = this.profilePicture
         )
-    }
 }
 
 fun PetTypeDb.toDomain(): PetType {
@@ -78,16 +76,7 @@ fun GenderDb.toDomain(): Gender {
 fun Flow<List<PetEntity>>.toDomainList(): Flow<List<Pet>> {
     return this.map { list ->
         list.map {
-            Pet(
-                id = it.id,
-                name = it.name,
-                type = it.type.toDomain(),
-                breed = it.breed,
-                birthDate = it.birthDate,
-                weight = it.weight,
-                gender = it.gender.toDomain(),
-                profilePicture = it.profilePicture
-            )
+            it.toDomain()
         }
     }
 }

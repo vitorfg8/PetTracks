@@ -7,6 +7,7 @@ import com.github.vitorfg8.pettracks.data.mapper.toDomainList
 import com.github.vitorfg8.pettracks.domain.model.Pet
 import com.github.vitorfg8.pettracks.domain.repository.PetsRepository
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
 class PetsRepositoryImpl @Inject constructor(
@@ -21,8 +22,8 @@ class PetsRepositoryImpl @Inject constructor(
         petsDao.updatePet(pet.toDbEntity())
     }
 
-    override fun getPet(id: Long): Flow<Pet> {
-        return petsDao.getPet(id).toDomain()
+    override fun getPet(id: Int): Flow<Pet> {
+        return petsDao.getPet(id).map { it.toDomain() }
     }
 
     override fun getAllPets(): Flow<List<Pet>> {

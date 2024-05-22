@@ -1,5 +1,6 @@
 package com.github.vitorfg8.pettracks.presentation.medication
 
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
@@ -14,7 +15,6 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material3.Card
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -42,7 +42,6 @@ import java.util.Date
 import java.util.Locale
 import java.util.TimeZone
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MedicationScreen(
     viewModel: MedicationViewModel = hiltViewModel(), petId: Int, onBackPressed: () -> Unit = {}
@@ -54,7 +53,7 @@ fun MedicationScreen(
 
     viewModel.getMedicationList(petId)
     val medication by viewModel.medication.collectAsState()
-    val medicine by remember { mutableStateOf(MedicineUiState()) }
+    val medicine by remember { mutableStateOf(MedicationUiState()) }
 
     Scaffold(topBar = {
 
@@ -77,10 +76,12 @@ fun MedicationScreen(
     }) { innerPadding ->
         Column(modifier = Modifier.padding(innerPadding)) {
             LazyColumn(
-                modifier = Modifier.fillMaxSize(), contentPadding = PaddingValues(8.dp)
+                modifier = Modifier.fillMaxSize(),
+                contentPadding = PaddingValues(8.dp),
+                verticalArrangement = Arrangement.spacedBy(8.dp)
             ) {
-                items(medication.list) {
-                    MedicinesItem { showMedicineDialog = true }
+                items(medication) {
+                    MedicinesItem(item = it) { showMedicineDialog = true }
                 }
             }
 
@@ -96,13 +97,12 @@ fun MedicationScreen(
 }
 
 @Composable
-fun MedicinesItem(medicineUiState: MedicineUiState = MedicineUiState(), onClick: () -> Unit) {
+fun MedicinesItem(item: MedicationUiState = MedicationUiState(), onClick: () -> Unit) {
     Card(
         modifier = Modifier
             .fillMaxWidth()
             .height(64.dp),
     ) {
-
         Column(
             modifier = Modifier
                 .fillMaxSize()
@@ -111,18 +111,18 @@ fun MedicinesItem(medicineUiState: MedicineUiState = MedicineUiState(), onClick:
             Row {
                 Text(
                     modifier = Modifier.weight(1f),
-                    text = medicineUiState.name,
+                    text = item.name,
                     style = MaterialTheme.typography.titleMedium
                 )
                 Text(
-                    text = medicineUiState.date.toLocalDateFormat(), //TODO
+                    text = item.date.toLocalDateFormat(), //TODO
                     style = MaterialTheme.typography.labelSmall
                 )
             }
             Row {
                 Text(
                     modifier = Modifier.weight(1f),
-                    text = medicineUiState.dose,
+                    text = item.dose,
                     style = MaterialTheme.typography.bodyMedium
                 )
                 IconButton(onClick = { onClick() }) {
@@ -152,7 +152,7 @@ private fun Date.toLocalDateFormat(): String {
 private fun MedicinesItemPrev() {
     PetTracksTheme {
         MedicinesItem(
-            medicineUiState = MedicineUiState(
+            item = MedicationUiState(
                 name = "Name", dose = "1 tablet", date = Date()
             )
         ) {}

@@ -19,7 +19,7 @@ class PetInfoViewModel @Inject constructor(
 
     fun getPet(id: Int) {
         viewModelScope.launch {
-            petsRepository.getPet(id.toLong())
+            petsRepository.getPet(id)
                 .collect {
                     _pet.value = it.toPetInfoUiState()
                 }

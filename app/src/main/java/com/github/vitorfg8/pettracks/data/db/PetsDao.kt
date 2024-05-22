@@ -21,7 +21,7 @@ interface PetsDao {
     suspend fun deletePet(pet: PetEntity)
 
     @Query("SELECT * FROM pets WHERE id = :id")
-    fun getPet(id: Long): Flow<PetEntity>
+    fun getPet(id: Int): Flow<PetEntity>
 
     @Query("SELECT * FROM pets ORDER by name ASC")
     fun getAllPets(): Flow<List<PetEntity>>
