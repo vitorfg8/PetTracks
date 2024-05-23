@@ -50,6 +50,7 @@ fun MedicineDialog(
             }
         }) {
         var name by remember { mutableStateOf("") }
+        var dose by remember { mutableStateOf("") }
         val millis: Long = Calendar.getInstance(TimeZone.getTimeZone("GMT")).getTimeInMillis()
         var date by remember { mutableLongStateOf(millis) }
 
@@ -64,9 +65,9 @@ fun MedicineDialog(
             BaseTextField(modifier = Modifier
                 .padding(vertical = 8.dp, horizontal = 16.dp)
                 .fillMaxWidth(),
-                value = name,
+                value = dose,
                 label = { Text(text = stringResource(R.string.dosage)) },
-                onValueChange = { name = it })
+                onValueChange = { dose = it })
             TextFieldDatePicker(
                 modifier = Modifier
                     .padding(vertical = 8.dp, horizontal = 16.dp)
