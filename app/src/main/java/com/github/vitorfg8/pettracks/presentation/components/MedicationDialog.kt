@@ -1,7 +1,6 @@
 package com.github.vitorfg8.pettracks.presentation.components
 
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
@@ -33,8 +32,7 @@ fun MedicineDialog(
     onDismissRequest: () -> Unit,
     onAdd: (medicine: MedicationUiState) -> Unit
 ) {
-    FullscreenDialog(
-        onDismissRequest = { },
+    BaseDialog(onDismissRequest = { },
         dialogTitle = stringResource(R.string.add_medication),
         navigationIcon = {
             IconButton(onClick = { onDismissRequest() }) {
@@ -50,36 +48,39 @@ fun MedicineDialog(
             }) {
                 Text(stringResource(id = R.string.add))
             }
-        }
-    ) {
+        }) {
         var name by remember { mutableStateOf("") }
         val millis: Long = Calendar.getInstance(TimeZone.getTimeZone("GMT")).getTimeInMillis()
         var date by remember { mutableLongStateOf(millis) }
 
-        Column(
-            modifier = Modifier.fillMaxSize(),
-        ) {
+        Column {
 
-            BaseTextField(
-                modifier = Modifier
-                    .padding(vertical = 8.dp, horizontal = 32.dp)
-                    .fillMaxWidth(),
+            BaseTextField(modifier = Modifier
+                .padding(vertical = 8.dp, horizontal = 16.dp)
+                .fillMaxWidth(),
                 value = name,
                 label = { Text(text = stringResource(R.string.medicine)) },
-                onValueChange = { name = it }
-            )
-            BaseTextField(
-                modifier = Modifier
-                    .padding(vertical = 8.dp, horizontal = 32.dp)
-                    .fillMaxWidth(),
+                onValueChange = { name = it })
+            BaseTextField(modifier = Modifier
+                .padding(vertical = 8.dp, horizontal = 16.dp)
+                .fillMaxWidth(),
                 value = name,
                 label = { Text(text = stringResource(R.string.dosage)) },
-                onValueChange = { name = it }
-            )
-            TextFieldDatePicker(selectedDate = Date(date)) {
+                onValueChange = { name = it })
+            TextFieldDatePicker(
+                modifier = Modifier
+                    .padding(vertical = 8.dp, horizontal = 16.dp)
+                    .fillMaxWidth(),
+                selectedDate = Date(date)
+            ) {
                 date = it.time
             }
-            TextFieldTimePicker(selectedDate = Date(date)) {
+            TextFieldTimePicker(
+                modifier = Modifier
+                    .padding(vertical = 8.dp, horizontal = 16.dp)
+                    .fillMaxWidth(),
+                selectedDate = Date(date)
+            ) {
                 date = it.time
             }
         }
@@ -91,12 +92,8 @@ fun MedicineDialog(
 @Composable
 private fun MedicineDialogPreview() {
     PetTracksTheme {
-        MedicineDialog(
-            medicine = MedicationUiState(
-                name = "Vet",
-                dose = "1 tablet every 12 hours",
-                date = Date()
-            ),
-            onDismissRequest = {}, onAdd = {})
+        MedicineDialog(medicine = MedicationUiState(
+            name = "Vet", dose = "1 tablet every 12 hours", date = Date()
+        ), onDismissRequest = {}, onAdd = {})
     }
 }

@@ -1,7 +1,5 @@
 package com.github.vitorfg8.pettracks.presentation.components
 
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Text
@@ -17,7 +15,6 @@ import androidx.compose.ui.focus.onFocusEvent
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
 import com.github.vitorfg8.pettracks.R
 import com.github.vitorfg8.pettracks.utils.updateTime
 import java.text.SimpleDateFormat
@@ -29,6 +26,7 @@ import java.util.TimeZone
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun TextFieldTimePicker(
+    modifier: Modifier = Modifier,
     selectedDate: Date,
     onDateSelected: (date: Date) -> Unit
 ) {
@@ -60,9 +58,7 @@ fun TextFieldTimePicker(
     BaseTextField(
         value = selectedTimeString,
         onValueChange = {},
-        Modifier
-            .padding(vertical = 8.dp, horizontal = 32.dp)
-            .fillMaxWidth()
+        modifier = modifier
             .onFocusEvent {
                 if (it.isFocused) {
                     showTimePickerDialog = true

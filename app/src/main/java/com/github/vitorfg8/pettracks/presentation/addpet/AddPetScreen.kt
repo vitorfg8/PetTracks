@@ -123,7 +123,12 @@ fun ProfileCreationScreen(
                 keyboardOptions = keyboardOptions,
                 singleLine = true
             )
-            TextFieldDatePicker(uiState.birthDate) {
+            TextFieldDatePicker(
+                modifier = Modifier
+                    .padding(vertical = 8.dp, horizontal = 32.dp)
+                    .fillMaxWidth(),
+                selectedDate = uiState.birthDate
+            ) {
                 viewModel.updateBirthDate(it)
             }
 

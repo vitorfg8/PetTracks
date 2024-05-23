@@ -1,7 +1,5 @@
 package com.github.vitorfg8.pettracks.presentation.components
 
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Button
 import androidx.compose.material3.DatePicker
 import androidx.compose.material3.DatePickerDialog
@@ -18,7 +16,6 @@ import androidx.compose.ui.focus.onFocusEvent
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
 import com.github.vitorfg8.pettracks.R
 import java.text.SimpleDateFormat
 import java.util.Calendar
@@ -29,6 +26,7 @@ import java.util.TimeZone
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun TextFieldDatePicker(
+    modifier: Modifier = Modifier,
     selectedDate: Date,
     onDateSelected: (date: Date) -> Unit
 ) {
@@ -62,10 +60,7 @@ fun TextFieldDatePicker(
     BaseTextField(
         value = selectedDateString,
         onValueChange = {},
-        Modifier
-            .padding(vertical = 8.dp, horizontal = 32.dp)
-            .fillMaxWidth()
-            .onFocusEvent {
+        modifier.onFocusEvent {
                 if (it.isFocused) {
                     showDatePickerDialog = true
                     focusManager.clearFocus(force = true)
