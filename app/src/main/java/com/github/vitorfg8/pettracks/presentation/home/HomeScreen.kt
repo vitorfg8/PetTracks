@@ -36,6 +36,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.github.vitorfg8.pettracks.R
+import com.github.vitorfg8.pettracks.presentation.PetTypeUiState
 import com.github.vitorfg8.pettracks.presentation.components.ProfilePicture
 import com.github.vitorfg8.pettracks.ui.theme.PetTracksTheme
 import com.github.vitorfg8.pettracks.utils.asPainter
@@ -51,33 +52,28 @@ fun HomeScreen(
     viewModel.getAllPets()
     val petState by viewModel.uiState.collectAsStateWithLifecycle()
 
-    Scaffold(
-        topBar = {
-            CenterAlignedTopAppBar(
-                modifier = Modifier.shadow(4.dp),
-                colors = topAppBarColors(
-                    titleContentColor = MaterialTheme.colorScheme.primary,
-                ),
-                title = {
-                    Text(
-                        text = stringResource(id = R.string.app_name),
-                        fontFamily = getAppBarFont()
-                    )
-                },
-            )
-        },
-        floatingActionButton = {
-            FloatingActionButton(onClick = { onAddPet() }) {
-                Icon(Icons.Default.Add, contentDescription = stringResource(id = R.string.add))
-            }
+    Scaffold(topBar = {
+        CenterAlignedTopAppBar(
+            modifier = Modifier.shadow(4.dp),
+            colors = topAppBarColors(
+                titleContentColor = MaterialTheme.colorScheme.primary,
+            ),
+            title = {
+                Text(
+                    text = stringResource(id = R.string.app_name), fontFamily = getAppBarFont()
+                )
+            },
+        )
+    }, floatingActionButton = {
+        FloatingActionButton(onClick = { onAddPet() }) {
+            Icon(Icons.Default.Add, contentDescription = stringResource(id = R.string.add))
         }
-    ) { innerPadding ->
+    }) { innerPadding ->
         Column(
-            modifier = Modifier
-                .padding(innerPadding),
+            modifier = Modifier.padding(innerPadding),
             verticalArrangement = Arrangement.spacedBy(16.dp),
         ) {
-            PetsList(petState.petList, onPetClick)
+            PetsList(petState, onPetClick)
         }
     }
 }
@@ -102,10 +98,7 @@ private fun getAppBarFont(): FontFamily {
 
 @Composable
 fun ProfilePictureWithName(
-    modifier: Modifier = Modifier,
-    painter: Painter,
-    name: String = "",
-    onClick: () -> Unit
+    modifier: Modifier = Modifier, painter: Painter, name: String = "", onClick: () -> Unit
 ) {
     Column(
         modifier = modifier.padding(vertical = 8.dp),
@@ -114,8 +107,7 @@ fun ProfilePictureWithName(
         ProfilePicture(
             modifier = Modifier
                 .size(100.dp)
-                .clickable { onClick() },
-            painter = painter
+                .clickable { onClick() }, painter = painter
         )
         Text(modifier = Modifier.padding(top = 8.dp), text = name)
     }
@@ -123,7 +115,7 @@ fun ProfilePictureWithName(
 
 
 @Composable
-fun PetsList(pets: List<PetHomeUiState> = emptyList(), onPetClick: (petId: Int) -> Unit) {
+fun PetsList(pets: List<PetHomeUiState>, onPetClick: (petId: Int) -> Unit) {
     LazyVerticalGrid(
         columns = GridCells.Adaptive(minSize = 100.dp)
     ) {
@@ -131,8 +123,7 @@ fun PetsList(pets: List<PetHomeUiState> = emptyList(), onPetClick: (petId: Int) 
             ProfilePictureWithName(
                 painter = it.profilePicture.asPainter(
                     fallback = painterResource(it.petTypeUiState.drawableRes)
-                ),
-                name = it.name
+                ), name = it.name
             ) {
                 onPetClick(it.id)
             }
@@ -141,11 +132,35 @@ fun PetsList(pets: List<PetHomeUiState> = emptyList(), onPetClick: (petId: Int) 
 }
 
 
-@Preview
+@Preview(showBackground = true)
 @Composable
-fun HomeScreenPreview() {
+fun PetListPreview() {
     PetTracksTheme {
-        HomeScreen()
+        PetsList(
+            pets = listOf(
+                PetHomeUiState(
+                    name = "Pet 1",
+                    petTypeUiState = PetTypeUiState.Cat,
+                ), PetHomeUiState(
+                    name = "Pet 2",
+                    petTypeUiState = PetTypeUiState.Dog,
+                ), PetHomeUiState(
+                    name = "Pet 3",
+                    petTypeUiState = PetTypeUiState.Reptile,
+                ), PetHomeUiState(
+                    name = "Pet 4",
+                    petTypeUiState = PetTypeUiState.Bird,
+                ),
+                PetHomeUiState(
+                    name = "Pet 5",
+                    petTypeUiState = PetTypeUiState.Fish,
+                ),
+                PetHomeUiState(
+                    name = "Pet 6",
+                    petTypeUiState = PetTypeUiState.Other,
+                )
+            )
+        ) {}
     }
 }
 

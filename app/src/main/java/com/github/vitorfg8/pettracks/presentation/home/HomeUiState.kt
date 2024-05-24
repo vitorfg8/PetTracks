@@ -5,10 +5,6 @@ import com.github.vitorfg8.pettracks.domain.model.Pet
 import com.github.vitorfg8.pettracks.presentation.PetTypeUiState
 import com.github.vitorfg8.pettracks.presentation.toUiState
 
-data class HomeUiState(
-    var petList: List<PetHomeUiState> = emptyList(),
-)
-
 data class PetHomeUiState(
     val id: Int = 0,
     val name: String = "",

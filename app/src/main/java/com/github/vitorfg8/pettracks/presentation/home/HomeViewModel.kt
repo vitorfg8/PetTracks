@@ -16,13 +16,13 @@ class HomeViewModel @Inject constructor(
     private val petsRepository: PetsRepository
 ) : ViewModel() {
 
-    private val _uiState = MutableStateFlow(HomeUiState())
-    val uiState: StateFlow<HomeUiState> = _uiState.asStateFlow()
+    private val _uiState = MutableStateFlow(listOf(PetHomeUiState()))
+    val uiState: StateFlow<List<PetHomeUiState>> = _uiState.asStateFlow()
 
     fun getAllPets() {
         viewModelScope.launch {
             petsRepository.getAllPets().collect { list ->
-                _uiState.value.petList = list.map {
+                _uiState.value = list.map {
                     it.toHomeStateUi()
                 }
             }
