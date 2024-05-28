@@ -18,7 +18,6 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material3.Card
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -35,10 +34,14 @@ import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.pluralStringResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.SpanStyle
+import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.googlefonts.Font
 import androidx.compose.ui.text.googlefonts.GoogleFont
+import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -49,8 +52,9 @@ import com.github.vitorfg8.pettracks.presentation.components.BaseAppbar
 import com.github.vitorfg8.pettracks.presentation.components.ProfilePicture
 import com.github.vitorfg8.pettracks.ui.theme.PetTracksTheme
 import com.github.vitorfg8.pettracks.utils.asPainter
+import java.util.Calendar
+import java.util.Date
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ProfileScreen(
     viewModel: PetInfoViewModel = hiltViewModel(),
@@ -125,7 +129,9 @@ fun ProfileScreen(
             )
             Item(
                 R.drawable.tablets_solid, stringResource(R.string.medication)
-            ) { onNavigateToMedications(petId) }
+            ) {
+                onNavigateToMedications(petId)
+            }
             Item(
                 R.drawable.syringe_solid, stringResource(R.string.vaccines)
             ) { (onNavigateToVaccines(petId)) }
@@ -199,38 +205,45 @@ private fun Details(pet: PetInfoUiState) {
     ) {
         item {
             DetailsCard(
-                title = pet.age.count.toString(), subtitle = getSubtitle(pet.age)
+                text = getAge(date = pet.birthDate)
             )
         }
         item {
             if (pet.gender != GenderUiState.EMPTY) {
                 DetailsCard(
-                    title = stringResource(id = pet.gender.localized),
-                    subtitle = stringResource(R.string.gender)
+                    text = stringResource(
+                        id = R.string.gender_details,
+                        stringResource(id = pet.gender.localized)
+                    ),
                 )
             }
         }
         item {
             if (pet.weight != 0.0) {
                 DetailsCard(
-                    title = stringResource(id = R.string.placeholder_kg, pet.weight),
-                    subtitle = stringResource(R.string.weight)
+                    text = stringResource(id = R.string.weight_details, pet.weight),
                 )
             }
         }
     }
 }
 
+
 @Composable
-private fun getSubtitle(it: Age) = if (it.unitOfTime == UnitOfTime.MONTHS) {
-    pluralStringResource(id = R.plurals.months_plural, count = it.count)
-} else {
-    pluralStringResource(id = R.plurals.years_plural, count = it.count)
+private fun getAge(date: Date): String {
+    val today = Calendar.getInstance()
+    val birthDate = Calendar.getInstance().apply { time = date }
+    val years = today.get(Calendar.YEAR) - birthDate.get(Calendar.YEAR)
+    val months = today.get(Calendar.MONTH) - birthDate.get(Calendar.MONTH)
+    return if (years < 1) {
+        pluralStringResource(R.plurals.months_plural, months, months)
+    } else {
+        pluralStringResource(R.plurals.years_plural, years, years)
+    }
 }
 
-
 @Composable
-private fun DetailsCard(title: String, subtitle: String) {
+private fun DetailsCard(text: String) {
     Card(
         modifier = Modifier
             .padding(4.dp)
@@ -243,8 +256,17 @@ private fun DetailsCard(title: String, subtitle: String) {
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Text(text = title, fontWeight = FontWeight.Bold)
-            Text(text = subtitle)
+            Text(
+                modifier = Modifier.align(Alignment.CenterHorizontally),
+                textAlign = TextAlign.Center,
+                text = buildAnnotatedString {
+                    withStyle(style = SpanStyle(fontWeight = FontWeight.Bold)) {
+                        append(text.substringBefore("\n"))
+                    }
+                    append("\n")
+                    append(text.substringAfter("\n"))
+                }
+            )
         }
     }
 }
@@ -254,8 +276,7 @@ private fun DetailsCard(title: String, subtitle: String) {
 private fun DetailsCardPreview() {
     PetTracksTheme {
         DetailsCard(
-            title = stringResource(id = GenderUiState.MALE.localized),
-            subtitle = stringResource(id = R.string.gender)
+            text = pluralStringResource(R.plurals.months_plural, 11, 11),
         )
     }
 }

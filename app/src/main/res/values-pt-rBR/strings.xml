@@ -12,7 +12,6 @@
     <string name="other">Outro</string>
     <string name="add_pet">Adicionar Pet</string>
     <string name="kg">Kg</string>
-    <string name="placeholder_kg">%s Kg</string>
     <string name="male">Masculino</string>
     <string name="female">Feminino</string>
     <string name="add">Adicionar</string>
@@ -36,11 +35,15 @@
     <string name="add_medication">Adicionar medicação</string>
     <string name="time">Hora</string>
     <plurals name="months_plural">
-        <item quantity="one">mês</item>
-        <item quantity="many">meses</item>
+        <item quantity="one">%d\n mês</item>
+        <item quantity="zero">%d\n mês</item>
+        <item quantity="other">%d\n meses</item>
     </plurals>
     <plurals name="years_plural">
-        <item quantity="one">ano</item>
-        <item quantity="many">anos</item>
+        <item quantity="one">%d\n ano</item>
+        <item quantity="zero">%d\n ano</item>
+        <item quantity="other">%d\n anos</item>
     </plurals>
+    <string name="gender_details">%s\n Gênero</string>
+    <string name="weight_details">%.1f Kg\n Peso</string>
 </resources>
