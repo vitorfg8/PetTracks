@@ -8,6 +8,7 @@ import com.github.vitorfg8.pettracks.presentation.toUiState
 import java.util.Date
 
 data class PetInfoUiState(
+    val id: Int = 0,
     val name: String = "",
     val type: PetTypeUiState = PetTypeUiState.Other,
     val breed: String = "",
@@ -19,6 +20,7 @@ data class PetInfoUiState(
 
 fun Pet.toPetInfoUiState(): PetInfoUiState {
     return PetInfoUiState(
+        id = id,
         name = name,
         type = type.toUiState(),
         breed = breed,

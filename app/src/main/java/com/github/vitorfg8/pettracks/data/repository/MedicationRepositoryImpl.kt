@@ -13,10 +13,6 @@ class MedicationRepositoryImpl @Inject constructor(
     private val medicationDao: MedicationDao
 ) : MedicationRepository {
 
-    override suspend fun createMedication(medication: Medication) {
-        medicationDao.createMedication(medication.toDbEntity())
-    }
-
     override suspend fun updateMedication(medication: Medication) {
         medicationDao.updateMedication(medication.toDbEntity())
     }
@@ -26,7 +22,7 @@ class MedicationRepositoryImpl @Inject constructor(
     }
 
     override fun getAllMedication(petId: Int): Flow<List<Medication>> {
-        return medicationDao.getAllMedication().toDomain()
+        return medicationDao.getAllMedication(petId).toDomain()
     }
 
     override suspend fun deleteMedication(medication: Medication) {

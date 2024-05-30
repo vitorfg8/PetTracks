@@ -1,4 +1,4 @@
-package com.github.vitorfg8.pettracks.presentation.components
+package com.github.vitorfg8.pettracks.presentation.medication
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -11,27 +11,31 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableLongStateOf
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.github.vitorfg8.pettracks.R
-import com.github.vitorfg8.pettracks.presentation.medication.MedicationUiState
+import com.github.vitorfg8.pettracks.presentation.components.BaseDialog
+import com.github.vitorfg8.pettracks.presentation.components.BaseTextField
+import com.github.vitorfg8.pettracks.presentation.components.TextFieldDatePicker
+import com.github.vitorfg8.pettracks.presentation.components.TextFieldTimePicker
 import com.github.vitorfg8.pettracks.ui.theme.PetTracksTheme
-import java.util.Calendar
-import java.util.Date
-import java.util.TimeZone
 
 @Composable
 fun MedicineDialog(
-    medicine: MedicationUiState,
+    viewModel: MedicationDialogViewModel = hiltViewModel(),
+    id: Int? = null,
+    petId: Int,
     onDismissRequest: () -> Unit,
-    onAdd: (medicine: MedicationUiState) -> Unit
+    onAdd: () -> Unit
 ) {
+
+    viewModel.getMedication(id)
+    val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+
     BaseDialog(onDismissRequest = { },
         dialogTitle = stringResource(R.string.add_medication),
         navigationIcon = {
@@ -44,45 +48,44 @@ fun MedicineDialog(
         },
         actions = {
             TextButton(onClick = {
-                onAdd(MedicationUiState())
+                onAdd()
+                viewModel.saveMedication(id, petId)
             }) {
                 Text(stringResource(id = R.string.add))
             }
         }) {
-        var name by remember { mutableStateOf("") }
-        var dose by remember { mutableStateOf("") }
-        val millis: Long = Calendar.getInstance(TimeZone.getTimeZone("GMT")).getTimeInMillis()
-        var date by remember { mutableLongStateOf(millis) }
 
         Column {
 
             BaseTextField(modifier = Modifier
                 .padding(vertical = 8.dp, horizontal = 16.dp)
                 .fillMaxWidth(),
-                value = name,
+                singleLine = true,
+                value = uiState.name,
                 label = { Text(text = stringResource(R.string.medicine)) },
-                onValueChange = { name = it })
+                onValueChange = { viewModel.updateName(it) })
             BaseTextField(modifier = Modifier
                 .padding(vertical = 8.dp, horizontal = 16.dp)
                 .fillMaxWidth(),
-                value = dose,
+                singleLine = true,
+                value = uiState.dose,
                 label = { Text(text = stringResource(R.string.dosage)) },
-                onValueChange = { dose = it })
+                onValueChange = { viewModel.updateDose(it) })
             TextFieldDatePicker(
                 modifier = Modifier
                     .padding(vertical = 8.dp, horizontal = 16.dp)
                     .fillMaxWidth(),
-                selectedDate = Date(date)
+                selectedDate = uiState.date
             ) {
-                date = it.time
+                viewModel.updateDate(it)
             }
             TextFieldTimePicker(
                 modifier = Modifier
                     .padding(vertical = 8.dp, horizontal = 16.dp)
                     .fillMaxWidth(),
-                selectedDate = Date(date)
+                selectedDate = uiState.date
             ) {
-                date = it.time
+                viewModel.updateDate(it)
             }
         }
 
@@ -93,8 +96,6 @@ fun MedicineDialog(
 @Composable
 private fun MedicineDialogPreview() {
     PetTracksTheme {
-        MedicineDialog(medicine = MedicationUiState(
-            name = "Vet", dose = "1 tablet every 12 hours", date = Date()
-        ), onDismissRequest = {}, onAdd = {})
+        MedicineDialog(petId = 0, onDismissRequest = {}, onAdd = {})
     }
 }

@@ -7,7 +7,7 @@ import java.util.Date
 
 
 @Entity(
-    tableName = "medications",
+    tableName = "medication",
     foreignKeys = [ForeignKey(
         entity = PetEntity::class,
         parentColumns = arrayOf("id"),
@@ -16,10 +16,10 @@ import java.util.Date
     )]
 )
 data class MedicationEntity(
-    @PrimaryKey(autoGenerate = true)
-    val id: Int = 0,
     val petId: Int,
     val medicationName: String,
     val dateTaken: Date,
-    val dose: String
+    val dose: String,
+    @PrimaryKey(autoGenerate = true)
+    val id: Int = 0,
 )

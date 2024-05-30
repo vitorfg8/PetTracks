@@ -31,7 +31,7 @@ fun PetTracksNavGraph() {
         ) { backStackEntry ->
             backStackEntry.arguments?.getInt("petId")?.let { petId ->
                 ProfileScreen(petId = petId,
-                    onNavigateToMedications = { navController.navigate("medication/${id}") },
+                    onNavigateToMedications = { navController.navigate("medication/${petId}") },
                     onNavigateToVaccines = {},
                     onNavigateToNotes = {},
                     onBackPressed = { navController.navigateUp() })

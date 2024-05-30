@@ -35,7 +35,6 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.github.vitorfg8.pettracks.R
 import com.github.vitorfg8.pettracks.presentation.components.BaseAppbar
-import com.github.vitorfg8.pettracks.presentation.components.MedicineDialog
 import com.github.vitorfg8.pettracks.ui.theme.PetTracksTheme
 import java.text.SimpleDateFormat
 import java.util.Date
@@ -86,7 +85,10 @@ fun MedicationScreen(
             }
 
             if (showMedicineDialog) {
-                MedicineDialog(medicine = medicine, onDismissRequest = {
+                MedicineDialog(
+                    id = null, //TODO
+                    petId = petId,
+                    onDismissRequest = {
                     showMedicineDialog = false
                 }, onAdd = {
                     showMedicineDialog = false

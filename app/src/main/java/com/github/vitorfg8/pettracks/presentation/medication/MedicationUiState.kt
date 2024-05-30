@@ -8,6 +8,7 @@ data class MedicationUiState(
     val name: String = "",
     val date: Date = Date(),
     val dose: String = "",
+    val userMessage: Int? = null,
 )
 
 fun Medication.toMedicineUiState(): MedicationUiState {
