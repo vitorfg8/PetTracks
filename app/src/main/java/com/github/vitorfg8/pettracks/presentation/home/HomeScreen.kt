@@ -1,5 +1,6 @@
 package com.github.vitorfg8.pettracks.presentation.home
 
+import android.graphics.BitmapFactory
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -19,11 +20,11 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults.topAppBarColors
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.painter.Painter
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontFamily
@@ -33,8 +34,6 @@ import androidx.compose.ui.text.googlefonts.Font
 import androidx.compose.ui.text.googlefonts.GoogleFont
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.github.vitorfg8.pettracks.R
 import com.github.vitorfg8.pettracks.presentation.PetTypeUiState
 import com.github.vitorfg8.pettracks.presentation.components.ProfilePicture
@@ -44,13 +43,12 @@ import com.github.vitorfg8.pettracks.utils.asPainter
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HomeScreen(
-    viewModel: HomeViewModel = hiltViewModel(),
+    uiState: List<PetHomeUiState>,
     onAddPet: () -> Unit = {},
     onPetClick: (petId: Int) -> Unit = {}
 ) {
 
-    viewModel.getAllPets()
-    val petState by viewModel.uiState.collectAsStateWithLifecycle()
+
 
     Scaffold(topBar = {
         CenterAlignedTopAppBar(
@@ -73,7 +71,7 @@ fun HomeScreen(
             modifier = Modifier.padding(innerPadding),
             verticalArrangement = Arrangement.spacedBy(16.dp),
         ) {
-            PetsList(petState, onPetClick)
+            PetsList(uiState, onPetClick)
         }
     }
 }
@@ -132,6 +130,26 @@ fun PetsList(pets: List<PetHomeUiState>, onPetClick: (petId: Int) -> Unit) {
 }
 
 
+@Preview
+@Composable
+private fun HomeScreenPreview() {
+    PetTracksTheme {
+        val context = LocalContext.current
+        val bitmap =
+            BitmapFactory.decodeResource(context.resources, android.R.drawable.ic_menu_gallery)
+        HomeScreen(
+            uiState = listOf(
+                PetHomeUiState(
+                    name = "Pet 1",
+                    profilePicture = bitmap,
+                    petTypeUiState = PetTypeUiState.Cat
+                )
+            )
+        )
+    }
+}
+
+
 @Preview(showBackground = true)
 @Composable
 fun PetListPreview() {
@@ -160,18 +178,6 @@ fun PetListPreview() {
                     petTypeUiState = PetTypeUiState.Other,
                 )
             )
-        ) {}
-    }
-}
-
-@Preview
-@Composable
-fun ProfilePictureWithNamePreview() {
-    PetTracksTheme {
-        ProfilePictureWithName(
-            modifier = Modifier.size(100.dp),
-            painter = painterResource(id = R.drawable.paw_solid),
-            name = "Pets"
         ) {}
     }
 }

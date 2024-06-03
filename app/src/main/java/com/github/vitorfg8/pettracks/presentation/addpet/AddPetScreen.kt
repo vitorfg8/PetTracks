@@ -1,6 +1,7 @@
 package com.github.vitorfg8.pettracks.presentation.addpet
 
 import android.content.Context
+import android.graphics.Bitmap
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -12,7 +13,6 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material3.Button
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Scaffold
@@ -20,7 +20,6 @@ import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
@@ -31,9 +30,9 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardCapitalization
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.github.vitorfg8.pettracks.R
+import com.github.vitorfg8.pettracks.presentation.GenderUiState
+import com.github.vitorfg8.pettracks.presentation.PetTypeUiState
 import com.github.vitorfg8.pettracks.presentation.components.BaseAppbar
 import com.github.vitorfg8.pettracks.presentation.components.BaseTextField
 import com.github.vitorfg8.pettracks.presentation.components.GenderSelector
@@ -44,12 +43,21 @@ import com.github.vitorfg8.pettracks.presentation.components.TextFieldWeight
 import com.github.vitorfg8.pettracks.ui.theme.PetTracksTheme
 import com.github.vitorfg8.pettracks.utils.toBitmap
 import kotlinx.coroutines.launch
+import java.util.Calendar
+import java.util.Date
 
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ProfileCreationScreen(
-    viewModel: AddPetViewModel = hiltViewModel(),
+    uiState: AddPetUiState,
+    updateName: (newName: String) -> Unit,
+    updateType: (newType: PetTypeUiState) -> Unit,
+    updateBreed: (newBreed: String) -> Unit,
+    updateBirthDate: (newDate: Date) -> Unit,
+    updateWeight: (newWeight: Double) -> Unit,
+    updateGender: (newGender: GenderUiState) -> Unit,
+    updateProfilePicture: (newPicture: Bitmap) -> Unit,
+    onSavePet: () -> Unit,
     onBackPressed: () -> Unit = {},
     onPetAdded: () -> Unit = {}
 ) {
@@ -81,7 +89,7 @@ fun ProfileCreationScreen(
                 .verticalScroll(rememberScrollState()),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+
             val context: Context = LocalContext.current
             val keyboardOptions = KeyboardOptions(
                 capitalization = KeyboardCapitalization.Words,
@@ -93,24 +101,24 @@ fun ProfileCreationScreen(
                 model = uiState.profilePicture ?: uiState.type.drawableRes
             ) {
                 it?.toBitmap(context.contentResolver)?.let { picture ->
-                    viewModel.updateProfilePicture(picture)
+                    updateProfilePicture(picture)
                 }
             }
             PetTypeSelector(uiState.type) {
-                viewModel.updateType(it)
+                updateType(it)
             }
             BaseTextField(
                 modifier = Modifier
                     .padding(vertical = 8.dp, horizontal = 32.dp)
                     .fillMaxWidth(),
                 value = uiState.name,
-                onValueChange = { viewModel.updateName(it) },
+                onValueChange = { updateName(it) },
                 label = { Text(stringResource(R.string.name)) },
                 keyboardOptions = keyboardOptions,
                 singleLine = true
             )
             GenderSelector(uiState.gender) {
-                viewModel.updateGender(it)
+                updateGender(it)
             }
 
             BaseTextField(
@@ -118,7 +126,7 @@ fun ProfileCreationScreen(
                     .padding(vertical = 8.dp, horizontal = 32.dp)
                     .fillMaxWidth(),
                 value = uiState.breed,
-                onValueChange = { viewModel.updateBreed(it) },
+                onValueChange = { updateBreed(it) },
                 label = { Text(stringResource(R.string.breed)) },
                 keyboardOptions = keyboardOptions,
                 singleLine = true
@@ -129,11 +137,11 @@ fun ProfileCreationScreen(
                     .fillMaxWidth(),
                 selectedDate = uiState.birthDate
             ) {
-                viewModel.updateBirthDate(it)
+                updateBirthDate(it)
             }
 
             TextFieldWeight(uiState.weight) {
-                viewModel.updateWeight(it)
+                updateWeight(it)
             }
 
             Button(modifier = Modifier
@@ -144,7 +152,7 @@ fun ProfileCreationScreen(
                     if (uiState.name.isBlank()) {
                         scope.launch { snackbarHostState.showSnackbar(context.getString(R.string.the_name_is_empty_error)) }
                     } else {
-                        viewModel.onSavePet()
+                        onSavePet()
                         onPetAdded()
                     }
                 }
@@ -159,6 +167,31 @@ fun ProfileCreationScreen(
 @Composable
 fun ProfileCreationPreview() {
     PetTracksTheme {
-        ProfileCreationScreen()
+        val year = 2023
+        val month = Calendar.JANUARY
+        val day = 1
+        val calendar = Calendar.getInstance()
+        calendar.set(year, month, day)
+        val date: Date = calendar.time
+        ProfileCreationScreen(
+            uiState = AddPetUiState(
+                name = "Pet 1",
+                type = PetTypeUiState.Cat,
+                breed = "Mixed breed",
+                birthDate = date,
+                weight = 4.0,
+                gender = GenderUiState.MALE
+            ),
+            updateName = {},
+            updateProfilePicture = {},
+            updateBirthDate = {},
+            updateGender = {},
+            updateType = {},
+            updateWeight = {},
+            updateBreed = {},
+            onSavePet = {},
+            onBackPressed = {},
+            onPetAdded = {}
+        )
     }
 }
