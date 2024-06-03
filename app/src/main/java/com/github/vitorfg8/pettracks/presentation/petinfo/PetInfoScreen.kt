@@ -35,10 +35,7 @@ import androidx.compose.ui.res.pluralStringResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
-import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.googlefonts.Font
-import androidx.compose.ui.text.googlefonts.GoogleFont
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.tooling.preview.Preview
@@ -93,7 +90,8 @@ fun PetInfoScreen(
                             .padding(top = 8.dp)
                             .align(Alignment.CenterHorizontally),
                         text = uiState.name,
-                        style = MaterialTheme.typography.titleLarge.copy(fontFamily = getFontFamily())
+                        fontWeight = FontWeight.Bold,
+                        style = MaterialTheme.typography.titleLarge
                     )
                     if (uiState.breed.isNotBlank()) {
                         Text(
@@ -122,7 +120,7 @@ fun PetInfoScreen(
                     .fillMaxWidth()
                     .padding(16.dp),
                 text = stringResource(R.string.health),
-                style = MaterialTheme.typography.titleLarge
+                style = MaterialTheme.typography.titleMedium
             )
             Item(
                 R.drawable.tablets_solid, stringResource(R.string.medication)
@@ -139,22 +137,6 @@ fun PetInfoScreen(
             }
         }
     }
-}
-
-private fun getFontFamily(): FontFamily {
-    val provider = GoogleFont.Provider(
-        providerAuthority = "com.google.android.gms.fonts",
-        providerPackage = "com.google.android.gms",
-        certificates = R.array.com_google_android_gms_fonts_certs
-    )
-    val fontName = GoogleFont("Archivo")
-    return FontFamily(
-        Font(
-            googleFont = fontName,
-            fontProvider = provider,
-            weight = FontWeight.Bold,
-        )
-    )
 }
 
 @Composable

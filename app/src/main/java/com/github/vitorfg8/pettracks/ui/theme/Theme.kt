@@ -83,6 +83,7 @@ fun PetTracksTheme(
 
     MaterialTheme(
         colorScheme = colors,
+        typography = Typography,
         content = content
     )
 }
