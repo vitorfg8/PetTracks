@@ -22,7 +22,6 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -32,7 +31,6 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.hilt.navigation.compose.hiltViewModel
 import com.github.vitorfg8.pettracks.R
 import com.github.vitorfg8.pettracks.presentation.components.BaseAppbar
 import com.github.vitorfg8.pettracks.ui.theme.PetTracksTheme
@@ -43,29 +41,26 @@ import java.util.TimeZone
 
 @Composable
 fun MedicationScreen(
-    viewModel: MedicationViewModel = hiltViewModel(), petId: Int, onBackPressed: () -> Unit = {}
+    uiState: List<MedicationUiState>, petId: Int, onBackPressed: () -> Unit = {}
 ) {
 
     var showMedicineDialog by remember {
         mutableStateOf(false)
     }
 
-    viewModel.getMedicationList(petId)
-    val medication by viewModel.medication.collectAsState()
+
     val medicine by remember { mutableStateOf(MedicationUiState()) }
 
     Scaffold(topBar = {
 
-        BaseAppbar(
-            title = stringResource(id = R.string.medication),
-            navigationIcon = {
-                IconButton(onClick = { onBackPressed() }) {
-                    Icon(
-                        imageVector = Icons.AutoMirrored.Filled.ArrowBack,
-                        contentDescription = stringResource(id = R.string.back)
-                    )
-                }
-            })
+        BaseAppbar(title = stringResource(id = R.string.medication), navigationIcon = {
+            IconButton(onClick = { onBackPressed() }) {
+                Icon(
+                    imageVector = Icons.AutoMirrored.Filled.ArrowBack,
+                    contentDescription = stringResource(id = R.string.back)
+                )
+            }
+        })
     }, floatingActionButton = {
         FloatingActionButton(onClick = {
             showMedicineDialog = true
@@ -79,7 +74,7 @@ fun MedicationScreen(
                 contentPadding = PaddingValues(8.dp),
                 verticalArrangement = Arrangement.spacedBy(8.dp)
             ) {
-                items(medication) {
+                items(uiState) {
                     MedicinesItem(item = it) { showMedicineDialog = true }
                 }
             }
@@ -165,6 +160,14 @@ private fun MedicinesItemPrev() {
 @Composable
 private fun MedicinesScreenPreview() {
     PetTracksTheme {
-        MedicationScreen(petId = 1)
+        MedicationScreen(
+            uiState = listOf(
+                MedicationUiState(
+                    name = "HealthPet", dose = "1 pill"
+                ), MedicationUiState(
+                    name = "HealthPet", dose = "1 pill"
+                )
+            ), petId = 1
+        )
     }
 }

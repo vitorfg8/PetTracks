@@ -7,7 +7,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
-import com.github.vitorfg8.pettracks.navigation.PetTracksNavGraph
+import com.github.vitorfg8.pettracks.navigation.NavGraph
 import com.github.vitorfg8.pettracks.ui.theme.PetTracksTheme
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -24,7 +24,7 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    PetTracksNavGraph()
+                    NavGraph()
                 }
             }
         }

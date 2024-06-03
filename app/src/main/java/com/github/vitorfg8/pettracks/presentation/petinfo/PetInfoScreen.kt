@@ -26,7 +26,6 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
@@ -44,10 +43,9 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.github.vitorfg8.pettracks.R
 import com.github.vitorfg8.pettracks.presentation.GenderUiState
+import com.github.vitorfg8.pettracks.presentation.PetTypeUiState
 import com.github.vitorfg8.pettracks.presentation.components.BaseAppbar
 import com.github.vitorfg8.pettracks.presentation.components.ProfilePicture
 import com.github.vitorfg8.pettracks.ui.theme.PetTracksTheme
@@ -56,16 +54,15 @@ import java.util.Calendar
 import java.util.Date
 
 @Composable
-fun ProfileScreen(
-    viewModel: PetInfoViewModel = hiltViewModel(),
+fun PetInfoScreen(
+    uiState: PetInfoUiState,
     petId: Int,
     onNavigateToMedications: (petId: Int) -> Unit,
     onNavigateToVaccines: (petId: Int) -> Unit,
     onNavigateToNotes: (petId: Int) -> Unit,
     onBackPressed: () -> Unit = {}
 ) {
-    viewModel.getPet(petId)
-    val pet by viewModel.pet.collectAsStateWithLifecycle()
+
 
     Scaffold(
         topBar = {
@@ -89,25 +86,25 @@ fun ProfileScreen(
                             .align(Alignment.CenterHorizontally)
                             .size(172.dp),
                         shape = RoundedCornerShape(100.dp),
-                        painter = pet.profilePicture.asPainter(fallback = painterResource(id = pet.type.drawableRes))
+                        painter = uiState.profilePicture.asPainter(fallback = painterResource(id = uiState.type.drawableRes))
                     )
                     Text(
                         modifier = Modifier
                             .padding(top = 8.dp)
                             .align(Alignment.CenterHorizontally),
-                        text = pet.name,
+                        text = uiState.name,
                         style = MaterialTheme.typography.titleLarge.copy(fontFamily = getFontFamily())
                     )
-                    if (pet.breed.isNotBlank()) {
+                    if (uiState.breed.isNotBlank()) {
                         Text(
                             modifier = Modifier
                                 .align(Alignment.CenterHorizontally)
                                 .alpha(0.75f),
-                            text = pet.breed.uppercase(),
+                            text = uiState.breed.uppercase(),
                             style = MaterialTheme.typography.labelLarge,
                         )
                     }
-                    Details(pet)
+                    Details(uiState)
                 }
             }
         },
@@ -268,6 +265,34 @@ private fun DetailsCard(text: String) {
                 }
             )
         }
+    }
+}
+
+
+@Preview
+@Composable
+private fun PetInfoScreenPreview() {
+    PetTracksTheme {
+        val year = 2023
+        val month = Calendar.JANUARY
+        val day = 1
+        val calendar = Calendar.getInstance()
+        calendar.set(year, month, day)
+
+        PetInfoScreen(
+            uiState = PetInfoUiState(
+                name = "Pet",
+                type = PetTypeUiState.Cat,
+                breed = "Mixed breed",
+                birthDate = calendar.time,
+                weight = 4.0,
+                gender = GenderUiState.MALE,
+            ),
+            petId = 1,
+            onNavigateToMedications = {},
+            onNavigateToVaccines = {},
+            onNavigateToNotes = {}
+        )
     }
 }
 
