@@ -41,19 +41,23 @@ import java.util.TimeZone
 
 @Composable
 fun MedicationScreen(
-    uiState: List<MedicationUiState>, petId: Int, onBackPressed: () -> Unit = {}
+    uiState: List<MedicationUiState>,
+    petId: Int,
+    onBackPressed: () -> Unit,
+    modifier: Modifier = Modifier
 ) {
 
     var showMedicineDialog by remember {
         mutableStateOf(false)
     }
 
-
     val medicine by remember { mutableStateOf(MedicationUiState()) }
 
-    Scaffold(topBar = {
-
-        BaseAppbar(title = stringResource(id = R.string.medication), navigationIcon = {
+    Scaffold(
+        modifier = modifier,
+        topBar = {
+            BaseAppbar(
+                title = stringResource(id = R.string.medication), navigationIcon = {
             IconButton(onClick = { onBackPressed() }) {
                 Icon(
                     imageVector = Icons.AutoMirrored.Filled.ArrowBack,
@@ -167,7 +171,8 @@ private fun MedicinesScreenPreview() {
                 ), MedicationUiState(
                     name = "HealthPet", dose = "1 pill"
                 )
-            ), petId = 1
+            ), petId = 1,
+            onBackPressed = {}
         )
     }
 }

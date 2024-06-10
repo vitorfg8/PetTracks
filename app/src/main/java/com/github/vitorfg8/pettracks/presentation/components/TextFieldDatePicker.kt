@@ -26,9 +26,9 @@ import java.util.TimeZone
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun TextFieldDatePicker(
-    modifier: Modifier = Modifier,
     selectedDate: Date,
-    onDateSelected: (date: Date) -> Unit
+    onDateSelected: (date: Date) -> Unit,
+    modifier: Modifier = Modifier,
 ) {
     val datePickerState = rememberDatePickerState()
     val focusManager = LocalFocusManager.current

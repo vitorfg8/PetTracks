@@ -26,17 +26,19 @@ import com.github.vitorfg8.pettracks.ui.theme.PetTracksTheme
 
 @Composable
 fun MedicineDialog(
+    petId: Int,
+    onAdd: () -> Unit,
+    onDismissRequest: () -> Unit,
+    modifier: Modifier = Modifier,
     viewModel: MedicationDialogViewModel = hiltViewModel(),
     id: Int? = null,
-    petId: Int,
-    onDismissRequest: () -> Unit,
-    onAdd: () -> Unit
 ) {
-
     viewModel.getMedication(id)
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
-    BaseDialog(onDismissRequest = { },
+    BaseDialog(
+        modifier = modifier,
+        onDismissRequest = { },
         dialogTitle = stringResource(R.string.add_medication),
         navigationIcon = {
             IconButton(onClick = { onDismissRequest() }) {
@@ -54,9 +56,7 @@ fun MedicineDialog(
                 Text(stringResource(id = R.string.add))
             }
         }) {
-
         Column {
-
             BaseTextField(modifier = Modifier
                 .padding(vertical = 8.dp, horizontal = 16.dp)
                 .fillMaxWidth(),
@@ -75,20 +75,19 @@ fun MedicineDialog(
                 modifier = Modifier
                     .padding(vertical = 8.dp, horizontal = 16.dp)
                     .fillMaxWidth(),
-                selectedDate = uiState.date
-            ) {
-                viewModel.updateDate(it)
-            }
+                selectedDate = uiState.date,
+                onDateSelected = {
+                    viewModel.updateDate(it)
+                })
             TextFieldTimePicker(
                 modifier = Modifier
                     .padding(vertical = 8.dp, horizontal = 16.dp)
                     .fillMaxWidth(),
-                selectedDate = uiState.date
-            ) {
-                viewModel.updateDate(it)
-            }
+                selectedDate = uiState.date, onDateSelected = {
+                    viewModel.updateDate(it)
+                }
+            )
         }
-
     }
 }
 

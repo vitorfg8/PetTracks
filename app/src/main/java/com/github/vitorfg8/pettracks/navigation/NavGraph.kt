@@ -84,8 +84,9 @@ fun NavGraph() {
                 val uiState by viewModel.medication.collectAsStateWithLifecycle()
                 MedicationScreen(
                     uiState = uiState,
-                    petId = petId
-                ) { navController.navigateUp() }
+                    petId = petId,
+                    onBackPressed = { navController.navigateUp() }
+                )
             }
         }
     }

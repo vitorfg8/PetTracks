@@ -28,8 +28,9 @@ import com.github.vitorfg8.pettracks.ui.theme.PetTracksTheme
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun BaseDialog(
+    dialogTitle: String,
     onDismissRequest: () -> Unit,
-    dialogTitle: String = "",
+    modifier: Modifier = Modifier,
     navigationIcon: @Composable () -> Unit = {},
     actions: @Composable RowScope.() -> Unit = {},
     content: @Composable () -> Unit
@@ -40,6 +41,7 @@ fun BaseDialog(
         )
     ) {
         Surface(
+            modifier = modifier,
             shape = RoundedCornerShape(16.dp), color = MaterialTheme.colorScheme.surface
         ) {
             Column(Modifier.padding(bottom = 16.dp)) {

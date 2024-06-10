@@ -44,13 +44,13 @@ import com.github.vitorfg8.pettracks.utils.asPainter
 @Composable
 fun HomeScreen(
     uiState: List<PetHomeUiState>,
-    onAddPet: () -> Unit = {},
-    onPetClick: (petId: Int) -> Unit = {}
+    onAddPet: () -> Unit,
+    onPetClick: (petId: Int) -> Unit,
+    modifier: Modifier = Modifier
 ) {
-
-
-
-    Scaffold(topBar = {
+    Scaffold(
+        modifier = modifier,
+        topBar = {
         CenterAlignedTopAppBar(
             modifier = Modifier.shadow(4.dp),
             colors = topAppBarColors(
@@ -96,7 +96,9 @@ private fun getAppBarFont(): FontFamily {
 
 @Composable
 fun ProfilePictureWithName(
-    modifier: Modifier = Modifier, painter: Painter, name: String = "", onClick: () -> Unit
+    painter: Painter,
+    modifier: Modifier = Modifier,
+    name: String = "",
 ) {
     Column(
         modifier = modifier.padding(vertical = 8.dp),
@@ -104,8 +106,7 @@ fun ProfilePictureWithName(
     ) {
         ProfilePicture(
             modifier = Modifier
-                .size(100.dp)
-                .clickable { onClick() }, painter = painter
+                .size(100.dp), painter = painter
         )
         Text(modifier = Modifier.padding(top = 8.dp), text = name)
     }
@@ -113,18 +114,24 @@ fun ProfilePictureWithName(
 
 
 @Composable
-fun PetsList(pets: List<PetHomeUiState>, onPetClick: (petId: Int) -> Unit) {
+fun PetsList(
+    pets: List<PetHomeUiState>,
+    onPetClick: (petId: Int) -> Unit,
+    modifier: Modifier = Modifier
+) {
     LazyVerticalGrid(
+        modifier = modifier,
         columns = GridCells.Adaptive(minSize = 100.dp)
     ) {
         items(pets) {
             ProfilePictureWithName(
+                modifier = Modifier.clickable {
+                    onPetClick(it.id)
+                },
                 painter = it.profilePicture.asPainter(
                     fallback = painterResource(it.petTypeUiState.drawableRes)
                 ), name = it.name
-            ) {
-                onPetClick(it.id)
-            }
+            )
         }
     }
 }
@@ -144,7 +151,9 @@ private fun HomeScreenPreview() {
                     profilePicture = bitmap,
                     petTypeUiState = PetTypeUiState.Cat
                 )
-            )
+            ),
+            onPetClick = {},
+            onAddPet = {}
         )
     }
 }
@@ -177,7 +186,6 @@ fun PetListPreview() {
                     name = "Pet 6",
                     petTypeUiState = PetTypeUiState.Other,
                 )
-            )
-        ) {}
+            ), onPetClick = {})
     }
 }

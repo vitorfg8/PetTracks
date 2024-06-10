@@ -18,12 +18,15 @@ import com.github.vitorfg8.pettracks.ui.theme.PetTracksTheme
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun BaseAppbar(
+    modifier: Modifier = Modifier,
+    shadow: Dp = BaseAppbarDefaults.Elevation,
     title: String = "",
-    shadow: Dp = 4.dp,
     navigationIcon: @Composable () -> Unit = {}
 ) {
     CenterAlignedTopAppBar(
-        modifier = Modifier.shadow(shadow),
+        modifier = Modifier
+            .shadow(shadow)
+            .then(modifier),
         colors = TopAppBarDefaults.topAppBarColors(
             titleContentColor = MaterialTheme.colorScheme.primary,
         ),
@@ -38,6 +41,10 @@ fun BaseAppbar(
             navigationIcon()
         },
     )
+}
+
+object BaseAppbarDefaults {
+    val Elevation = 4.dp
 }
 
 @Preview

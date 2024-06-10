@@ -4,8 +4,6 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
@@ -29,34 +27,38 @@ import com.github.vitorfg8.pettracks.ui.theme.PetTracksTheme
 @Composable
 fun PetTypeSelector(
     value: PetTypeUiState,
-    onValueChange: (type: PetTypeUiState) -> Unit
+    onValueChange: (type: PetTypeUiState) -> Unit,
+    modifier: Modifier = Modifier,
 ) {
     val types = PetTypeUiState.entries.toList()
 
     LazyVerticalGrid(
-        modifier = Modifier
-            .padding(horizontal = 34.dp)
-            .height(160.dp),
+        modifier = modifier,
         columns = GridCells.Fixed(3),
         verticalArrangement = Arrangement.spacedBy(8.dp),
         horizontalArrangement = Arrangement.spacedBy(8.dp),
     ) {
         items(types) { item ->
             TypeItem(
-                item = item,
-                isSelected = value == item,
-                onClick = {
+                modifier = Modifier.clickable {
                     onValueChange(item)
-                })
+                },
+                item = item,
+                isSelected = value == item
+            )
         }
     }
 }
 
 @Composable
-fun TypeItem(item: PetTypeUiState, isSelected: Boolean = false, onClick: () -> Unit) {
+fun TypeItem(
+    item: PetTypeUiState,
+    isSelected: Boolean,
+    modifier: Modifier = Modifier
+) {
     Card(modifier = Modifier
-        .clickable { onClick() }
-        .size(72.dp),
+        .size(72.dp)
+        .then(modifier),
         colors = if (isSelected) {
             CardDefaults.cardColors(
                 containerColor = MaterialTheme.colorScheme.inverseSurface,
@@ -88,7 +90,7 @@ fun TypeItem(item: PetTypeUiState, isSelected: Boolean = false, onClick: () -> U
 @Composable
 fun TypeItemPreview() {
     PetTracksTheme {
-        TypeItem(PetTypeUiState.Cat, false) {}
+        TypeItem(PetTypeUiState.Cat, isSelected = false)
     }
 }
 
@@ -96,6 +98,9 @@ fun TypeItemPreview() {
 @Composable
 private fun PetTypeSelectorPreview() {
     PetTracksTheme {
-        PetTypeSelector(PetTypeUiState.Cat) {}
+        PetTypeSelector(
+            value = PetTypeUiState.Cat,
+            onValueChange = {}
+        )
     }
 }

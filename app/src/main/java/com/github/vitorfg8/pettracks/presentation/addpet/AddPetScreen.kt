@@ -5,6 +5,7 @@ import android.graphics.Bitmap
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -58,14 +59,16 @@ fun ProfileCreationScreen(
     updateGender: (newGender: GenderUiState) -> Unit,
     updateProfilePicture: (newPicture: Bitmap) -> Unit,
     onSavePet: () -> Unit,
-    onBackPressed: () -> Unit = {},
-    onPetAdded: () -> Unit = {}
+    onBackPressed: () -> Unit,
+    onPetAdded: () -> Unit,
+    modifier: Modifier = Modifier,
 ) {
 
     val scope = rememberCoroutineScope()
     val snackbarHostState = remember { SnackbarHostState() }
 
     Scaffold(
+        modifier = modifier,
         topBar = {
             BaseAppbar(
                 title = stringResource(R.string.add_pet),
@@ -98,15 +101,22 @@ fun ProfileCreationScreen(
             
             ProfilePictureUpdater(
                 modifier = Modifier.padding(vertical = 16.dp, horizontal = 32.dp),
-                model = uiState.profilePicture ?: uiState.type.drawableRes
-            ) {
-                it?.toBitmap(context.contentResolver)?.let { picture ->
-                    updateProfilePicture(picture)
+                model = uiState.profilePicture ?: uiState.type.drawableRes,
+                onValueChange = {
+                    it?.toBitmap(context.contentResolver)?.let { picture ->
+                        updateProfilePicture(picture)
+                    }
                 }
-            }
-            PetTypeSelector(uiState.type) {
+            )
+
+            PetTypeSelector(
+                modifier = Modifier
+                    .padding(horizontal = 34.dp)
+                    .height(160.dp),
+                value = uiState.type,
+                onValueChange = {
                 updateType(it)
-            }
+                })
             BaseTextField(
                 modifier = Modifier
                     .padding(vertical = 8.dp, horizontal = 32.dp)
@@ -117,9 +127,9 @@ fun ProfileCreationScreen(
                 keyboardOptions = keyboardOptions,
                 singleLine = true
             )
-            GenderSelector(uiState.gender) {
+            GenderSelector(value = uiState.gender, onValueChange = {
                 updateGender(it)
-            }
+            })
 
             BaseTextField(
                 modifier = Modifier
@@ -135,14 +145,17 @@ fun ProfileCreationScreen(
                 modifier = Modifier
                     .padding(vertical = 8.dp, horizontal = 32.dp)
                     .fillMaxWidth(),
-                selectedDate = uiState.birthDate
-            ) {
-                updateBirthDate(it)
-            }
+                selectedDate = uiState.birthDate,
+                onDateSelected = {
+                    updateBirthDate(it)
+                }
+            )
 
-            TextFieldWeight(uiState.weight) {
+            TextFieldWeight(
+                modifier = Modifier.padding(vertical = 8.dp, horizontal = 32.dp),
+                value = uiState.weight, onValueChange = {
                 updateWeight(it)
-            }
+                })
 
             Button(modifier = Modifier
                 .fillMaxWidth()

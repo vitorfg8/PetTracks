@@ -57,11 +57,11 @@ fun PetInfoScreen(
     onNavigateToMedications: (petId: Int) -> Unit,
     onNavigateToVaccines: (petId: Int) -> Unit,
     onNavigateToNotes: (petId: Int) -> Unit,
-    onBackPressed: () -> Unit = {}
+    onBackPressed: () -> Unit,
+    modifier: Modifier = Modifier
 ) {
-
-
     Scaffold(
+        modifier = modifier,
         topBar = {
             Surface(
                 modifier = Modifier
@@ -70,7 +70,7 @@ fun PetInfoScreen(
             ) {
 
                 Column {
-                    BaseAppbar(title = "", shadow = 0.dp, navigationIcon = {
+                    BaseAppbar(shadow = 0.dp, title = "", navigationIcon = {
                         IconButton(onClick = { onBackPressed() }) {
                             Icon(
                                 imageVector = Icons.AutoMirrored.Filled.ArrowBack,
@@ -102,7 +102,12 @@ fun PetInfoScreen(
                             style = MaterialTheme.typography.labelLarge,
                         )
                     }
-                    Details(uiState)
+                    Details(
+                        modifier = Modifier
+                            .padding(top = 16.dp, bottom = 16.dp)
+                            .fillMaxWidth(),
+                        pet = uiState
+                    )
                 }
             }
         },
@@ -123,29 +128,37 @@ fun PetInfoScreen(
                 style = MaterialTheme.typography.titleMedium
             )
             Item(
-                R.drawable.tablets_solid, stringResource(R.string.medication)
-            ) {
-                onNavigateToMedications(petId)
-            }
+                modifier = Modifier.clickable {
+                    onNavigateToMedications(petId)
+                }, drawableRes = R.drawable.tablets_solid,
+                title = stringResource(R.string.medication)
+            )
             Item(
-                R.drawable.syringe_solid, stringResource(R.string.vaccines)
-            ) { (onNavigateToVaccines(petId)) }
-            Item(R.drawable.note_sticky_solid, stringResource(R.string.notes)) {
-                onNavigateToNotes(
-                    petId
-                )
-            }
+                modifier = Modifier.clickable { onNavigateToVaccines(petId) },
+                drawableRes = R.drawable.syringe_solid,
+                title = stringResource(R.string.vaccines)
+            )
+            Item(
+                modifier = Modifier.clickable {
+                    onNavigateToNotes(petId)
+                }, drawableRes = R.drawable.note_sticky_solid,
+                title = stringResource(R.string.notes)
+            )
         }
     }
 }
 
 @Composable
-fun Item(@DrawableRes drawableRes: Int, title: String, onClick: () -> Unit) {
-    Card(modifier = Modifier
-        .fillMaxWidth()
-        .padding(horizontal = 16.dp, vertical = 4.dp)
-        .height(80.dp)
-        .clickable { onClick() }) {
+fun Item(
+    @DrawableRes drawableRes: Int, title: String, modifier: Modifier = Modifier,
+) {
+    Card(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(horizontal = 16.dp, vertical = 4.dp)
+            .height(80.dp)
+            .then(modifier)
+    ) {
         Row(
             modifier = Modifier
                 .padding(16.dp)
@@ -174,11 +187,9 @@ fun Item(@DrawableRes drawableRes: Int, title: String, onClick: () -> Unit) {
 }
 
 @Composable
-private fun Details(pet: PetInfoUiState) {
+private fun Details(pet: PetInfoUiState, modifier: Modifier = Modifier) {
     LazyRow(
-        modifier = Modifier
-            .padding(top = 16.dp, bottom = 16.dp)
-            .fillMaxWidth(),
+        modifier = modifier,
         horizontalArrangement = Arrangement.Center,
         contentPadding = PaddingValues(horizontal = 8.dp)
     ) {
@@ -191,8 +202,7 @@ private fun Details(pet: PetInfoUiState) {
             if (pet.gender != GenderUiState.EMPTY) {
                 DetailsCard(
                     text = stringResource(
-                        id = R.string.gender_details,
-                        stringResource(id = pet.gender.localized)
+                        id = R.string.gender_details, stringResource(id = pet.gender.localized)
                     ),
                 )
             }
@@ -222,11 +232,12 @@ private fun getAge(date: Date): String {
 }
 
 @Composable
-private fun DetailsCard(text: String) {
+private fun DetailsCard(text: String, modifier: Modifier = Modifier) {
     Card(
         modifier = Modifier
             .padding(4.dp)
             .size(102.dp, 64.dp)
+            .then(modifier)
     ) {
         Column(
             modifier = Modifier
@@ -235,8 +246,7 @@ private fun DetailsCard(text: String) {
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Text(
-                modifier = Modifier.align(Alignment.CenterHorizontally),
+            Text(modifier = Modifier.align(Alignment.CenterHorizontally),
                 textAlign = TextAlign.Center,
                 text = buildAnnotatedString {
                     withStyle(style = SpanStyle(fontWeight = FontWeight.Bold)) {
@@ -244,8 +254,7 @@ private fun DetailsCard(text: String) {
                     }
                     append("\n")
                     append(text.substringAfter("\n"))
-                }
-            )
+                })
         }
     }
 }
@@ -261,20 +270,19 @@ private fun PetInfoScreenPreview() {
         val calendar = Calendar.getInstance()
         calendar.set(year, month, day)
 
-        PetInfoScreen(
-            uiState = PetInfoUiState(
-                name = "Pet",
-                type = PetTypeUiState.Cat,
-                breed = "Mixed breed",
-                birthDate = calendar.time,
-                weight = 4.0,
-                gender = GenderUiState.MALE,
-            ),
+        PetInfoScreen(uiState = PetInfoUiState(
+            name = "Pet",
+            type = PetTypeUiState.Cat,
+            breed = "Mixed breed",
+            birthDate = calendar.time,
+            weight = 4.0,
+            gender = GenderUiState.MALE,
+        ),
             petId = 1,
             onNavigateToMedications = {},
             onNavigateToVaccines = {},
-            onNavigateToNotes = {}
-        )
+            onNavigateToNotes = {},
+            onBackPressed = {})
     }
 }
 
@@ -292,6 +300,6 @@ private fun DetailsCardPreview() {
 @Composable
 private fun ItemPreview() {
     PetTracksTheme {
-        Item(R.drawable.tablets_solid, stringResource(id = R.string.medication)) {}
+        Item(R.drawable.tablets_solid, stringResource(id = R.string.medication))
     }
 }

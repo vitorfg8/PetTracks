@@ -29,9 +29,9 @@ import com.github.vitorfg8.pettracks.ui.theme.PetTracksTheme
 
 @Composable
 fun ProfilePicture(
-    modifier: Modifier,
-    shape: RoundedCornerShape = RoundedCornerShape(100.dp),
     painter: Painter,
+    modifier: Modifier = Modifier,
+    shape: RoundedCornerShape = RoundedCornerShape(100.dp),
     contentDescription: String? = null
 ) {
     Card(
@@ -51,9 +51,9 @@ fun ProfilePicture(
 
 @Composable
 fun ProfilePictureUpdater(
+    model: Any?,
+    onValueChange: (uri: Uri?) -> Unit,
     modifier: Modifier = Modifier,
-    model: Any? = null,
-    onValueChange: (uri: Uri?) -> Unit
 ) {
     Box(
         modifier = modifier.padding(horizontal = 2.dp, vertical = 4.dp),
@@ -109,7 +109,9 @@ fun ProfilePicturePreview() {
 @Composable
 fun ProfilePictureUpdaterPreview() {
     PetTracksTheme {
-        ProfilePictureUpdater(onValueChange = {})
+        ProfilePictureUpdater(
+            model = R.drawable.paw_solid,
+            onValueChange = {})
     }
 }
 

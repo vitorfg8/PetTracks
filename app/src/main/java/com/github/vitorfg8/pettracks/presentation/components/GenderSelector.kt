@@ -27,13 +27,15 @@ import com.github.vitorfg8.pettracks.ui.theme.PetTracksTheme
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun GenderSelector(
-    value: GenderUiState = GenderUiState.EMPTY,
+    value: GenderUiState,
     onValueChange: (gender: GenderUiState) -> Unit,
+    modifier: Modifier = Modifier,
 ) {
     val options = GenderUiState.entries
     var expanded by remember { mutableStateOf(false) }
 
     ExposedDropdownMenuBox(
+        modifier = modifier,
         expanded = expanded,
         onExpandedChange = {
             expanded = !expanded
@@ -82,6 +84,6 @@ fun GenderSelector(
 @Composable
 private fun GenderSelectorPreview() {
     PetTracksTheme {
-        GenderSelector {}
+        GenderSelector(value = GenderUiState.MALE, onValueChange = {})
     }
 }

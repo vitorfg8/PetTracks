@@ -32,6 +32,7 @@ import com.github.vitorfg8.pettracks.ui.theme.PetTracksTheme
 fun TimePickerDialog(
     onDismissRequest: () -> Unit,
     confirmButton: @Composable (() -> Unit),
+    modifier: Modifier = Modifier,
     dismissButton: @Composable (() -> Unit)? = null,
     containerColor: Color = MaterialTheme.colorScheme.surface,
     content: @Composable () -> Unit,
@@ -51,7 +52,8 @@ fun TimePickerDialog(
                 .background(
                     shape = MaterialTheme.shapes.extraLarge,
                     color = containerColor
-                ),
+                )
+                .then(modifier),
             color = containerColor
         ) {
             Column(
