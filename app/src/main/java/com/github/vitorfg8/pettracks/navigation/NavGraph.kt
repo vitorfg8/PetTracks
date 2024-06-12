@@ -15,6 +15,8 @@ import com.github.vitorfg8.pettracks.presentation.home.HomeScreen
 import com.github.vitorfg8.pettracks.presentation.home.HomeViewModel
 import com.github.vitorfg8.pettracks.presentation.medication.MedicationScreen
 import com.github.vitorfg8.pettracks.presentation.medication.MedicationViewModel
+import com.github.vitorfg8.pettracks.presentation.notes.NoteScreen
+import com.github.vitorfg8.pettracks.presentation.notes.NotesViewModel
 import com.github.vitorfg8.pettracks.presentation.petinfo.PetInfoScreen
 import com.github.vitorfg8.pettracks.presentation.petinfo.PetInfoViewModel
 
@@ -23,6 +25,7 @@ private const val ROUTE_HOME = "home"
 private const val ROUTE_PROFILE_CREATION = "profileCreation"
 private const val ROUTE_PROFILE = "profile/{petId}"
 private const val ROUTE_MEDICATION = "medication/{petId}"
+private const val ROUTE_NOTES = "notes/{petId}"
 
 @Composable
 fun NavGraph() {
@@ -70,7 +73,7 @@ fun NavGraph() {
                     petId = petId,
                     onNavigateToMedications = { navController.navigate("medication/${id}") },
                     onNavigateToVaccines = {},
-                    onNavigateToNotes = {},
+                    onNavigateToNotes = { navController.navigate("notes/${id}") },
                     onBackPressed = { navController.navigateUp() })
             }
         }
@@ -85,6 +88,22 @@ fun NavGraph() {
                 MedicationScreen(
                     uiState = uiState,
                     petId = petId,
+                    onBackPressed = { navController.navigateUp() }
+                )
+            }
+        }
+        composable(
+            route = ROUTE_NOTES,
+            arguments = listOf(navArgument("petId") { type = NavType.IntType })
+        ) { backStackEntry ->
+            backStackEntry.arguments?.getInt("petId")?.let { petId ->
+                val viewModel: NotesViewModel = hiltViewModel()
+                val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+                NoteScreen(
+                    uiState = uiState,
+                    onTextUpdate = viewModel::onTextUpdate,
+                    onTextFieldClick = viewModel::onTextFieldClick,
+                    onSave = viewModel::onSaveButtonClick,
                     onBackPressed = { navController.navigateUp() }
                 )
             }

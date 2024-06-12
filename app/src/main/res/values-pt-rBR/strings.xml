@@ -46,4 +46,7 @@
     </plurals>
     <string name="gender_details">%s\n Gênero</string>
     <string name="weight_details">%.1f Kg\n Peso</string>
+    <string name="save">Salvar</string>
+    <string name="edit">Editar</string>
+    <string name="make_a_note">Faça alguma anotação …</string>
 </resources>

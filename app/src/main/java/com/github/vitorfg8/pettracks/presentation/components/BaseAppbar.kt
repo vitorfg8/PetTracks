@@ -1,5 +1,6 @@
 package com.github.vitorfg8.pettracks.presentation.components
 
+import androidx.compose.foundation.layout.RowScope
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
@@ -21,7 +22,8 @@ fun BaseAppbar(
     modifier: Modifier = Modifier,
     shadow: Dp = BaseAppbarDefaults.Elevation,
     title: String = "",
-    navigationIcon: @Composable () -> Unit = {}
+    navigationIcon: @Composable () -> Unit = {},
+    actions: @Composable RowScope.() -> Unit = {},
 ) {
     CenterAlignedTopAppBar(
         modifier = Modifier
@@ -40,6 +42,7 @@ fun BaseAppbar(
         navigationIcon = {
             navigationIcon()
         },
+        actions = actions
     )
 }
 
