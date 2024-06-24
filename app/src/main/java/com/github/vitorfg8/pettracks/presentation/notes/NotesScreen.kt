@@ -83,6 +83,7 @@ private fun NotesScreenPreview(@PreviewParameter(LoremIpsum::class) text: String
     PetTracksTheme {
         NoteScreen(uiState = NotesUiState(
             note = text, isEditMode = true
-        ), onTextUpdate = {}, onTextFieldClick = {}, onSave = {}, onBackPressed = {})
+        ),
+            onTextUpdate = {}, onTextFieldClick = {}, onSave = {}, onBackPressed = {})
     }
 }

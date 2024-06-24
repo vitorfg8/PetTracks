@@ -4,7 +4,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.github.vitorfg8.pettracks.domain.model.Medication
 import com.github.vitorfg8.pettracks.domain.repository.MedicationRepository
-import com.github.vitorfg8.pettracks.domain.repository.PetsRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -17,7 +16,6 @@ import javax.inject.Inject
 @HiltViewModel
 class MedicationDialogViewModel @Inject constructor(
     private val medicationRepository: MedicationRepository,
-    private val petRepository: PetsRepository,
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow(MedicationUiState())

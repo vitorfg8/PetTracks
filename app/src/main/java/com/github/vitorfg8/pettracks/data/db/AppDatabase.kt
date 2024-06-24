@@ -7,21 +7,23 @@ import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 import com.github.vitorfg8.pettracks.utils.Converters
 
-@Database(entities = [PetEntity::class], version = 1)
+@Database(entities = [PetEntity::class, MedicationEntity::class, NotesEntity::class], version = 1)
 @TypeConverters(Converters::class)
-abstract class PetsDatabase : RoomDatabase() {
+abstract class AppDatabase : RoomDatabase() {
 
     abstract val petsDao: PetsDao
+    abstract val medicationDao: MedicationDao
+    abstract val notesDao: NotesDao
 
     companion object {
         @Volatile
-        private var INSTANCE: PetsDatabase? = null
+        private var INSTANCE: AppDatabase? = null
 
-        fun getDatabase(context: Context): PetsDatabase {
+        fun getDatabase(context: Context): AppDatabase {
             return INSTANCE ?: synchronized(this) {
                 val instance = Room.databaseBuilder(
                     context.applicationContext,
-                    PetsDatabase::class.java,
+                    AppDatabase::class.java,
                     "pet_database"
                 ).build()
                 INSTANCE = instance

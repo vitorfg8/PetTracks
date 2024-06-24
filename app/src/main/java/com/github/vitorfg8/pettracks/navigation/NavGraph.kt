@@ -1,6 +1,7 @@
 package com.github.vitorfg8.pettracks.navigation
 
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -71,9 +72,11 @@ fun NavGraph() {
                 PetInfoScreen(
                     uiState = uiState,
                     petId = petId,
-                    onNavigateToMedications = { navController.navigate("medication/${id}") },
+                    onNavigateToMedications = { navController.navigate("medication/${petId}") },
                     onNavigateToVaccines = {},
-                    onNavigateToNotes = { navController.navigate("notes/${id}") },
+                    onNavigateToNotes = {
+                        navController.navigate("notes/${petId}")
+                    },
                     onBackPressed = { navController.navigateUp() })
             }
         }
@@ -98,12 +101,18 @@ fun NavGraph() {
         ) { backStackEntry ->
             backStackEntry.arguments?.getInt("petId")?.let { petId ->
                 val viewModel: NotesViewModel = hiltViewModel()
+                LaunchedEffect(petId) {
+                    viewModel.getNotes(petId)
+                }
                 val uiState by viewModel.uiState.collectAsStateWithLifecycle()
                 NoteScreen(
                     uiState = uiState,
                     onTextUpdate = viewModel::onTextUpdate,
                     onTextFieldClick = viewModel::onTextFieldClick,
-                    onSave = viewModel::onSaveButtonClick,
+                    onSave = {
+                        viewModel.onSaveButtonClick(petId)
+                        navController.navigateUp()
+                    },
                     onBackPressed = { navController.navigateUp() }
                 )
             }
