@@ -10,6 +10,11 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
+import com.github.vitorfg8.pettracks.navigation.Routes.ROUTE_HOME
+import com.github.vitorfg8.pettracks.navigation.Routes.ROUTE_MEDICATION
+import com.github.vitorfg8.pettracks.navigation.Routes.ROUTE_NOTES
+import com.github.vitorfg8.pettracks.navigation.Routes.ROUTE_PROFILE
+import com.github.vitorfg8.pettracks.navigation.Routes.ROUTE_PROFILE_CREATION
 import com.github.vitorfg8.pettracks.presentation.addpet.AddPetViewModel
 import com.github.vitorfg8.pettracks.presentation.addpet.ProfileCreationScreen
 import com.github.vitorfg8.pettracks.presentation.home.HomeScreen
@@ -20,13 +25,6 @@ import com.github.vitorfg8.pettracks.presentation.notes.NoteScreen
 import com.github.vitorfg8.pettracks.presentation.notes.NotesViewModel
 import com.github.vitorfg8.pettracks.presentation.petinfo.PetInfoScreen
 import com.github.vitorfg8.pettracks.presentation.petinfo.PetInfoViewModel
-
-
-private const val ROUTE_HOME = "home"
-private const val ROUTE_PROFILE_CREATION = "profileCreation"
-private const val ROUTE_PROFILE = "profile/{petId}"
-private const val ROUTE_MEDICATION = "medication/{petId}"
-private const val ROUTE_NOTES = "notes/{petId}"
 
 @Composable
 fun NavGraph() {
@@ -61,9 +59,9 @@ fun NavGraph() {
         }
         composable(
             route = ROUTE_PROFILE,
-            arguments = listOf(navArgument("petId") { type = NavType.IntType })
+            arguments = listOf(navArgument(ProfileNavArgs.PET_ID) { type = NavType.IntType })
         ) { backStackEntry ->
-            backStackEntry.arguments?.getInt("petId")?.let { petId ->
+            backStackEntry.arguments?.getInt(ProfileNavArgs.PET_ID)?.let { petId ->
 
                 val viewModel: PetInfoViewModel = hiltViewModel()
                 viewModel.getPet(petId)
@@ -82,9 +80,9 @@ fun NavGraph() {
         }
         composable(
             route = ROUTE_MEDICATION,
-            arguments = listOf(navArgument("petId") { type = NavType.IntType })
+            arguments = listOf(navArgument(MedicationNavArgs.PET_ID) { type = NavType.IntType })
         ) { backStackEntry ->
-            backStackEntry.arguments?.getInt("petId")?.let { petId ->
+            backStackEntry.arguments?.getInt(MedicationNavArgs.PET_ID)?.let { petId ->
                 val viewModel: MedicationViewModel = hiltViewModel()
                 viewModel.getMedicationList(petId)
                 val uiState by viewModel.medication.collectAsStateWithLifecycle()
@@ -97,9 +95,9 @@ fun NavGraph() {
         }
         composable(
             route = ROUTE_NOTES,
-            arguments = listOf(navArgument("petId") { type = NavType.IntType })
+            arguments = listOf(navArgument(NotesNavArgs.PET_ID) { type = NavType.IntType })
         ) { backStackEntry ->
-            backStackEntry.arguments?.getInt("petId")?.let { petId ->
+            backStackEntry.arguments?.getInt(NotesNavArgs.PET_ID)?.let { petId ->
                 val viewModel: NotesViewModel = hiltViewModel()
                 LaunchedEffect(petId) {
                     viewModel.getNotes(petId)
