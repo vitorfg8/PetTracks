@@ -25,7 +25,8 @@ class NotesViewModel @Inject constructor(
                 _uiState.update {
                     it.copy(
                         note = note?.note.orEmpty(),
-                        petId = note?.petId ?: 0
+                        petId = note?.petId ?: 0,
+                        noteId = note?.id
                     )
                 }
             }
@@ -49,7 +50,8 @@ class NotesViewModel @Inject constructor(
             notesRepository.insertNotes(
                 Notes(
                     petId = petId,
-                    note = uiState.value.note
+                    note = uiState.value.note,
+                    id = uiState.value.noteId ?: 0
                 )
             )
         }
