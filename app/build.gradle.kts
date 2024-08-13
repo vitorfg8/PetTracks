@@ -10,12 +10,12 @@ plugins {
 
 android {
     namespace = "com.github.vitorfg8.pettracks"
-    compileSdk = 35
+    compileSdk = 34
 
     defaultConfig {
         applicationId = "com.github.vitorfg8.pettracks"
         minSdk = 24
-        targetSdk = 35
+        targetSdk = 34
         versionCode = 1
         versionName = "1.0"
 
