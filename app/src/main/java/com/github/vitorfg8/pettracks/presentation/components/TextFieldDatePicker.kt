@@ -17,11 +17,9 @@ import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import com.github.vitorfg8.pettracks.R
-import java.text.SimpleDateFormat
+import com.github.vitorfg8.pettracks.utils.toLocalDateFormat
 import java.util.Calendar
 import java.util.Date
-import java.util.Locale
-import java.util.TimeZone
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -36,7 +34,7 @@ fun TextFieldDatePicker(
         mutableStateOf(false)
     }
 
-    val selectedDateString = selectedDate.time.toLocalDateFormat()
+    val selectedDateString = selectedDate.toLocalDateFormat()
 
     if (showDatePickerDialog) {
         DatePickerDialog(
@@ -71,16 +69,6 @@ fun TextFieldDatePicker(
         },
         readOnly = true
     )
-}
-
-private fun Long.toLocalDateFormat(): String {
-    val date = Date(this)
-    val dateFormat = SimpleDateFormat.getDateInstance(SimpleDateFormat.SHORT, Locale.getDefault())
-    val pattern = (dateFormat as SimpleDateFormat).toPattern()
-    val formatter = SimpleDateFormat(pattern, Locale.getDefault()).apply {
-        timeZone = TimeZone.getTimeZone("GMT")
-    }
-    return formatter.format(date)
 }
 
 @Preview
