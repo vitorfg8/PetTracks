@@ -189,27 +189,6 @@ fun PetInfoScreen(
     }
 }
 
-/*@Composable
-fun Item(vaccine: String, modifier: Modifier = Modifier) {
-    Card(modifier = Modifier
-        .padding(horizontal = 16.dp)
-        .fillMaxWidth()
-    ) {
-        Row(modifier = Modifier.padding(16.dp)) {
-            Text(
-                modifier = Modifier.weight(1f),
-                text = vaccine,
-                style = MaterialTheme.typography.titleMedium
-            )
-            Text(
-                text = "01/01/2024", //TODO
-                style = MaterialTheme.typography.labelSmall
-            )
-        }
-    }
-}*/
-
-
 @Composable
 fun Item(modifier: Modifier = Modifier, vaccine: VaccineUiState) {
     Card(
@@ -346,7 +325,6 @@ private fun DetailsCardPreview() {
 @Composable
 private fun ItemPreview() {
     PetTracksTheme {
-        //Item(R.drawable.tablets_solid, stringResource(id = R.string.medication))
         Item(Modifier, VaccineUiState(1, "Rabies", "01/01/2024"))
     }
 }
