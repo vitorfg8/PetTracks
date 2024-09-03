@@ -1,20 +1,17 @@
 package com.github.vitorfg8.pettracks.presentation.petinfo
 
-import androidx.annotation.DrawableRes
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
-import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material3.Card
@@ -25,6 +22,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -37,8 +35,11 @@ import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.tooling.preview.PreviewParameter
+import androidx.compose.ui.tooling.preview.datasource.LoremIpsum
 import androidx.compose.ui.unit.dp
 import com.github.vitorfg8.pettracks.R
 import com.github.vitorfg8.pettracks.presentation.GenderUiState
@@ -50,6 +51,7 @@ import com.github.vitorfg8.pettracks.utils.asPainter
 import java.util.Calendar
 import java.util.Date
 
+
 @Composable
 fun PetInfoScreen(
     uiState: PetInfoUiState,
@@ -60,6 +62,7 @@ fun PetInfoScreen(
     onBackPressed: () -> Unit,
     modifier: Modifier = Modifier
 ) {
+
     Scaffold(
         modifier = modifier,
         topBar = {
@@ -112,75 +115,118 @@ fun PetInfoScreen(
             }
         },
     ) { innerPadding ->
-        Column(
+        LazyColumn(
             modifier = Modifier
                 .padding(innerPadding)
-                .fillMaxSize()
-                .verticalScroll(rememberScrollState()),
+                .fillMaxSize(),
+            horizontalAlignment = Alignment.End
         ) {
+            item {
+                HorizontalDivider(thickness = 0.dp, modifier = Modifier.shadow(4.dp))
 
-            HorizontalDivider(thickness = 0.dp, modifier = Modifier.shadow(4.dp))
-            Text(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(16.dp),
-                text = stringResource(R.string.health),
-                style = MaterialTheme.typography.titleMedium
-            )
-            Item(
-                modifier = Modifier.clickable {
-                    onNavigateToMedications(petId)
-                }, drawableRes = R.drawable.tablets_solid,
-                title = stringResource(R.string.medication)
-            )
-            Item(
-                modifier = Modifier.clickable { onNavigateToVaccines(petId) },
-                drawableRes = R.drawable.syringe_solid,
-                title = stringResource(R.string.vaccines)
-            )
-            Item(
-                modifier = Modifier.clickable {
-                    onNavigateToNotes(petId)
-                }, drawableRes = R.drawable.note_sticky_solid,
-                title = stringResource(R.string.notes)
-            )
+                Text(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(16.dp),
+                    text = "Notes",
+                    style = MaterialTheme.typography.titleLarge,
+                )
+
+                if (uiState.notes.isNotBlank()) {
+                    Card(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(horizontal = 16.dp)
+                    ) {
+                        Text(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(16.dp),
+                            maxLines = 2,
+                            overflow = TextOverflow.Ellipsis,
+                            text = uiState.notes.ifBlank { stringResource(R.string.add_your_notes_here) },
+                        )
+                    }
+                }
+
+                TextButton(
+                    modifier = Modifier.padding(horizontal = 16.dp),
+                    onClick = { onNavigateToNotes(petId) },
+                ) {
+                    Text(
+                        text = if (uiState.notes.isNotBlank()) {
+                            stringResource(id = R.string.edit)
+                        } else {
+                            stringResource(id = R.string.add)
+                        }
+                    )
+                }
+
+                Text(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(start = 16.dp, end = 16.dp, bottom = 16.dp),
+                    text = stringResource(R.string.vaccines),
+                    style = MaterialTheme.typography.titleLarge
+                )
+            }
+
+            items(uiState.vaccines) { vaccine ->
+                Item(
+                    modifier = Modifier.padding(vertical = 4.dp),
+                    VaccineUiState(1, "Rabia", "0/1")
+                ) //TODO
+            }
+
+            item {
+                TextButton(modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp),
+                    onClick = { /*TODO*/ }) {
+                    Text(
+                        text = stringResource(id = R.string.add),
+                    )
+                }
+            }
         }
     }
 }
 
-@Composable
-fun Item(
-    @DrawableRes drawableRes: Int, title: String, modifier: Modifier = Modifier,
-) {
-    Card(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(horizontal = 16.dp, vertical = 4.dp)
-            .height(80.dp)
-            .then(modifier)
+/*@Composable
+fun Item(vaccine: String, modifier: Modifier = Modifier) {
+    Card(modifier = Modifier
+        .padding(horizontal = 16.dp)
+        .fillMaxWidth()
     ) {
-        Row(
-            modifier = Modifier
-                .padding(16.dp)
-                .fillMaxSize(),
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            Icon(
-                modifier = Modifier.size(32.dp),
-                painter = painterResource(id = drawableRes),
-                contentDescription = null
+        Row(modifier = Modifier.padding(16.dp)) {
+            Text(
+                modifier = Modifier.weight(1f),
+                text = vaccine,
+                style = MaterialTheme.typography.titleMedium
             )
             Text(
-                modifier = Modifier
-                    .padding(start = 16.dp)
-                    .weight(1f), text = title
+                text = "01/01/2024", //TODO
+                style = MaterialTheme.typography.labelSmall
             )
-            Icon(
-                modifier = Modifier
-                    .size(16.dp)
-                    .padding(end = 8.dp),
-                painter = painterResource(id = R.drawable.chevron_right_solid),
-                contentDescription = ""
+        }
+    }
+}*/
+
+
+@Composable
+fun Item(modifier: Modifier = Modifier, vaccine: VaccineUiState) {
+    Card(
+        modifier = modifier
+            .padding(horizontal = 16.dp)
+            .fillMaxWidth()
+    ) {
+        Row(modifier = Modifier.padding(16.dp)) {
+            Text(
+                modifier = Modifier.weight(1f),
+                text = vaccine.name,
+                style = MaterialTheme.typography.titleMedium
+            )
+            Text(
+                text = "01/01/2024", //TODO
+                style = MaterialTheme.typography.labelSmall
             )
         }
     }
@@ -262,7 +308,7 @@ private fun DetailsCard(text: String, modifier: Modifier = Modifier) {
 
 @Preview
 @Composable
-private fun PetInfoScreenPreview() {
+private fun PetInfoScreenPreview(@PreviewParameter(LoremIpsum::class) notes: String) {
     PetTracksTheme {
         val year = 2023
         val month = Calendar.JANUARY
@@ -277,6 +323,7 @@ private fun PetInfoScreenPreview() {
             birthDate = calendar.time,
             weight = 4.0,
             gender = GenderUiState.MALE,
+            notes = notes
         ),
             petId = 1,
             onNavigateToMedications = {},
@@ -300,6 +347,7 @@ private fun DetailsCardPreview() {
 @Composable
 private fun ItemPreview() {
     PetTracksTheme {
-        Item(R.drawable.tablets_solid, stringResource(id = R.string.medication))
+        //Item(R.drawable.tablets_solid, stringResource(id = R.string.medication))
+        Item(Modifier, VaccineUiState(1, "Rabies", "01/01/2024"))
     }
 }

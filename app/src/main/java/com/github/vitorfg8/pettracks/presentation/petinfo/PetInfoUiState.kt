@@ -15,7 +15,15 @@ data class PetInfoUiState(
     val birthDate: Date = Date(),
     val weight: Double = 0.0,
     val gender: GenderUiState = GenderUiState.EMPTY,
-    val profilePicture: Bitmap? = null
+    val profilePicture: Bitmap? = null,
+    val notes: String = "",
+    val vaccines: List<VaccineUiState> = listOf()
+)
+
+data class VaccineUiState(
+    val id: Int,
+    val name: String,
+    val date: String
 )
 
 fun Pet.toPetInfoUiState(): PetInfoUiState {
