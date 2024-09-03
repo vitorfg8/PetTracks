@@ -54,7 +54,7 @@ fun NoteScreen(
     }) { padding ->
         TextField(
             enabled = uiState.isEditMode,
-            placeholder = { Text(text = stringResource(R.string.make_a_note)) },
+            placeholder = { Text(text = stringResource(R.string.add_your_notes_here)) },
             modifier = Modifier
                 .padding(padding)
                 .fillMaxSize()
