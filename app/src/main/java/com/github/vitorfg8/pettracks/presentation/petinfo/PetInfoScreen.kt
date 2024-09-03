@@ -173,9 +173,8 @@ fun PetInfoScreen(
 
             items(uiState.vaccines) { vaccine ->
                 Item(
-                    modifier = Modifier.padding(vertical = 4.dp),
-                    VaccineUiState(1, "Rabia", "0/1")
-                ) //TODO
+                    modifier = Modifier.padding(vertical = 4.dp), vaccine
+                )
             }
 
             item {
@@ -225,7 +224,7 @@ fun Item(modifier: Modifier = Modifier, vaccine: VaccineUiState) {
                 style = MaterialTheme.typography.titleMedium
             )
             Text(
-                text = "01/01/2024", //TODO
+                text = vaccine.date,
                 style = MaterialTheme.typography.labelSmall
             )
         }
