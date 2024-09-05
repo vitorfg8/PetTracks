@@ -71,7 +71,6 @@ fun PetInfoScreen(
                     .fillMaxWidth()
                     .shadow(2.dp)
             ) {
-
                 Column {
                     BaseAppbar(shadow = 0.dp, title = "", navigationIcon = {
                         IconButton(onClick = { onBackPressed() }) {

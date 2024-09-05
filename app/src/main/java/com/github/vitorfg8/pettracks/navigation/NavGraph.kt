@@ -64,7 +64,7 @@ fun NavGraph() {
             backStackEntry.arguments?.getInt(ProfileNavArgs.PET_ID)?.let { petId ->
 
                 val viewModel: PetInfoViewModel = hiltViewModel()
-                viewModel.getPet(petId)
+                viewModel.getPetProfile(petId)
                 val uiState by viewModel.pet.collectAsStateWithLifecycle()
 
                 PetInfoScreen(
