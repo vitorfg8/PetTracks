@@ -198,7 +198,7 @@ fun Item(modifier: Modifier = Modifier, vaccine: VaccineUiState) {
         Row(modifier = Modifier.padding(16.dp)) {
             Text(
                 modifier = Modifier.weight(1f),
-                text = vaccine.name,
+                text = vaccine.vaccineName,
                 style = MaterialTheme.typography.titleMedium
             )
             Text(

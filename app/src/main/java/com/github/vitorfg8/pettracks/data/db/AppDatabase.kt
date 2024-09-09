@@ -7,13 +7,17 @@ import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 import com.github.vitorfg8.pettracks.utils.Converters
 
-@Database(entities = [PetEntity::class, MedicationEntity::class, NotesEntity::class], version = 1)
+@Database(
+    entities = [PetEntity::class, MedicationEntity::class, NotesEntity::class, VaccinesEntity::class],
+    version = 1
+)
 @TypeConverters(Converters::class)
 abstract class AppDatabase : RoomDatabase() {
 
     abstract val petsDao: PetsDao
     abstract val medicationDao: MedicationDao
     abstract val notesDao: NotesDao
+    abstract val vaccinesDao: VaccinesDao
 
     companion object {
         @Volatile

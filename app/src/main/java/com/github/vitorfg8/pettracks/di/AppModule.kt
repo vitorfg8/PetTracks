@@ -5,12 +5,15 @@ import com.github.vitorfg8.pettracks.data.db.AppDatabase
 import com.github.vitorfg8.pettracks.data.db.MedicationDao
 import com.github.vitorfg8.pettracks.data.db.NotesDao
 import com.github.vitorfg8.pettracks.data.db.PetsDao
+import com.github.vitorfg8.pettracks.data.db.VaccinesDao
 import com.github.vitorfg8.pettracks.data.repository.MedicationRepositoryImpl
 import com.github.vitorfg8.pettracks.data.repository.NotesRepositoryImpl
 import com.github.vitorfg8.pettracks.data.repository.PetsRepositoryImpl
+import com.github.vitorfg8.pettracks.data.repository.VaccinesRepositoryImpl
 import com.github.vitorfg8.pettracks.domain.repository.MedicationRepository
 import com.github.vitorfg8.pettracks.domain.repository.NotesRepository
 import com.github.vitorfg8.pettracks.domain.repository.PetsRepository
+import com.github.vitorfg8.pettracks.domain.repository.VaccinesRepository
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -61,5 +64,17 @@ object AppModule {
     @Singleton
     fun provideNotesRepository(notesDao: NotesDao): NotesRepository {
         return NotesRepositoryImpl(notesDao)
+    }
+
+    @Provides
+    @Singleton
+    fun provideVaccinesDao(database: AppDatabase): VaccinesDao {
+        return database.vaccinesDao
+    }
+
+    @Provides
+    @Singleton
+    fun provideVaccinesRepository(vaccinesDao: VaccinesDao): VaccinesRepository {
+        return VaccinesRepositoryImpl(vaccinesDao)
     }
 }

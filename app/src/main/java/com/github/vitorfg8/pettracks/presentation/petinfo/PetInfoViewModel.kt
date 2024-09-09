@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.github.vitorfg8.pettracks.domain.repository.NotesRepository
 import com.github.vitorfg8.pettracks.domain.repository.PetsRepository
+import com.github.vitorfg8.pettracks.domain.repository.VaccinesRepository
 import com.github.vitorfg8.pettracks.presentation.toUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -16,6 +17,7 @@ import javax.inject.Inject
 class PetInfoViewModel @Inject constructor(
     private val petsRepository: PetsRepository,
     private val notesRepository: NotesRepository,
+    private val vaccinesRepository: VaccinesRepository
 ) : ViewModel() {
 
     private val _pet = MutableStateFlow(PetInfoUiState())
@@ -25,8 +27,9 @@ class PetInfoViewModel @Inject constructor(
         viewModelScope.launch {
             combine(
                 petsRepository.getPet(id),
-                notesRepository.getNotes(id)
-            ) { pet, notes ->
+                notesRepository.getNotes(id),
+                vaccinesRepository.getAllVaccines(id)
+            ) { pet, notes, vaccines ->
                 PetInfoUiState(
                     id = id,
                     name = pet.name,
@@ -36,7 +39,8 @@ class PetInfoViewModel @Inject constructor(
                     weight = pet.weight,
                     gender = pet.gender.toUiState(),
                     profilePicture = pet.profilePicture,
-                    notes = notes?.note.orEmpty()
+                    notes = notes?.note.orEmpty(),
+                    vaccines = vaccines.toUiState()
                 )
             }.collect {
                 _pet.value = it
