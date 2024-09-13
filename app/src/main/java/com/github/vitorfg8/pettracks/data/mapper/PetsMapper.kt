@@ -35,7 +35,7 @@ fun PetType.toDbEntity(): PetTypeDb {
 
 fun Gender.toDbEntity(): GenderDb {
     return when (this) {
-        Gender.EMPTY -> GenderDb.EMPTY
+        Gender.UNKNOWN -> GenderDb.UNKNOWN
         Gender.FEMALE -> GenderDb.FEMALE
         Gender.MALE -> GenderDb.MALE
     }
@@ -67,7 +67,7 @@ fun PetTypeDb.toDomain(): PetType {
 
 fun GenderDb.toDomain(): Gender {
     return when (this) {
-        GenderDb.EMPTY -> Gender.EMPTY
+        GenderDb.UNKNOWN -> Gender.UNKNOWN
         GenderDb.FEMALE -> Gender.FEMALE
         GenderDb.MALE -> Gender.MALE
     }

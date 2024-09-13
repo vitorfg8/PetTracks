@@ -1,7 +1,7 @@
 package com.github.vitorfg8.pettracks.domain.model
 
 enum class Gender {
-    EMPTY,
+    UNKNOWN,
     FEMALE,
     MALE,
 }

@@ -13,6 +13,6 @@ data class AddPetUiState(
     var breed: String = "",
     val birthDate: Date = Date(),
     var weight: Double = 0.0,
-    var gender: GenderUiState = GenderUiState.EMPTY,
+    var gender: GenderUiState = GenderUiState.UNKNOWN,
     var profilePicture: Bitmap? = null
 )

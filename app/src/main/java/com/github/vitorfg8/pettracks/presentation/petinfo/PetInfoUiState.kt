@@ -14,7 +14,7 @@ data class PetInfoUiState(
     val breed: String = "",
     val birthDate: Date = Date(),
     val weight: Double = 0.0,
-    val gender: GenderUiState = GenderUiState.EMPTY,
+    val gender: GenderUiState = GenderUiState.UNKNOWN,
     val profilePicture: Bitmap? = null
 )
 
