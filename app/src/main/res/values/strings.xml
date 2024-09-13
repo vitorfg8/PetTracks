@@ -48,5 +48,6 @@
     <string name="save">Save</string>
     <string name="edit">Edit</string>
     <string name="make_a_note">Make a note …</string>
+    <string name="unknown">Unknown</string>
     <string name="add_your_notes_here">Add your notes here …</string>
 </resources>

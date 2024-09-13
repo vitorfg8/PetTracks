@@ -42,7 +42,7 @@ import com.github.vitorfg8.pettracks.presentation.components.ProfilePictureUpdat
 import com.github.vitorfg8.pettracks.presentation.components.TextFieldDatePicker
 import com.github.vitorfg8.pettracks.presentation.components.TextFieldWeight
 import com.github.vitorfg8.pettracks.ui.theme.PetTracksTheme
-import com.github.vitorfg8.pettracks.utils.toBitmap
+import com.github.vitorfg8.pettracks.utils.ExifUtils
 import kotlinx.coroutines.launch
 import java.util.Calendar
 import java.util.Date
@@ -57,7 +57,7 @@ fun ProfileCreationScreen(
     updateBirthDate: (newDate: Date) -> Unit,
     updateWeight: (newWeight: Double) -> Unit,
     updateGender: (newGender: GenderUiState) -> Unit,
-    updateProfilePicture: (newPicture: Bitmap) -> Unit,
+    updateProfilePicture: (newPicture: Bitmap?) -> Unit,
     onSavePet: () -> Unit,
     onBackPressed: () -> Unit,
     onPetAdded: () -> Unit,
@@ -103,9 +103,10 @@ fun ProfileCreationScreen(
                 modifier = Modifier.padding(vertical = 16.dp, horizontal = 32.dp),
                 model = uiState.profilePicture ?: uiState.type.drawableRes,
                 onValueChange = {
-                    it?.toBitmap(context.contentResolver)?.let { picture ->
-                        updateProfilePicture(picture)
-                    }
+                    //it?.toBitmap(context.contentResolver)?.let { picture ->
+                    val correctedPicture = ExifUtils(context).getCorrectedBitmap(it)
+                    updateProfilePicture(correctedPicture)
+                    //}
                 }
             )
 

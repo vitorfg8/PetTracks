@@ -222,7 +222,7 @@ private fun Details(pet: PetInfoUiState, modifier: Modifier = Modifier) {
             )
         }
         item {
-            if (pet.gender != GenderUiState.EMPTY) {
+            if (pet.gender != GenderUiState.UNKNOWN) {
                 DetailsCard(
                     text = stringResource(
                         id = R.string.gender_details, stringResource(id = pet.gender.localized)
