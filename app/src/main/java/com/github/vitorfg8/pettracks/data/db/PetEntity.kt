@@ -16,5 +16,5 @@ data class PetEntity(
     val birthDate: Date,
     val weight: Double,
     val gender: GenderDb,
-    val profilePicture: Bitmap
+    val profilePicture: Bitmap?
 )
