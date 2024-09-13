@@ -127,7 +127,7 @@ fun PetInfoScreen(
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(16.dp),
-                    text = "Notes",
+                    text = stringResource(R.string.notes),
                     style = MaterialTheme.typography.titleLarge,
                 )
 
