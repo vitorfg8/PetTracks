@@ -63,9 +63,12 @@ class AddPetViewModel @Inject constructor(
         }
     }
 
-    fun updateProfilePicture(newPicture: Bitmap) {
+    fun updateProfilePicture(newPicture: Bitmap?) {
         _uiState.update {
-            it.copy(profilePicture = newPicture)
+            it.copy(
+                profilePicture = newPic
+                        ture
+            )
         }
     }
 
