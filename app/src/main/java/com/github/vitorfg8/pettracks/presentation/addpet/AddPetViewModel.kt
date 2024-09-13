@@ -81,7 +81,7 @@ class AddPetViewModel @Inject constructor(
                         birthDate = birthDate,
                         weight = weight,
                         gender = gender.toDomain(),
-                        profilePicture = profilePicture!!, //TODO
+                        profilePicture = profilePicture,
                     )
                 )
             }
