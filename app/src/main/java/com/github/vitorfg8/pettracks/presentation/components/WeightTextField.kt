@@ -14,7 +14,7 @@ import com.github.vitorfg8.pettracks.ui.theme.PetTracksTheme
 
 
 @Composable
-fun TextFieldWeight(
+fun WeightTextField(
     value: String,
     onValueChange: (weight: String) -> Unit,
     modifier: Modifier = Modifier,
@@ -44,6 +44,6 @@ fun TextFieldWeight(
 @Composable
 private fun TextFieldWeightPreview() {
     PetTracksTheme {
-        TextFieldWeight(value = "5.0", onValueChange = {})
+        WeightTextField(value = "5.0", onValueChange = {})
     }
 }

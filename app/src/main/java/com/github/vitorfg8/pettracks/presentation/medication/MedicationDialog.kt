@@ -20,8 +20,8 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.github.vitorfg8.pettracks.R
 import com.github.vitorfg8.pettracks.presentation.components.BaseDialog
 import com.github.vitorfg8.pettracks.presentation.components.BaseTextField
-import com.github.vitorfg8.pettracks.presentation.components.TextFieldDatePicker
-import com.github.vitorfg8.pettracks.presentation.components.TextFieldTimePicker
+import com.github.vitorfg8.pettracks.presentation.components.DatePickerTextField
+import com.github.vitorfg8.pettracks.presentation.components.TimePickerTextField
 import com.github.vitorfg8.pettracks.ui.theme.PetTracksTheme
 
 @Composable
@@ -71,7 +71,7 @@ fun MedicineDialog(
                 value = uiState.dose,
                 label = { Text(text = stringResource(R.string.dosage)) },
                 onValueChange = { viewModel.updateDose(it) })
-            TextFieldDatePicker(
+            DatePickerTextField(
                 modifier = Modifier
                     .padding(vertical = 8.dp, horizontal = 16.dp)
                     .fillMaxWidth(),
@@ -79,7 +79,7 @@ fun MedicineDialog(
                 onDateSelected = {
                     viewModel.updateDate(it)
                 })
-            TextFieldTimePicker(
+            TimePickerTextField(
                 modifier = Modifier
                     .padding(vertical = 8.dp, horizontal = 16.dp)
                     .fillMaxWidth(),
