@@ -170,7 +170,7 @@ fun PetInfoScreen(
                 )
             }
 
-            items(uiState.vaccines) { vaccine ->
+            items(uiState.vaccines.takeLast(3)) { vaccine ->
                 Item(
                     modifier = Modifier.padding(vertical = 4.dp), vaccine
                 )
@@ -178,9 +178,13 @@ fun PetInfoScreen(
 
             item {
                 TextButton(modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp),
-                    onClick = { /*TODO*/ }) {
+                    onClick = { onNavigateToVaccines(petId) }) {
                     Text(
-                        text = stringResource(id = R.string.add),
+                        text = if (uiState.vaccines.isEmpty()) {
+                            stringResource(R.string.add)
+                        } else {
+                            stringResource(R.string.see_all)
+                        }
                     )
                 }
             }
@@ -300,7 +304,12 @@ private fun PetInfoScreenPreview(@PreviewParameter(LoremIpsum::class) notes: Str
             birthDate = calendar.time,
             weight = 4.0,
             gender = GenderUiState.MALE,
-            notes = notes
+            notes = notes,
+            vaccines = listOf(
+                VaccineUiState(1, "Rabies", "01/01/2024"),
+                VaccineUiState(2, "Rabies", "01/01/2023"),
+                VaccineUiState(3, "Rabies", "01/01/2022"),
+            )
         ),
             petId = 1,
             onNavigateToMedications = {},
