@@ -55,7 +55,7 @@ fun ProfileCreationScreen(
     updateType: (newType: PetTypeUiState) -> Unit,
     updateBreed: (newBreed: String) -> Unit,
     updateBirthDate: (newDate: Date) -> Unit,
-    updateWeight: (newWeight: Double) -> Unit,
+    updateWeight: (newWeight: String) -> Unit,
     updateGender: (newGender: GenderUiState) -> Unit,
     updateProfilePicture: (newPicture: Bitmap?) -> Unit,
     onSavePet: () -> Unit,
@@ -193,7 +193,7 @@ fun ProfileCreationPreview() {
                 type = PetTypeUiState.Cat,
                 breed = "Mixed breed",
                 birthDate = date,
-                weight = 4.0,
+                weight = "4.0",
                 gender = GenderUiState.MALE
             ),
             updateName = {},

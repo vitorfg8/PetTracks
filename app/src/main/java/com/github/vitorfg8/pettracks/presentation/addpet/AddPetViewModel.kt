@@ -51,7 +51,7 @@ class AddPetViewModel @Inject constructor(
         }
     }
 
-    fun updateWeight(newWeight: Double) {
+    fun updateWeight(newWeight: String) {
         _uiState.update {
             it.copy(weight = newWeight)
         }
@@ -81,7 +81,7 @@ class AddPetViewModel @Inject constructor(
                         type = type.toDomain(),
                         breed = breed,
                         birthDate = birthDate,
-                        weight = weight,
+                        weight = weight.toDouble(),
                         gender = gender.toDomain(),
                         profilePicture = profilePicture,
                     )
