@@ -81,7 +81,7 @@ class AddPetViewModel @Inject constructor(
                         type = type.toDomain(),
                         breed = breed,
                         birthDate = birthDate,
-                        weight = weight.toDouble(),
+                        weight = if (weight.isBlank()) 0.0 else weight.toDouble(),
                         gender = gender.toDomain(),
                         profilePicture = profilePicture,
                     )
