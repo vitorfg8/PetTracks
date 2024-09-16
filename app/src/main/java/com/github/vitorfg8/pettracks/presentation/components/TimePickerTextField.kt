@@ -1,11 +1,10 @@
 package com.github.vitorfg8.pettracks.presentation.components
 
 import androidx.compose.material3.Button
-import androidx.compose.material3.DatePicker
-import androidx.compose.material3.DatePickerDialog
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Text
-import androidx.compose.material3.rememberDatePickerState
+import androidx.compose.material3.TimePicker
+import androidx.compose.material3.rememberTimePickerState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -17,58 +16,70 @@ import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import com.github.vitorfg8.pettracks.R
-import com.github.vitorfg8.pettracks.utils.toLocalDateFormat
+import com.github.vitorfg8.pettracks.utils.updateTime
+import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Date
+import java.util.Locale
+import java.util.TimeZone
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun TextFieldDatePicker(
+fun TimePickerTextField(
     selectedDate: Date,
     onDateSelected: (date: Date) -> Unit,
     modifier: Modifier = Modifier,
 ) {
-    val datePickerState = rememberDatePickerState()
+    val timePickerState = rememberTimePickerState()
     val focusManager = LocalFocusManager.current
-    var showDatePickerDialog by remember {
+    var showTimePickerDialog by remember {
         mutableStateOf(false)
     }
 
-    val selectedDateString = selectedDate.toLocalDateFormat()
+    val selectedTimeString = selectedDate.time.toLocalTimeFormat()
 
-    if (showDatePickerDialog) {
-        DatePickerDialog(
-            onDismissRequest = { showDatePickerDialog = false },
+    if (showTimePickerDialog) {
+        TimePickerDialog(
+            onDismissRequest = { showTimePickerDialog = false },
             confirmButton = {
                 Button(
                     onClick = {
-                        showDatePickerDialog = false
+                        showTimePickerDialog = false
                         onDateSelected(
-                            Date(
-                                datePickerState.selectedDateMillis ?: System.currentTimeMillis()
-                            )
+                            selectedDate.updateTime(timePickerState.hour, timePickerState.minute)
                         )
                     }) {
                     Text(text = stringResource(R.string.choose_date))
                 }
             }) {
-            DatePicker(state = datePickerState)
+            TimePicker(state = timePickerState)
         }
     }
     BaseTextField(
-        value = selectedDateString,
+        value = selectedTimeString,
         onValueChange = {},
-        modifier.onFocusEvent {
+        modifier = modifier
+            .onFocusEvent {
                 if (it.isFocused) {
-                    showDatePickerDialog = true
+                    showTimePickerDialog = true
                     focusManager.clearFocus(force = true)
                 }
             },
         label = {
-            Text(stringResource(R.string.date))
+            Text(stringResource(R.string.time))
         },
         readOnly = true
     )
+}
+
+fun Long.toLocalTimeFormat(): String {
+    val date = Date(this)
+    val dateFormat = SimpleDateFormat.getTimeInstance(SimpleDateFormat.SHORT, Locale.getDefault())
+    val pattern = (dateFormat as SimpleDateFormat).toPattern()
+    val formatter = SimpleDateFormat(pattern, Locale.getDefault()).apply {
+        timeZone = TimeZone.getDefault()
+    }
+    return formatter.format(date)
 }
 
 @Preview
@@ -79,6 +90,8 @@ private fun TextInputDatePickerPreview() {
     val day = 2
     val calendar = Calendar.getInstance()
     calendar.set(year, month, day)
+    calendar.set(Calendar.HOUR_OF_DAY, 12)
+    calendar.set(Calendar.MINUTE, 0)
     val date: Date = calendar.time
-    TextFieldDatePicker(selectedDate = date, onDateSelected = {})
+    TimePickerTextField(selectedDate = date, onDateSelected = {})
 }

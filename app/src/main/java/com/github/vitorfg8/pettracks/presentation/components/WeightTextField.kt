@@ -14,9 +14,9 @@ import com.github.vitorfg8.pettracks.ui.theme.PetTracksTheme
 
 
 @Composable
-fun TextFieldWeight(
-    value: Double,
-    onValueChange: (weight: Double) -> Unit,
+fun WeightTextField(
+    value: String,
+    onValueChange: (weight: String) -> Unit,
     modifier: Modifier = Modifier,
 ) {
     BaseTextField(
@@ -24,8 +24,13 @@ fun TextFieldWeight(
             .fillMaxWidth()
             .then(modifier),
         suffix = { Text(text = stringResource(R.string.kg)) },
-        value = if (value == 0.0) "" else value.toString(),
-        onValueChange = { onValueChange(it.toDoubleOrNull() ?: 0.0) },
+        value = value,
+        onValueChange = { newText ->
+            val regex = Regex("^\\d*(\\.\\d{0,1})?\$")
+            if (newText.isEmpty() || regex.matches(newText)) {
+                onValueChange(newText)
+            }
+        },
         label = { Text(stringResource(id = R.string.weight)) },
         keyboardOptions = KeyboardOptions(
             keyboardType = KeyboardType.Number,
@@ -39,6 +44,6 @@ fun TextFieldWeight(
 @Composable
 private fun TextFieldWeightPreview() {
     PetTracksTheme {
-        TextFieldWeight(value = 5.0, onValueChange = {})
+        WeightTextField(value = "5.0", onValueChange = {})
     }
 }

@@ -36,11 +36,11 @@ import com.github.vitorfg8.pettracks.presentation.GenderUiState
 import com.github.vitorfg8.pettracks.presentation.PetTypeUiState
 import com.github.vitorfg8.pettracks.presentation.components.BaseAppbar
 import com.github.vitorfg8.pettracks.presentation.components.BaseTextField
+import com.github.vitorfg8.pettracks.presentation.components.DatePickerTextField
 import com.github.vitorfg8.pettracks.presentation.components.GenderSelector
 import com.github.vitorfg8.pettracks.presentation.components.PetTypeSelector
 import com.github.vitorfg8.pettracks.presentation.components.ProfilePictureUpdater
-import com.github.vitorfg8.pettracks.presentation.components.TextFieldDatePicker
-import com.github.vitorfg8.pettracks.presentation.components.TextFieldWeight
+import com.github.vitorfg8.pettracks.presentation.components.WeightTextField
 import com.github.vitorfg8.pettracks.ui.theme.PetTracksTheme
 import com.github.vitorfg8.pettracks.utils.ExifUtils
 import kotlinx.coroutines.launch
@@ -55,7 +55,7 @@ fun ProfileCreationScreen(
     updateType: (newType: PetTypeUiState) -> Unit,
     updateBreed: (newBreed: String) -> Unit,
     updateBirthDate: (newDate: Date) -> Unit,
-    updateWeight: (newWeight: Double) -> Unit,
+    updateWeight: (newWeight: String) -> Unit,
     updateGender: (newGender: GenderUiState) -> Unit,
     updateProfilePicture: (newPicture: Bitmap?) -> Unit,
     onSavePet: () -> Unit,
@@ -142,7 +142,7 @@ fun ProfileCreationScreen(
                 keyboardOptions = keyboardOptions,
                 singleLine = true
             )
-            TextFieldDatePicker(
+            DatePickerTextField(
                 modifier = Modifier
                     .padding(vertical = 8.dp, horizontal = 32.dp)
                     .fillMaxWidth(),
@@ -152,7 +152,7 @@ fun ProfileCreationScreen(
                 }
             )
 
-            TextFieldWeight(
+            WeightTextField(
                 modifier = Modifier.padding(vertical = 8.dp, horizontal = 32.dp),
                 value = uiState.weight, onValueChange = {
                 updateWeight(it)
@@ -193,7 +193,7 @@ fun ProfileCreationPreview() {
                 type = PetTypeUiState.Cat,
                 breed = "Mixed breed",
                 birthDate = date,
-                weight = 4.0,
+                weight = "4.0",
                 gender = GenderUiState.MALE
             ),
             updateName = {},
