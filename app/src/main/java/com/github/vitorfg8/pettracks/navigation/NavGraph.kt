@@ -15,6 +15,7 @@ import com.github.vitorfg8.pettracks.navigation.Routes.ROUTE_MEDICATION
 import com.github.vitorfg8.pettracks.navigation.Routes.ROUTE_NOTES
 import com.github.vitorfg8.pettracks.navigation.Routes.ROUTE_PROFILE
 import com.github.vitorfg8.pettracks.navigation.Routes.ROUTE_PROFILE_CREATION
+import com.github.vitorfg8.pettracks.navigation.Routes.ROUTE_VACCINES
 import com.github.vitorfg8.pettracks.presentation.addpet.AddPetViewModel
 import com.github.vitorfg8.pettracks.presentation.addpet.ProfileCreationScreen
 import com.github.vitorfg8.pettracks.presentation.home.HomeScreen
@@ -25,6 +26,8 @@ import com.github.vitorfg8.pettracks.presentation.notes.NoteScreen
 import com.github.vitorfg8.pettracks.presentation.notes.NotesViewModel
 import com.github.vitorfg8.pettracks.presentation.petinfo.PetInfoScreen
 import com.github.vitorfg8.pettracks.presentation.petinfo.PetInfoViewModel
+import com.github.vitorfg8.pettracks.presentation.vaccines.VaccinesScreen
+import com.github.vitorfg8.pettracks.presentation.vaccines.VaccinesViewModel
 
 @Composable
 fun NavGraph() {
@@ -71,7 +74,9 @@ fun NavGraph() {
                     uiState = uiState,
                     petId = petId,
                     onNavigateToMedications = { navController.navigate("medication/${petId}") },
-                    onNavigateToVaccines = {},
+                    onNavigateToVaccines = {
+
+                    },
                     onNavigateToNotes = {
                         navController.navigate("notes/${petId}")
                     },
@@ -111,6 +116,19 @@ fun NavGraph() {
                         viewModel.onSaveButtonClick(petId)
                         navController.navigateUp()
                     },
+                    onBackPressed = { navController.navigateUp() }
+                )
+            }
+        }
+        composable(
+            route = ROUTE_VACCINES,
+            arguments = listOf(navArgument(VaccinesNavArgs.PET_ID) { type = NavType.IntType })
+        ) { backStackEntry ->
+            backStackEntry.arguments?.getInt(NotesNavArgs.PET_ID)?.let { petId ->
+                val viewModel: VaccinesViewModel = hiltViewModel()
+                val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+                VaccinesScreen(
+                    uiState = uiState,
                     onBackPressed = { navController.navigateUp() }
                 )
             }

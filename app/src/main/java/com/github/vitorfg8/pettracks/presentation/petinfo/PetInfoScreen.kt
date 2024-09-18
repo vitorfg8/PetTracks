@@ -3,7 +3,6 @@ package com.github.vitorfg8.pettracks.presentation.petinfo
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -46,6 +45,7 @@ import com.github.vitorfg8.pettracks.presentation.GenderUiState
 import com.github.vitorfg8.pettracks.presentation.PetTypeUiState
 import com.github.vitorfg8.pettracks.presentation.components.BaseAppbar
 import com.github.vitorfg8.pettracks.presentation.components.ProfilePicture
+import com.github.vitorfg8.pettracks.presentation.components.VaccineItem
 import com.github.vitorfg8.pettracks.ui.theme.PetTracksTheme
 import com.github.vitorfg8.pettracks.utils.asPainter
 import java.util.Calendar
@@ -171,7 +171,7 @@ fun PetInfoScreen(
             }
 
             items(uiState.vaccines.takeLast(3)) { vaccine ->
-                Item(
+                VaccineItem(
                     modifier = Modifier.padding(vertical = 4.dp), vaccine
                 )
             }
@@ -192,26 +192,6 @@ fun PetInfoScreen(
     }
 }
 
-@Composable
-fun Item(modifier: Modifier = Modifier, vaccine: VaccineUiState) {
-    Card(
-        modifier = modifier
-            .padding(horizontal = 16.dp)
-            .fillMaxWidth()
-    ) {
-        Row(modifier = Modifier.padding(16.dp)) {
-            Text(
-                modifier = Modifier.weight(1f),
-                text = vaccine.vaccineName,
-                style = MaterialTheme.typography.titleMedium
-            )
-            Text(
-                text = vaccine.date,
-                style = MaterialTheme.typography.labelSmall
-            )
-        }
-    }
-}
 
 @Composable
 private fun Details(pet: PetInfoUiState, modifier: Modifier = Modifier) {
@@ -329,10 +309,3 @@ private fun DetailsCardPreview() {
     }
 }
 
-@Preview
-@Composable
-private fun ItemPreview() {
-    PetTracksTheme {
-        Item(Modifier, VaccineUiState(1, "Rabies", "01/01/2024"))
-    }
-}

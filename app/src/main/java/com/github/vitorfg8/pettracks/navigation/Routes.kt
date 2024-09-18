@@ -6,6 +6,7 @@ object Routes {
     const val ROUTE_PROFILE = "profile/{petId}"
     const val ROUTE_MEDICATION = "medication/{petId}"
     const val ROUTE_NOTES = "notes/{petId}"
+    const val ROUTE_VACCINES = "vaccines/{petId}"
 }
 
 object ProfileNavArgs {
@@ -17,5 +18,9 @@ object MedicationNavArgs {
 }
 
 object NotesNavArgs {
+    const val PET_ID = "petId"
+}
+
+object VaccinesNavArgs {
     const val PET_ID = "petId"
 }
