@@ -21,6 +21,7 @@
     <string name="age">Age</string>
     <string name="open_gallery">open gallery</string>
     <string name="medication">Medication</string>
+    <string name="vaccine">Vaccine</string>
     <string name="vaccines">Vaccines</string>
     <string name="notes">Notes</string>
     <string name="health">Health</string>
@@ -51,4 +52,6 @@
     <string name="unknown">Unknown</string>
     <string name="add_your_notes_here">Add your notes here …</string>
     <string name="see_all">See all</string>
+    <string name="cancel">Cancel</string>
+    <string name="add_vaccine">Add vaccine</string>
 </resources>

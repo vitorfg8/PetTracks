@@ -20,6 +20,7 @@
     <string name="age">Idade</string>
     <string name="open_gallery">Abrir galeria</string>
     <string name="medication">Medicação</string>
+    <string name="vaccine">Vacina</string>
     <string name="vaccines">Vacinas</string>
     <string name="notes">Notas</string>
     <string name="health">Saúde</string>
@@ -52,4 +53,6 @@
     <string name="unknown">Desconhecido</string>
     <string name="add_your_notes_here">Adicione suas notas aqui …</string>
     <string name="see_all">Mostrar todos</string>
+    <string name="cancel">Cancelar</string>
+    <string name="add_vaccine">Adicionar vacina</string>
 </resources>

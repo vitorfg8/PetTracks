@@ -32,13 +32,16 @@ fun VaccineDialog(
     modifier: Modifier = Modifier,
     id: Int? = null,
 ) {
-    Surface(shape = CardDefaults.shape) {
+    Surface(
+        modifier = modifier,
+        shape = CardDefaults.shape
+    ) {
         Column(modifier = Modifier.padding(0.dp)) {
             Text(
                 modifier = Modifier
                     .padding(vertical = 16.dp)
                     .fillMaxWidth(),
-                text = stringResource(R.string.vaccines),
+                text = stringResource(R.string.add_vaccine),
                 style = MaterialTheme.typography.titleLarge,
                 textAlign = TextAlign.Center
             )
@@ -48,7 +51,7 @@ fun VaccineDialog(
                 .fillMaxWidth(),
                 singleLine = true,
                 value = "aaa",
-                label = { Text(text = stringResource(R.string.medicine)) },
+                label = { Text(text = stringResource(R.string.vaccine)) },
                 onValueChange = { })
 
             DatePickerTextField(modifier = Modifier
@@ -62,11 +65,11 @@ fun VaccineDialog(
                     .padding(horizontal = 16.dp),
                 horizontalArrangement = Arrangement.End
             ) {
+                TextButton(onClick = onDismissRequest) {
+                    Text(stringResource(R.string.cancel))
+                }
                 TextButton(onClick = onSave) {
                     Text(text = stringResource(R.string.add))
-                }
-                TextButton(onClick = onDismissRequest) {
-                    Text("Cancel")
                 }
             }
         }
