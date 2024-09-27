@@ -63,17 +63,23 @@ fun VaccinesScreen(
         }
 
         if (uiState.isDialogOpen) {
-            VaccineDialog(value = uiState.selectedItem, onValueOnChange = {
-                onSelectItem(it)
-            }, onDelete = {
-                onDeleteVaccine(VaccineUiState()) //TODO
-            }, onDismissRequest = {
-                onShowDialog(false)
-            }, onSave = {
-                onShowDialog(false)
-                onSaveVaccine(petId)
-                onSelectItem(VaccineUiState())
-            })
+            VaccineDialog(value = uiState.selectedItem,
+                isEditMode = uiState.selectedItem.id != 0,
+                onValueOnChange = {
+                    onSelectItem(it)
+                },
+                onDelete = {
+                    onDeleteVaccine(VaccineUiState()) //TODO
+                },
+                onDismissRequest = {
+                    onShowDialog(false)
+                    onSelectItem(VaccineUiState())
+                },
+                onSave = {
+                    onShowDialog(false)
+                    onSaveVaccine(petId)
+                    onSelectItem(VaccineUiState())
+                })
         }
     }
 }

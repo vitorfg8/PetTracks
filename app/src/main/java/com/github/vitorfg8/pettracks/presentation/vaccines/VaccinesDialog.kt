@@ -32,7 +32,7 @@ fun VaccineDialog(
     onSave: () -> Unit,
     onDismissRequest: () -> Unit,
     modifier: Modifier = Modifier,
-    showDeleteButton: Boolean = false,
+    isEditMode: Boolean = false,
     id: Int? = null,
 ) {
 
@@ -45,7 +45,9 @@ fun VaccineDialog(
                     modifier = Modifier
                         .padding(vertical = 16.dp)
                         .fillMaxWidth(),
-                    text = stringResource(R.string.add_vaccine),
+                    text = if (isEditMode) stringResource(R.string.edit_vaccine) else stringResource(
+                        R.string.add_vaccine
+                    ),
                     style = MaterialTheme.typography.titleLarge,
                     textAlign = TextAlign.Center
                 )
@@ -82,7 +84,7 @@ fun VaccineDialog(
                     horizontalArrangement = Arrangement.End
                 ) {
 
-                    if (showDeleteButton) {
+                    if (isEditMode) {
                         TextButton(onClick = onDelete) {
                             Text(stringResource(R.string.delete))
                         }
@@ -109,7 +111,7 @@ private fun VaccineDialogPreview() {
         VaccineDialog(value = VaccineUiState(
             vaccineName = "Rabies", dateTaken = Date()
         ),
-            showDeleteButton = true,
+            isEditMode = true,
             onValueOnChange = {},
             onDelete = {},
             onSave = {},
