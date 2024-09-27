@@ -12,6 +12,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.github.vitorfg8.pettracks.presentation.petinfo.VaccineUiState
 import com.github.vitorfg8.pettracks.ui.theme.PetTracksTheme
+import com.github.vitorfg8.pettracks.utils.toLocalDateFormat
+import java.util.Calendar
 
 @Composable
 fun VaccineItem(modifier: Modifier = Modifier, vaccine: VaccineUiState) {
@@ -27,7 +29,7 @@ fun VaccineItem(modifier: Modifier = Modifier, vaccine: VaccineUiState) {
                 style = MaterialTheme.typography.titleMedium
             )
             Text(
-                text = vaccine.date,
+                text = vaccine.date.toLocalDateFormat(),
                 style = MaterialTheme.typography.labelSmall
             )
         }
@@ -37,7 +39,13 @@ fun VaccineItem(modifier: Modifier = Modifier, vaccine: VaccineUiState) {
 @Preview
 @Composable
 private fun VaccinesPreview() {
+    val year = 2023
+    val month = Calendar.JANUARY
+    val day = 1
+    val calendar = Calendar.getInstance()
+    calendar.set(year, month, day)
+
     PetTracksTheme {
-        VaccineItem(Modifier, VaccineUiState(1, "Rabies", "01/01/2024"))
+        VaccineItem(Modifier, VaccineUiState(1, "Rabies", calendar.time))
     }
 }

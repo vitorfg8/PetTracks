@@ -271,7 +271,7 @@ private fun DetailsCard(text: String, modifier: Modifier = Modifier) {
 @Composable
 private fun PetInfoScreenPreview(@PreviewParameter(LoremIpsum::class) notes: String) {
     PetTracksTheme {
-        val year = 2023
+        val year = 2024
         val month = Calendar.JANUARY
         val day = 1
         val calendar = Calendar.getInstance()
@@ -286,9 +286,9 @@ private fun PetInfoScreenPreview(@PreviewParameter(LoremIpsum::class) notes: Str
             gender = GenderUiState.MALE,
             notes = notes,
             vaccines = listOf(
-                VaccineUiState(1, "Rabies", "01/01/2024"),
-                VaccineUiState(2, "Rabies", "01/01/2023"),
-                VaccineUiState(3, "Rabies", "01/01/2022"),
+                VaccineUiState(1, "Rabies", calendar.time),
+                VaccineUiState(2, "Rabies", calendar.time),
+                VaccineUiState(3, "Rabies", calendar.time),
             )
         ),
             petId = 1,

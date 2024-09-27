@@ -75,7 +75,7 @@ fun NavGraph() {
                     petId = petId,
                     onNavigateToMedications = { navController.navigate("medication/${petId}") },
                     onNavigateToVaccines = {
-
+                        navController.navigate("vaccines/${petId}")
                     },
                     onNavigateToNotes = {
                         navController.navigate("notes/${petId}")
@@ -126,9 +126,15 @@ fun NavGraph() {
         ) { backStackEntry ->
             backStackEntry.arguments?.getInt(NotesNavArgs.PET_ID)?.let { petId ->
                 val viewModel: VaccinesViewModel = hiltViewModel()
+                viewModel.getVaccines(petId)
                 val uiState by viewModel.uiState.collectAsStateWithLifecycle()
                 VaccinesScreen(
                     uiState = uiState,
+                    petId = petId,
+                    onDeleteVaccine = {},
+                    onSaveVaccine = { viewModel.onSaveVaccine(petId) },
+                    onSelectItem = viewModel::onSelectItem,
+                    onShowDialog = viewModel::onShowDialog,
                     onBackPressed = { navController.navigateUp() }
                 )
             }

@@ -1,5 +1,6 @@
 package com.github.vitorfg8.pettracks.presentation.vaccines
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -19,42 +20,60 @@ import com.github.vitorfg8.pettracks.R
 import com.github.vitorfg8.pettracks.presentation.components.BaseAppbar
 import com.github.vitorfg8.pettracks.presentation.components.VaccineItem
 import com.github.vitorfg8.pettracks.ui.theme.PetTracksTheme
+import java.util.Calendar
 
 @Composable
 fun VaccinesScreen(
-    uiState: List<VaccineUiState>,
+    uiState: VaccineScreenUiState,
+    petId: Int,
     onBackPressed: () -> Unit,
+    onShowDialog: (isDialogOpen: Boolean) -> Unit,
+    onSaveVaccine: (petId: Int) -> Unit,
+    onDeleteVaccine: (vaccine: VaccineUiState) -> Unit,
+    onSelectItem: (vaccine: VaccineUiState) -> Unit,
     modifier: Modifier = Modifier
 ) {
-    Scaffold(
-        modifier = modifier,
-        topBar = {
-            BaseAppbar(title = stringResource(R.string.vaccines), navigationIcon = {
-                IconButton(onClick = { onBackPressed() }) {
-                    Icon(
-                        imageVector = Icons.AutoMirrored.Filled.ArrowBack,
-                        contentDescription = stringResource(id = R.string.back)
-                    )
-                }
-            })
-        },
-        floatingActionButton = {
-            FloatingActionButton(onClick = { }) {
-                Icon(Icons.Default.Add, contentDescription = stringResource(id = R.string.add))
-            }
-        }
-    ) { padding ->
-        LazyColumn(modifier = Modifier.padding(padding)) {
-            items(uiState) { vaccine ->
-                VaccineItem(
-                    modifier = Modifier.padding(vertical = 4.dp),
-                    com.github.vitorfg8.pettracks.presentation.petinfo.VaccineUiState(
-                        vaccine.id,
-                        vaccineName = vaccine.name,
-                        date = vaccine.date
-                    ) //TODO
+    Scaffold(modifier = modifier, topBar = {
+        BaseAppbar(title = stringResource(R.string.vaccines), navigationIcon = {
+            IconButton(onClick = { onBackPressed() }) {
+                Icon(
+                    imageVector = Icons.AutoMirrored.Filled.ArrowBack,
+                    contentDescription = stringResource(id = R.string.back)
                 )
             }
+        })
+    }, floatingActionButton = {
+        FloatingActionButton(onClick = { onShowDialog(true) }) {
+            Icon(Icons.Default.Add, contentDescription = stringResource(id = R.string.add))
+        }
+    }) { padding ->
+        LazyColumn(modifier = Modifier.padding(padding)) {
+            items(uiState.vaccines) { vaccine ->
+                VaccineItem(
+                    modifier = Modifier
+                        .padding(vertical = 4.dp)
+                        .clickable {
+                            onSelectItem(vaccine)
+                            onShowDialog(true)
+                        }, com.github.vitorfg8.pettracks.presentation.petinfo.VaccineUiState(
+                        vaccine.id, vaccineName = vaccine.vaccineName, date = vaccine.dateTaken
+                    )
+                )
+            }
+        }
+
+        if (uiState.isDialogOpen) {
+            VaccineDialog(value = uiState.selectedItem, onValueOnChange = {
+                onSelectItem(it)
+            }, onDelete = {
+                onDeleteVaccine(VaccineUiState()) //TODO
+            }, onDismissRequest = {
+                onShowDialog(false)
+            }, onSave = {
+                onShowDialog(false)
+                onSaveVaccine(petId)
+                onSelectItem(VaccineUiState())
+            })
         }
     }
 }
@@ -62,12 +81,26 @@ fun VaccinesScreen(
 @Preview
 @Composable
 private fun VaccinesPreview() {
+
+    val year = 2024
+    val month = Calendar.JANUARY
+    val day = 1
+    val calendar = Calendar.getInstance()
+    calendar.set(year, month, day)
+
     PetTracksTheme {
         VaccinesScreen(
-            uiState = listOf(
-                VaccineUiState(id = 0, name = "Rabias", "01/01/2023"),
-                VaccineUiState(id = 0, name = "Rabias", "01/01/2024"),
+            uiState = VaccineScreenUiState(
+                vaccines = listOf(
+                    VaccineUiState(id = 0, vaccineName = "Rabies", calendar.time),
+                    VaccineUiState(id = 0, vaccineName = "Rabies", calendar.time),
+                ), isDialogOpen = true
             ),
+            onDeleteVaccine = {},
+            onSaveVaccine = {},
+            onSelectItem = {},
+            onShowDialog = {},
+            petId = 0,
             onBackPressed = {})
     }
 }

@@ -6,7 +6,6 @@ import com.github.vitorfg8.pettracks.domain.model.Vaccine
 import com.github.vitorfg8.pettracks.presentation.GenderUiState
 import com.github.vitorfg8.pettracks.presentation.PetTypeUiState
 import com.github.vitorfg8.pettracks.presentation.toUiState
-import com.github.vitorfg8.pettracks.utils.toLocalDateFormat
 import java.util.Date
 
 data class PetInfoUiState(
@@ -25,7 +24,7 @@ data class PetInfoUiState(
 data class VaccineUiState(
     val id: Int,
     val vaccineName: String,
-    val date: String
+    val date: Date
 )
 
 fun List<Vaccine>.toUiState(): List<VaccineUiState> {
@@ -33,7 +32,7 @@ fun List<Vaccine>.toUiState(): List<VaccineUiState> {
         VaccineUiState(
             id = it.id,
             vaccineName = it.vaccineName,
-            date = it.dateTaken.toLocalDateFormat()
+            date = it.dateTaken
         )
     }
 }

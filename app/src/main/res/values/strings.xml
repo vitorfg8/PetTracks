@@ -27,7 +27,7 @@
     <string name="health">Health</string>
     <string name="empty" />
     <string name="the_name_is_empty_error">The name is empty</string>
-    <string name="delete">delete</string>
+    <string name="delete">Delete</string>
     <string name="close">Close</string>
     <string name="add_medicine">Add Medicine</string>
     <string name="medicine">Medicine</string>
