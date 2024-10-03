@@ -49,6 +49,14 @@ class VaccinesViewModel
         }
     }
 
+    fun onDeleteVaccine(petId: Int) {
+        with(uiState.value.selectedItem) {
+            viewModelScope.launch {
+                vaccinesRepository.deleteVaccineById(id = id, petId)
+            }
+        }
+    }
+
     fun onShowDialog(isDialogOpen: Boolean) {
         _uiState.update {
             it.copy(isDialogOpen = isDialogOpen)

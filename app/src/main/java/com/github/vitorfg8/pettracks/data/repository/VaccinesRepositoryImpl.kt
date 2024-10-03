@@ -25,8 +25,8 @@ class VaccinesRepositoryImpl @Inject constructor(
         return vaccinesDao.getAllVaccine(petId).toDomain()
     }
 
-    override suspend fun deleteVaccines(vaccine: Vaccine) {
-        return vaccinesDao.deleteVaccine(vaccine.toDbEntity())
+    override suspend fun deleteVaccineById(id: Int, petId: Int) {
+        return vaccinesDao.deleteVaccineById(id, petId)
     }
 
 }

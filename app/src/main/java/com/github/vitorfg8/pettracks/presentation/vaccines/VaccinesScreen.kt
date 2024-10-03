@@ -29,7 +29,7 @@ fun VaccinesScreen(
     onBackPressed: () -> Unit,
     onShowDialog: (isDialogOpen: Boolean) -> Unit,
     onSaveVaccine: (petId: Int) -> Unit,
-    onDeleteVaccine: (vaccine: VaccineUiState) -> Unit,
+    onDeleteVaccine: (petId: Int) -> Unit,
     onSelectItem: (vaccine: VaccineUiState) -> Unit,
     modifier: Modifier = Modifier
 ) {
@@ -69,16 +69,18 @@ fun VaccinesScreen(
                     onSelectItem(it)
                 },
                 onDelete = {
-                    onDeleteVaccine(VaccineUiState()) //TODO
+                    onDeleteVaccine(petId)
+                    onSelectItem(VaccineUiState())
+                    onShowDialog(false)
                 },
                 onDismissRequest = {
                     onShowDialog(false)
                     onSelectItem(VaccineUiState())
                 },
                 onSave = {
-                    onShowDialog(false)
                     onSaveVaccine(petId)
                     onSelectItem(VaccineUiState())
+                    onShowDialog(false)
                 })
         }
     }

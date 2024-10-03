@@ -7,5 +7,5 @@ interface VaccinesRepository {
     suspend fun updateVaccine(vaccine: Vaccine)
     fun getVaccine(id: Int): Flow<Vaccine>
     fun getAllVaccines(petId: Int): Flow<List<Vaccine>>
-    suspend fun deleteVaccines(vaccine: Vaccine)
+    suspend fun deleteVaccineById(id: Int, petId: Int)
 }

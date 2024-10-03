@@ -91,11 +91,9 @@ fun NavGraph() {
                 val viewModel: MedicationViewModel = hiltViewModel()
                 viewModel.getMedicationList(petId)
                 val uiState by viewModel.medication.collectAsStateWithLifecycle()
-                MedicationScreen(
-                    uiState = uiState,
+                MedicationScreen(uiState = uiState,
                     petId = petId,
-                    onBackPressed = { navController.navigateUp() }
-                )
+                    onBackPressed = { navController.navigateUp() })
             }
         }
         composable(
@@ -108,16 +106,14 @@ fun NavGraph() {
                     viewModel.getNotes(petId)
                 }
                 val uiState by viewModel.uiState.collectAsStateWithLifecycle()
-                NoteScreen(
-                    uiState = uiState,
+                NoteScreen(uiState = uiState,
                     onTextUpdate = viewModel::onTextUpdate,
                     onTextFieldClick = viewModel::onTextFieldClick,
                     onSave = {
                         viewModel.onSaveButtonClick(petId)
                         navController.navigateUp()
                     },
-                    onBackPressed = { navController.navigateUp() }
-                )
+                    onBackPressed = { navController.navigateUp() })
             }
         }
         composable(
@@ -128,15 +124,13 @@ fun NavGraph() {
                 val viewModel: VaccinesViewModel = hiltViewModel()
                 viewModel.getVaccines(petId)
                 val uiState by viewModel.uiState.collectAsStateWithLifecycle()
-                VaccinesScreen(
-                    uiState = uiState,
+                VaccinesScreen(uiState = uiState,
                     petId = petId,
-                    onDeleteVaccine = {},
+                    onDeleteVaccine = { viewModel.onDeleteVaccine(petId) },
                     onSaveVaccine = { viewModel.onSaveVaccine(petId) },
                     onSelectItem = viewModel::onSelectItem,
                     onShowDialog = viewModel::onShowDialog,
-                    onBackPressed = { navController.navigateUp() }
-                )
+                    onBackPressed = { navController.navigateUp() })
             }
         }
     }
