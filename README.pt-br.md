@@ -1,8 +1,12 @@
 # 🚧 Pet Tracks🐾 - *Em Desenvolvimento* 🚧
 
 Pet Tracks é um aplicativo Android desenvolvido com Room, Hilt, Jetpack Compose, Flow e Coroutines
-para ajudar os tutores de animais a rastrearem informações importantes sobre seus pets, como datas
-de remédios, vacinas e anotações.
+para ajudar os tutores de animais a rastrearem informações importantes sobre seus pets como vacinas
+e anotações.
+
+## Capturas de Tela
+
+<img src="./screenshots/screenshot_1.png" alt="Home" width="270">  <img src="./screenshots/screenshot_2.png" alt="Light Mode" width="270">  <img src="./screenshots/screenshot_3.png" alt="Dark Mode" width="270">
 
 ## Idiomas Disponíveis
 
@@ -11,7 +15,7 @@ O aplicativo está disponível em [Inglês](README.md) e [Português do Brasil](
 ## Principais Funcionalidades
 
 - Cadastro de dados dos pets do tutor, como nome, raça, idade, etc.
-- Adição de datas importantes, como datas de remédios, vacinas e anotações.
+- Adição de datas importantes vacinas e anotações.
 - Visualização e edição dos dados dos pets.
 
 ## Tecnologias Utilizadas

@@ -1,8 +1,12 @@
 # 🚧 Pet Tracks🐾 - *Work In Progress* 🚧
 
 Pet Tracks is an Android application developed with Room, Hilt, Jetpack Compose, Flow, and
-Coroutines to help pet owners track important information about their pets, such as medication
-dates, vaccinations, and notes.
+Coroutines to help pet owners track important information about their pets, such as vaccinations and
+notes.
+
+## Screenshots
+
+<img src="./screenshots/screenshot_1.png" alt="Home" width="270">  <img src="./screenshots/screenshot_2.png" alt="Light Mode" width="270">  <img src="./screenshots/screenshot_3.png" alt="Dark Mode" width="270">
 
 ## Available Languages
 
@@ -11,7 +15,7 @@ The app is available in both [English](README.md) and [Brazilian Portuguese](REA
 ## Key Features
 
 - Registration of pet owner's pet data, such as name, breed, age, etc.
-- Addition of important dates, such as medication dates, vaccinations, and notes.
+- Addition of important dates, such as vaccinations and notes.
 - Viewing and editing of pet data.
 
 ## Technologies Used
