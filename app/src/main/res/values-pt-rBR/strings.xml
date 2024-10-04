@@ -36,14 +36,14 @@
     <string name="add_medication">Adicionar medicação</string>
     <string name="time">Hora</string>
     <plurals name="months_plural">
-        <item quantity="one">%d\n mês</item>
-        <item quantity="zero">%d\n mês</item>
-        <item quantity="other">%d\n meses</item>
+        <item quantity="one">%d\n Mês</item>
+        <item quantity="zero">%d\n Mês</item>
+        <item quantity="other">%d\n Meses</item>
     </plurals>
     <plurals name="years_plural">
-        <item quantity="one">%d\n ano</item>
-        <item quantity="zero">%d\n ano</item>
-        <item quantity="other">%d\n anos</item>
+        <item quantity="one">%d\n Ano</item>
+        <item quantity="zero">%d\n Ano</item>
+        <item quantity="other">%d\n Anos</item>
     </plurals>
     <string name="gender_details">%s\n Gênero</string>
     <string name="weight_details">%.1f Kg\n Peso</string>

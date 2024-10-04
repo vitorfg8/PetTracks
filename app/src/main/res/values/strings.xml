@@ -37,15 +37,15 @@
     <string name="add_medication">Add medication</string>
     <string name="time">Time</string>
     <plurals name="months_plural">
-        <item quantity="one">%d\n month</item>
-        <item quantity="other">%d\n months</item>
+        <item quantity="one">%d\n Month</item>
+        <item quantity="other">%d\n Months</item>
     </plurals>
     <plurals name="years_plural">
-        <item quantity="one">%d\n year</item>
-        <item quantity="other">%d\n years</item>
+        <item quantity="one">%d\n Year</item>
+        <item quantity="other">%d\n Years</item>
     </plurals>
     <string name="gender_details">%s\n Gender</string>
-    <string name="weight_details">%.1f Kg\n Peso</string>
+    <string name="weight_details">%.1f Kg\n Weight</string>
     <string name="save">Save</string>
     <string name="edit">Edit</string>
     <string name="make_a_note">Make a note …</string>
