@@ -61,6 +61,9 @@ class VaccinesViewModel
         _uiState.update {
             it.copy(isDialogOpen = isDialogOpen)
         }
+        if (!isDialogOpen) {
+            clearSelectedItem()
+        }
     }
 
     fun onSelectItem(selectedItem: VaccineUiState) {
@@ -69,4 +72,9 @@ class VaccinesViewModel
         }
     }
 
+    private fun clearSelectedItem() {
+        _uiState.update {
+            it.copy(selectedItem = VaccineUiState())
+        }
+    }
 }

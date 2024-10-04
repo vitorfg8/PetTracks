@@ -95,7 +95,10 @@ fun VaccineDialog(
                         Text(stringResource(R.string.cancel))
                     }
                     TextButton(onClick = onSave) {
-                        Text(text = stringResource(R.string.add))
+                        Text(
+                            text = if (isEditMode) stringResource(R.string.save)
+                            else stringResource(R.string.add)
+                        )
                     }
                 }
             }

@@ -70,16 +70,13 @@ fun VaccinesScreen(
                 },
                 onDelete = {
                     onDeleteVaccine(petId)
-                    onSelectItem(VaccineUiState())
                     onShowDialog(false)
                 },
                 onDismissRequest = {
                     onShowDialog(false)
-                    onSelectItem(VaccineUiState())
                 },
                 onSave = {
                     onSaveVaccine(petId)
-                    onSelectItem(VaccineUiState())
                     onShowDialog(false)
                 })
         }
