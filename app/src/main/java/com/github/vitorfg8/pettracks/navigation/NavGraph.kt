@@ -16,17 +16,17 @@ import com.github.vitorfg8.pettracks.navigation.Routes.ROUTE_NOTES
 import com.github.vitorfg8.pettracks.navigation.Routes.ROUTE_PROFILE
 import com.github.vitorfg8.pettracks.navigation.Routes.ROUTE_PROFILE_CREATION
 import com.github.vitorfg8.pettracks.navigation.Routes.ROUTE_VACCINES
-import com.github.vitorfg8.pettracks.presentation.addpet.AddPetEvent.GoBack
+import com.github.vitorfg8.pettracks.presentation.addpet.AddPetEvent
 import com.github.vitorfg8.pettracks.presentation.addpet.AddPetViewModel
 import com.github.vitorfg8.pettracks.presentation.addpet.ProfileCreationScreen
-import com.github.vitorfg8.pettracks.presentation.home.HomeEvent.AddPet
-import com.github.vitorfg8.pettracks.presentation.home.HomeEvent.NavigateToPet
+import com.github.vitorfg8.pettracks.presentation.home.HomeEvent
 import com.github.vitorfg8.pettracks.presentation.home.HomeScreen
 import com.github.vitorfg8.pettracks.presentation.home.HomeViewModel
 import com.github.vitorfg8.pettracks.presentation.medication.MedicationScreen
 import com.github.vitorfg8.pettracks.presentation.medication.MedicationViewModel
 import com.github.vitorfg8.pettracks.presentation.notes.NoteScreen
 import com.github.vitorfg8.pettracks.presentation.notes.NotesViewModel
+import com.github.vitorfg8.pettracks.presentation.petinfo.PetInfoEvent
 import com.github.vitorfg8.pettracks.presentation.petinfo.PetInfoScreen
 import com.github.vitorfg8.pettracks.presentation.petinfo.PetInfoViewModel
 import com.github.vitorfg8.pettracks.presentation.vaccines.VaccinesScreen
@@ -44,11 +44,11 @@ fun NavGraph() {
                 uiState = uiState,
                 onEvent = { event ->
                     when (event) {
-                        is AddPet -> {
+                        is HomeEvent.AddPet -> {
                             navController.navigate("profileCreation")
                         }
 
-                        is NavigateToPet -> {
+                        is HomeEvent.NavigateToPet -> {
                             navController.navigate("profile/${event.petId}")
                         }
                     }
@@ -61,7 +61,7 @@ fun NavGraph() {
                 uiState = uiState,
                 onEvent = { event ->
                     when (event) {
-                        is GoBack -> navController.navigateUp()
+                        is AddPetEvent.GoBack -> navController.navigateUp()
                         else -> viewModel.onEvent(event)
                     }
                 })
@@ -79,14 +79,21 @@ fun NavGraph() {
                 PetInfoScreen(
                     uiState = uiState,
                     petId = petId,
-                    onNavigateToMedications = { navController.navigate("medication/${petId}") },
-                    onNavigateToVaccines = {
-                        navController.navigate("vaccines/${petId}")
-                    },
-                    onNavigateToNotes = {
-                        navController.navigate("notes/${petId}")
-                    },
-                    onBackPressed = { navController.navigateUp() })
+                    onEvent = { event ->
+                        when (event) {
+                            is PetInfoEvent.NavigateToVaccines -> {
+                                navController.navigate("vaccines/${event.petId}")
+                            }
+
+                            is PetInfoEvent.NavigateToNotes -> {
+                                navController.navigate("notes/${event.petId}")
+                            }
+
+                            is PetInfoEvent.GoBack -> {
+                                navController.navigateUp()
+                            }
+                        }
+                    })
             }
         }
         composable(

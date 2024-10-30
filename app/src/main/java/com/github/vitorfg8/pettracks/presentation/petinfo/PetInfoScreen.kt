@@ -56,10 +56,7 @@ import java.util.Date
 fun PetInfoScreen(
     uiState: PetInfoUiState,
     petId: Int,
-    onNavigateToMedications: (petId: Int) -> Unit,
-    onNavigateToVaccines: (petId: Int) -> Unit,
-    onNavigateToNotes: (petId: Int) -> Unit,
-    onBackPressed: () -> Unit,
+    onEvent: (petInfoEvent: PetInfoEvent) -> Unit,
     modifier: Modifier = Modifier
 ) {
 
@@ -73,7 +70,7 @@ fun PetInfoScreen(
             ) {
                 Column {
                     BaseAppbar(shadow = 0.dp, title = "", navigationIcon = {
-                        IconButton(onClick = { onBackPressed() }) {
+                        IconButton(onClick = { onEvent(PetInfoEvent.GoBack) }) {
                             Icon(
                                 imageVector = Icons.AutoMirrored.Filled.ArrowBack,
                                 contentDescription = stringResource(id = R.string.back)
@@ -150,7 +147,7 @@ fun PetInfoScreen(
 
                 TextButton(
                     modifier = Modifier.padding(horizontal = 16.dp),
-                    onClick = { onNavigateToNotes(petId) },
+                    onClick = { onEvent(PetInfoEvent.NavigateToNotes(petId)) },
                 ) {
                     Text(
                         text = if (uiState.notes.isNotBlank()) {
@@ -178,7 +175,7 @@ fun PetInfoScreen(
 
             item {
                 TextButton(modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp),
-                    onClick = { onNavigateToVaccines(petId) }) {
+                    onClick = { onEvent(PetInfoEvent.NavigateToVaccines(petId)) }) {
                     Text(
                         text = if (uiState.vaccines.isEmpty()) {
                             stringResource(R.string.add)
@@ -292,10 +289,7 @@ private fun PetInfoScreenPreview(@PreviewParameter(LoremIpsum::class) notes: Str
             )
         ),
             petId = 1,
-            onNavigateToMedications = {},
-            onNavigateToVaccines = {},
-            onNavigateToNotes = {},
-            onBackPressed = {})
+            onEvent = {})
     }
 }
 
