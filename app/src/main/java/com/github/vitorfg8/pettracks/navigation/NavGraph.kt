@@ -16,9 +16,11 @@ import com.github.vitorfg8.pettracks.navigation.Routes.ROUTE_NOTES
 import com.github.vitorfg8.pettracks.navigation.Routes.ROUTE_PROFILE
 import com.github.vitorfg8.pettracks.navigation.Routes.ROUTE_PROFILE_CREATION
 import com.github.vitorfg8.pettracks.navigation.Routes.ROUTE_VACCINES
+import com.github.vitorfg8.pettracks.presentation.addpet.AddPetEvent.GoBack
 import com.github.vitorfg8.pettracks.presentation.addpet.AddPetViewModel
 import com.github.vitorfg8.pettracks.presentation.addpet.ProfileCreationScreen
-import com.github.vitorfg8.pettracks.presentation.home.HomeEvent
+import com.github.vitorfg8.pettracks.presentation.home.HomeEvent.AddPet
+import com.github.vitorfg8.pettracks.presentation.home.HomeEvent.NavigateToPet
 import com.github.vitorfg8.pettracks.presentation.home.HomeScreen
 import com.github.vitorfg8.pettracks.presentation.home.HomeViewModel
 import com.github.vitorfg8.pettracks.presentation.medication.MedicationScreen
@@ -42,11 +44,11 @@ fun NavGraph() {
                 uiState = uiState,
                 onEvent = { event ->
                     when (event) {
-                        is HomeEvent.AddPet -> {
+                        is AddPet -> {
                             navController.navigate("profileCreation")
                         }
 
-                        is HomeEvent.NavigateToPet -> {
+                        is NavigateToPet -> {
                             navController.navigate("profile/${event.petId}")
                         }
                     }
@@ -57,17 +59,11 @@ fun NavGraph() {
             val uiState by viewModel.uiState.collectAsStateWithLifecycle()
             ProfileCreationScreen(
                 uiState = uiState,
-                updateName = viewModel::updateName,
-                updateType = viewModel::updateType,
-                updateProfilePicture = viewModel::updateProfilePicture,
-                updateBreed = viewModel::updateBreed,
-                updateBirthDate = viewModel::updateBirthDate,
-                updateWeight = viewModel::updateWeight,
-                updateGender = viewModel::updateGender,
-                onSavePet = viewModel::onSavePet,
-                onBackPressed = { navController.navigateUp() },
-                onPetAdded = {
-                    navController.navigateUp()
+                onEvent = { event ->
+                    when (event) {
+                        is GoBack -> navController.navigateUp()
+                        else -> viewModel.onEvent(event)
+                    }
                 })
         }
         composable(

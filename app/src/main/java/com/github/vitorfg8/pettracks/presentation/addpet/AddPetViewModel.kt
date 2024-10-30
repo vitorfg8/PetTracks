@@ -7,6 +7,13 @@ import com.github.vitorfg8.pettracks.domain.model.Pet
 import com.github.vitorfg8.pettracks.domain.repository.PetsRepository
 import com.github.vitorfg8.pettracks.presentation.GenderUiState
 import com.github.vitorfg8.pettracks.presentation.PetTypeUiState
+import com.github.vitorfg8.pettracks.presentation.addpet.AddPetEvent.UpdateBirthDate
+import com.github.vitorfg8.pettracks.presentation.addpet.AddPetEvent.UpdateBreed
+import com.github.vitorfg8.pettracks.presentation.addpet.AddPetEvent.UpdateGender
+import com.github.vitorfg8.pettracks.presentation.addpet.AddPetEvent.UpdateName
+import com.github.vitorfg8.pettracks.presentation.addpet.AddPetEvent.UpdateProfilePicture
+import com.github.vitorfg8.pettracks.presentation.addpet.AddPetEvent.UpdateType
+import com.github.vitorfg8.pettracks.presentation.addpet.AddPetEvent.UpdateWeight
 import com.github.vitorfg8.pettracks.presentation.toDomain
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -16,6 +23,7 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import java.util.Date
 import javax.inject.Inject
+import kotlin.String
 
 @HiltViewModel
 class AddPetViewModel @Inject constructor(
@@ -24,6 +32,21 @@ class AddPetViewModel @Inject constructor(
 
     private val _uiState = MutableStateFlow(AddPetUiState())
     val uiState: StateFlow<AddPetUiState> = _uiState.asStateFlow()
+
+
+    fun onEvent(addPetEvent: AddPetEvent) {
+        when (addPetEvent) {
+            is UpdateName -> updateName(addPetEvent.newName)
+            is UpdateType -> updateType(addPetEvent.newType)
+            is UpdateBreed -> updateBreed(addPetEvent.newBreed)
+            is UpdateBirthDate -> updateBirthDate(addPetEvent.newDate)
+            is UpdateWeight -> updateWeight(addPetEvent.newWeight)
+            is UpdateGender -> updateGender(addPetEvent.newGender)
+            is UpdateProfilePicture -> updateProfilePicture(addPetEvent.newPicture)
+            is AddPetEvent.SavePet -> onSavePet()
+            else -> Unit
+        }
+    }
 
     fun updateName(newName: String) {
         _uiState.update {

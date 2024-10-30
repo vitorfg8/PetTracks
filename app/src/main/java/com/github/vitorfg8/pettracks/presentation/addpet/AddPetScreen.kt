@@ -1,7 +1,6 @@
 package com.github.vitorfg8.pettracks.presentation.addpet
 
 import android.content.Context
-import android.graphics.Bitmap
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -51,16 +50,7 @@ import java.util.Date
 @Composable
 fun ProfileCreationScreen(
     uiState: AddPetUiState,
-    updateName: (newName: String) -> Unit,
-    updateType: (newType: PetTypeUiState) -> Unit,
-    updateBreed: (newBreed: String) -> Unit,
-    updateBirthDate: (newDate: Date) -> Unit,
-    updateWeight: (newWeight: String) -> Unit,
-    updateGender: (newGender: GenderUiState) -> Unit,
-    updateProfilePicture: (newPicture: Bitmap?) -> Unit,
-    onSavePet: () -> Unit,
-    onBackPressed: () -> Unit,
-    onPetAdded: () -> Unit,
+    onEvent: (addPetEvent: AddPetEvent) -> Unit,
     modifier: Modifier = Modifier,
 ) {
 
@@ -73,7 +63,7 @@ fun ProfileCreationScreen(
             BaseAppbar(
                 title = stringResource(R.string.add_pet),
                 navigationIcon = {
-                    IconButton(onClick = { onBackPressed() }) {
+                    IconButton(onClick = { onEvent(AddPetEvent.GoBack) }) {
                         Icon(
                             imageVector = Icons.AutoMirrored.Filled.ArrowBack,
                             contentDescription = stringResource(id = R.string.back)
@@ -103,10 +93,8 @@ fun ProfileCreationScreen(
                 modifier = Modifier.padding(vertical = 16.dp, horizontal = 32.dp),
                 model = uiState.profilePicture ?: uiState.type.drawableRes,
                 onValueChange = {
-                    //it?.toBitmap(context.contentResolver)?.let { picture ->
                     val correctedPicture = ExifUtils(context).getCorrectedBitmap(it)
-                    updateProfilePicture(correctedPicture)
-                    //}
+                    onEvent(AddPetEvent.UpdateProfilePicture(correctedPicture))
                 }
             )
 
@@ -116,20 +104,20 @@ fun ProfileCreationScreen(
                     .height(160.dp),
                 value = uiState.type,
                 onValueChange = {
-                updateType(it)
+                    onEvent(AddPetEvent.UpdateType(it))
                 })
             BaseTextField(
                 modifier = Modifier
                     .padding(vertical = 8.dp, horizontal = 32.dp)
                     .fillMaxWidth(),
                 value = uiState.name,
-                onValueChange = { updateName(it) },
+                onValueChange = { onEvent(AddPetEvent.UpdateName(it)) },
                 label = { Text(stringResource(R.string.name)) },
                 keyboardOptions = keyboardOptions,
                 singleLine = true
             )
             GenderSelector(value = uiState.gender, onValueChange = {
-                updateGender(it)
+                onEvent(AddPetEvent.UpdateGender(it))
             })
 
             BaseTextField(
@@ -137,7 +125,7 @@ fun ProfileCreationScreen(
                     .padding(vertical = 8.dp, horizontal = 32.dp)
                     .fillMaxWidth(),
                 value = uiState.breed,
-                onValueChange = { updateBreed(it) },
+                onValueChange = { onEvent(AddPetEvent.UpdateBreed(it)) },
                 label = { Text(stringResource(R.string.breed)) },
                 keyboardOptions = keyboardOptions,
                 singleLine = true
@@ -148,14 +136,14 @@ fun ProfileCreationScreen(
                     .fillMaxWidth(),
                 selectedDate = uiState.birthDate,
                 onDateSelected = {
-                    updateBirthDate(it)
+                    onEvent(AddPetEvent.UpdateBirthDate(it))
                 }
             )
 
             WeightTextField(
                 modifier = Modifier.padding(vertical = 8.dp, horizontal = 32.dp),
                 value = uiState.weight, onValueChange = {
-                updateWeight(it)
+                    onEvent(AddPetEvent.UpdateWeight(it))
                 })
 
             Button(modifier = Modifier
@@ -166,8 +154,8 @@ fun ProfileCreationScreen(
                     if (uiState.name.isBlank()) {
                         scope.launch { snackbarHostState.showSnackbar(context.getString(R.string.the_name_is_empty_error)) }
                     } else {
-                        onSavePet()
-                        onPetAdded()
+                        onEvent(AddPetEvent.SavePet)
+                        onEvent(AddPetEvent.GoBack)
                     }
                 }
             ) {
@@ -196,16 +184,7 @@ fun ProfileCreationPreview() {
                 weight = "4.0",
                 gender = GenderUiState.MALE
             ),
-            updateName = {},
-            updateProfilePicture = {},
-            updateBirthDate = {},
-            updateGender = {},
-            updateType = {},
-            updateWeight = {},
-            updateBreed = {},
-            onSavePet = {},
-            onBackPressed = {},
-            onPetAdded = {}
+            onEvent = {}
         )
     }
 }
