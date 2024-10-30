@@ -18,6 +18,7 @@ import com.github.vitorfg8.pettracks.navigation.Routes.ROUTE_PROFILE_CREATION
 import com.github.vitorfg8.pettracks.navigation.Routes.ROUTE_VACCINES
 import com.github.vitorfg8.pettracks.presentation.addpet.AddPetViewModel
 import com.github.vitorfg8.pettracks.presentation.addpet.ProfileCreationScreen
+import com.github.vitorfg8.pettracks.presentation.home.HomeEvent
 import com.github.vitorfg8.pettracks.presentation.home.HomeScreen
 import com.github.vitorfg8.pettracks.presentation.home.HomeViewModel
 import com.github.vitorfg8.pettracks.presentation.medication.MedicationScreen
@@ -39,8 +40,17 @@ fun NavGraph() {
             val uiState by viewModel.uiState.collectAsStateWithLifecycle()
             HomeScreen(
                 uiState = uiState,
-                onPetClick = { id -> navController.navigate("profile/${id}") },
-                onAddPet = { navController.navigate("profileCreation") })
+                onEvent = { event ->
+                    when (event) {
+                        is HomeEvent.AddPet -> {
+                            navController.navigate("profileCreation")
+                        }
+
+                        is HomeEvent.NavigateToPet -> {
+                            navController.navigate("profile/${event.petId}")
+                        }
+                    }
+                })
         }
         composable(ROUTE_PROFILE_CREATION) {
             val viewModel: AddPetViewModel = hiltViewModel()

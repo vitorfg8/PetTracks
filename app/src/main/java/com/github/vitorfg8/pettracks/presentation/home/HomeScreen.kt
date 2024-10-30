@@ -44,8 +44,7 @@ import com.github.vitorfg8.pettracks.utils.asPainter
 @Composable
 fun HomeScreen(
     uiState: List<PetHomeUiState>,
-    onAddPet: () -> Unit,
-    onPetClick: (petId: Int) -> Unit,
+    onEvent: (homeEvent: HomeEvent) -> Unit,
     modifier: Modifier = Modifier
 ) {
     Scaffold(
@@ -63,7 +62,7 @@ fun HomeScreen(
             },
         )
     }, floatingActionButton = {
-        FloatingActionButton(onClick = { onAddPet() }) {
+            FloatingActionButton(onClick = { onEvent(HomeEvent.AddPet) }) {
             Icon(Icons.Default.Add, contentDescription = stringResource(id = R.string.add))
         }
     }) { innerPadding ->
@@ -71,7 +70,7 @@ fun HomeScreen(
             modifier = Modifier.padding(innerPadding),
             verticalArrangement = Arrangement.spacedBy(16.dp),
         ) {
-            PetsList(uiState, onPetClick)
+            PetsList(uiState, onPetClick = { onEvent(HomeEvent.NavigateToPet(it)) })
         }
     }
 }
@@ -152,8 +151,7 @@ private fun HomeScreenPreview() {
                     petTypeUiState = PetTypeUiState.Cat
                 )
             ),
-            onPetClick = {},
-            onAddPet = {}
+            onEvent = {}
         )
     }
 }
