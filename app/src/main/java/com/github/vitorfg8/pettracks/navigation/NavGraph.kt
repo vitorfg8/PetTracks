@@ -25,6 +25,7 @@ import com.github.vitorfg8.pettracks.presentation.home.HomeViewModel
 import com.github.vitorfg8.pettracks.presentation.medication.MedicationScreen
 import com.github.vitorfg8.pettracks.presentation.medication.MedicationViewModel
 import com.github.vitorfg8.pettracks.presentation.notes.NoteScreen
+import com.github.vitorfg8.pettracks.presentation.notes.NotesEvent
 import com.github.vitorfg8.pettracks.presentation.notes.NotesViewModel
 import com.github.vitorfg8.pettracks.presentation.petinfo.PetInfoEvent
 import com.github.vitorfg8.pettracks.presentation.petinfo.PetInfoScreen
@@ -120,13 +121,12 @@ fun NavGraph() {
                 }
                 val uiState by viewModel.uiState.collectAsStateWithLifecycle()
                 NoteScreen(uiState = uiState,
-                    onTextUpdate = viewModel::onTextUpdate,
-                    onTextFieldClick = viewModel::onTextFieldClick,
-                    onSave = {
-                        viewModel.onSaveButtonClick(petId)
-                        navController.navigateUp()
-                    },
-                    onBackPressed = { navController.navigateUp() })
+                    onEvent = { event ->
+                        when (event) {
+                            is NotesEvent.GoBack -> navController.navigateUp()
+                            else -> viewModel.onEvent(event)
+                        }
+                    })
             }
         }
         composable(

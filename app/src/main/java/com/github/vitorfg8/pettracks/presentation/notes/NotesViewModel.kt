@@ -25,7 +25,7 @@ class NotesViewModel @Inject constructor(
                 _uiState.update {
                     it.copy(
                         note = note?.note.orEmpty(),
-                        petId = note?.petId ?: 0,
+                        petId = note?.petId ?: petId,
                         noteId = note?.id
                     )
                 }
@@ -33,19 +33,28 @@ class NotesViewModel @Inject constructor(
         }
     }
 
-    fun onTextUpdate(newText: String) {
+    fun onEvent(notesEvent: NotesEvent) {
+        when (notesEvent) {
+            is NotesEvent.UpdateText -> onTextUpdate(notesEvent.newText)
+            is NotesEvent.EnableEditMode -> onTextFieldClick(notesEvent.isEditMode)
+            is NotesEvent.SaveNote -> onSaveButtonClick(notesEvent.petId)
+            else -> Unit
+        }
+    }
+
+    private fun onTextUpdate(newText: String) {
         _uiState.update {
             it.copy(note = newText)
         }
     }
 
-    fun onTextFieldClick(isEditMode: Boolean) {
+    private fun onTextFieldClick(isEditMode: Boolean) {
         _uiState.update {
             it.copy(isEditMode = isEditMode)
         }
     }
 
-    fun onSaveButtonClick(petId: Int) {
+    private fun onSaveButtonClick(petId: Int) {
         viewModelScope.launch {
             notesRepository.insertNotes(
                 Notes(

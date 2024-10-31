@@ -28,15 +28,12 @@ import com.github.vitorfg8.pettracks.ui.theme.PetTracksTheme
 @Composable
 fun NoteScreen(
     uiState: NotesUiState,
-    onTextUpdate: (text: String) -> Unit,
-    onTextFieldClick: (isEditMode: Boolean) -> Unit,
-    onSave: () -> Unit,
-    onBackPressed: () -> Unit,
+    onEvent: (notesEvent: NotesEvent) -> Unit,
     modifier: Modifier = Modifier
 ) {
     Scaffold(modifier = modifier, topBar = {
         BaseAppbar(title = stringResource(id = R.string.notes), navigationIcon = {
-            IconButton(onClick = { onBackPressed() }) {
+            IconButton(onClick = { onEvent(NotesEvent.GoBack) }) {
                 Icon(
                     imageVector = Icons.AutoMirrored.Filled.ArrowBack,
                     contentDescription = stringResource(id = R.string.back)
@@ -44,7 +41,8 @@ fun NoteScreen(
             }
         }, actions = {
             TextButton(onClick = {
-                onSave()
+                onEvent(NotesEvent.SaveNote(uiState.petId ?: 0))
+                onEvent(NotesEvent.GoBack)
             }) {
                 Text(
                     text = stringResource(R.string.save)
@@ -58,10 +56,10 @@ fun NoteScreen(
             modifier = Modifier
                 .padding(padding)
                 .fillMaxSize()
-                .clickable { onTextFieldClick(true) },
+                .clickable { onEvent(NotesEvent.EnableEditMode(true)) },
             value = uiState.note,
             onValueChange = { value ->
-                onTextUpdate(value)
+                onEvent(NotesEvent.UpdateText(value))
             },
             keyboardOptions = KeyboardOptions(
                 capitalization = KeyboardCapitalization.Sentences,
@@ -83,7 +81,6 @@ private fun NotesScreenPreview(@PreviewParameter(LoremIpsum::class) text: String
     PetTracksTheme {
         NoteScreen(uiState = NotesUiState(
             note = text, isEditMode = true
-        ),
-            onTextUpdate = {}, onTextFieldClick = {}, onSave = {}, onBackPressed = {})
+        ), onEvent = {})
     }
 }
