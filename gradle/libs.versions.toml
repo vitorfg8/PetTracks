@@ -7,10 +7,13 @@ coreKtx = "1.13.1"
 junit = "4.13.2"
 junitVersion = "1.2.1"
 espressoCore = "3.6.1"
+kotlinxCoroutinesTest = "1.7.3"
 lifecycleRuntimeKtx = "2.8.6"
 activityCompose = "1.9.2"
 composeBom = "2024.09.03"
 coilCompose = "2.6.0"
+mockk = "1.13.5"
+mockkAndroid = "1.13.5"
 navigationCompose = "2.8.2"
 roomRuntime = "2.6.1"
 uiTextGoogleFonts = "1.7.3"
@@ -44,6 +47,9 @@ androidx-navigation-compose = { module = "androidx.navigation:navigation-compose
 androidx-ui-text-google-fonts = { module = "androidx.compose.ui:ui-text-google-fonts", version.ref = "uiTextGoogleFonts" }
 androidx-lifecycle-runtime-compose = { group = "androidx.lifecycle", name = "lifecycle-runtime-compose", version.ref = "lifecycleRuntimeCompose" }
 androidx-exifinterface = { group = "androidx.exifinterface", name = "exifinterface", version.ref = "exifinterface" }
+kotlinx-coroutines-test = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-test", version.ref = "kotlinxCoroutinesTest" }
+mockk = { module = "io.mockk:mockk", version.ref = "mockk" }
+mockk-android = { module = "io.mockk:mockk-android", version.ref = "mockkAndroid" }
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }
