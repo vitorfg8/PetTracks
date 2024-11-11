@@ -16,16 +16,13 @@
       <SelectionState runConfigName="NotesDaoTest">
         <option name="selectionMode" value="DROPDOWN" />
       </SelectionState>
-      <SelectionState runConfigName="insertNoteAndGetByPetId()">
-        <option name="selectionMode" value="DROPDOWN" />
-      </SelectionState>
-      <SelectionState runConfigName="updateNoteAndVerifyUpdatedContent()">
-        <option name="selectionMode" value="DROPDOWN" />
-      </SelectionState>
       <SelectionState runConfigName="PetsDaoTest">
         <option name="selectionMode" value="DROPDOWN" />
       </SelectionState>
       <SelectionState runConfigName="deletePet()">
+        <option name="selectionMode" value="DROPDOWN" />
+      </SelectionState>
+      <SelectionState runConfigName="updatePetDetails()">
         <option name="selectionMode" value="DROPDOWN" />
       </SelectionState>
     </selectionStates>
